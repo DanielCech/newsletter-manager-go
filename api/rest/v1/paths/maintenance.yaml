@@ -1,0 +1,20 @@
+Healthz:
+  get:
+    tags:
+      - maintenance
+    description: Heartbeat
+    operationId: healthz
+    responses:
+      "204":
+        description: OK
+OpenAPI:
+  get:
+    tags:
+      - maintenance
+    operationId: openApi
+    security:
+      - bearerAuth: []
+    summary: Get content of openapi.yaml
+    responses:
+      "200":
+        description: Content of this file

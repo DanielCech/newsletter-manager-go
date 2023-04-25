@@ -1,0 +1,65 @@
+ID:
+  type: string
+  description: Universal unique identifier
+  format: uuid
+  example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
+DateTime:
+  type: string
+  description: Date time in format RFC3339
+  format: date-time
+  example: 2022-07-06T12:59:34Z
+APIError:
+  type: object
+  properties:
+    requestId:
+      type: string
+      description: Request ID
+      example: 2cb1a484-0f55-4e4a-a627-16a322d9eee6
+    errorCode:
+      type: string
+      description: Error code
+      enum:
+        - ERR_BAD_REQUEST
+        - ERR_UNAUTHORIZED
+        - ERR_FORBIDDEN
+        - ERR_NOT_FOUND
+        - ERR_ALREADY_EXISTS
+        - ERR_EXPIRED
+        - ERR_PAYLOAD_TOO_LARGE
+        - ERR_INVALID_BODY
+        - ERR_UNKNOWN
+      example: ERR_INVALID_REQUEST
+    errorMessage:
+      type: string
+      description: Public human readable error message
+      example: invalid field xyz
+    errorData:
+      type: object
+      description: Error data
+  required:
+    - requestId
+    - errorCode
+UnauthenticatedError:
+  description: Authentication token is not present or not valid
+  content:
+    application/json; charset=utf-8:
+      schema:
+        $ref: '../schemas/common.yaml#/APIError'
+ForbiddenError:
+  description: Authentication token is present, but the user is not authorized to perform this operation
+  content:
+    application/json; charset=utf-8:
+      schema:
+        $ref: '../schemas/common.yaml#/APIError'
+InvalidBodyError:
+  description: Values in input body are not valid
+  content:
+    application/json; charset=utf-8:
+      schema:
+        $ref: '../schemas/common.yaml#/APIError'
+BadRequestError:
+  description: Input body is not valid JSON
+  content:
+    application/json; charset=utf-8:
+      schema:
+        $ref: '../schemas/common.yaml#/APIError'

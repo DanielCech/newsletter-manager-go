@@ -1,0 +1,57 @@
+version: '3.9'
+
+# vars used in this docker-compose are specified in .env file
+services:
+  database:
+    image: postgres:15
+    container_name: strv-template-backend-go-db
+    ports:
+      - ${LOCAL_DATABASE_PORT}:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      start_period: 5s
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 3s
+  migrate:
+    image: migrate/migrate:latest
+    container_name: strv-template-backend-go-migrate
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+       - ./database/sql/migrations:/migrations
+    command:
+      - -database
+      - postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?sslmode=disable
+      - -path
+      - /migrations
+      - up
+  api:
+    build:
+      context: .
+      args:
+        - APP_VERSION=${APP_VERSION}
+    container_name: strv-template-backend-go-api
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - ${LOCAL_API_PORT}:${TEMPLATE_PORT}
+    environment:
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - APP_PREFIX=TEMPLATE
+      - TEMPLATE_PORT=8080
+      - TEMPLATE_DATABASE_SECRET_ARN=${TEMPLATE_DATABASE_SECRET_ARN}
+      - TEMPLATE_HASH_PEPPER=${TEMPLATE_HASH_PEPPER}
+      - TEMPLATE_AUTH_SECRET=${TEMPLATE_AUTH_SECRET}
+      - TEMPLATE_SESSION_ACCESS_TOKEN_EXPIRATION=${TEMPLATE_SESSION_ACCESS_TOKEN_EXPIRATION}
+      - TEMPLATE_SESSION_REFRESH_TOKEN_EXPIRATION=${TEMPLATE_SESSION_REFRESH_TOKEN_EXPIRATION}
+      - TEMPLATE_METRICS_PORT=${TEMPLATE_METRICS_PORT}
+      - TEMPLATE_METRICS_NAMESPACE=${TEMPLATE_METRICS_NAMESPACE}
+      - TEMPLATE_METRICS_SUBSYSTEM=${TEMPLATE_METRICS_SUBSYSTEM}
+      - TEMPLATE_LOG_LEVEL=debug

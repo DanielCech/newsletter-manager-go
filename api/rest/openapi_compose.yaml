@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: API for Go project template
+  description: This is an API for Go project template, that can be used as a base for your own API.
+  version: 0.0.0
+servers:
+  - url: http://api.example.com/
+    description: Optional server description, e.g. Main (production) server
+
+tags:
+  - name: v1/users
+    description: Users API
+  - name: v1/sessions
+    description: Sessions API
+  - name: maintenance
+    description: Maintenance API
+
+paths:
+  /api/v1/users:
+    $ref: './v1/paths/user.yaml#/Users'
+  /api/v1/users/register:
+    $ref: './v1/paths/user.yaml#/UserRegister'
+  /api/v1/users/me:
+    $ref: './v1/paths/user.yaml#/Me'
+  /api/v1/users/change-password:
+    $ref: './v1/paths/user.yaml#/ChangeUserPassword'
+  /api/v1/sessions/native:
+    $ref: './v1/paths/session.yaml#/NativeSessions'
+  /api/v1/sessions/refresh:
+    $ref: './v1/paths/session.yaml#/RefreshSessions'
+  /api/v1/sessions/destroy:
+    $ref: './v1/paths/session.yaml#/DestroySessions'
+  /healthz:
+    $ref: './v1/paths/maintenance.yaml#/Healthz'
+  /api/openapi.yaml:
+    $ref: './v1/paths/maintenance.yaml#/OpenAPI'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

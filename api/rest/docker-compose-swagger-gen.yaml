@@ -1,0 +1,19 @@
+version: '3.9'
+
+# use docker compose for this generator, as otherwise I can't have relative path for host volume
+services:
+  swagger-gen:
+    # a multiplatform fork (and a bit outdated) https://github.com/clu-ling/docker-swagger-codegen-cli
+    # of the official codegen, as official does not have arm image
+    image: parsertongue/swagger-codegen-cli:3.0.32
+    volumes:
+      - .:/httpdir
+    command:
+      - generate
+      - -l
+      - openapi-yaml
+      - -i
+      - /httpdir/openapi_compose.yaml
+      - -o
+      - /httpdir
+      - -DoutputFile=openapi.yaml

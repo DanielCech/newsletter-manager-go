@@ -1,0 +1,22 @@
+port: 8080
+database:
+  secret:
+    # path to file with content like secret manager: {"username":"postgres","password":"postgres","engine":"postgres","host":"localhost","port":"5432","dbname":"template"}
+    # path: ./secrets_manager_db.mock.aws
+    arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:dbconfiguration/local-CXWqsn
+hash_pepper: {{ .Values.config.hash_pepper }}
+auth_secret: {{ .Values.config.auth_secret }}
+session:
+  access_token_expiration: 1h
+  refresh_token_expiration: 30d
+metrics:
+  port: 9178
+  namespace: {{ .Values.config.metrics.namespace }}
+  subsystem: {{ .Values.config.metrics.subsystem }}
+log_level: debug
+cors:
+  allowed_origins: ["*"]
+  allowed_methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
+  allowed_headers: ["Accept", "Authorization", "Content-Type", "X-CSRF-Token", "Origin"]
+  allowed_credentials: true
+  max_age: 300

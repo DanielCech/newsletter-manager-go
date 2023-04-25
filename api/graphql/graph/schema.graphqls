@@ -1,0 +1,83 @@
+scalar Password
+scalar Email
+scalar DateTime
+scalar UUID
+
+enum Role {
+  USER
+  ADMIN
+}
+
+directive @auth(roles: [Role!]!) on OBJECT | FIELD_DEFINITION
+
+type Query {
+  userMe: User!
+  users: [User!]! @auth(roles: [ADMIN])
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): CreateUserResponse!
+  changeUserPassword(input: ChangeUserPasswordInput!): ChangeUserPasswordResponse! @auth(roles: [USER, ADMIN])
+
+  createSession(input: CreateSessionInput!): CreateSessionResponse!
+  refreshSession(input: RefreshSessionInput!): RefreshSessionResponse!
+  destroySession(input: DestroySessionInput!): DestroySessionResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: Email!
+  password: Password!
+  referrerId: UUID
+}
+
+type User {
+  id: UUID!
+  name: String!
+  email: Email!
+  role: Role!
+  referrer: User
+}
+
+type CreateUserResponse {
+  user: User!
+  session: RefreshSessionResponse!
+}
+
+input ChangeUserPasswordInput {
+  newPassword: Password!
+  oldPassword: Password!
+}
+
+type ChangeUserPasswordResponse {
+  message: String!
+}
+
+input CreateSessionInput {
+  email: Email!
+  password: Password!
+}
+
+type CreateSessionResponse {
+  user: User!
+  session: RefreshSessionResponse!
+}
+
+input RefreshSessionInput {
+  refreshToken: String!
+}
+
+type RefreshSessionResponse {
+  accessToken: String!
+  accessTokenExpiresAt: DateTime!
+  refreshToken: String!
+  refreshTokenExpiresAt: DateTime!
+}
+
+input DestroySessionInput {
+  refreshToken: String!
+}
+
+type DestroySessionResponse {
+  message: String!
+}
