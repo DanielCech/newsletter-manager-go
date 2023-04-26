@@ -8,9 +8,9 @@ import (
 	"strings"
 	"testing"
 
-	"strv-template-backend-go-api/types"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/types/id"
+	"newsletter-manager-go/types"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/types/id"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"

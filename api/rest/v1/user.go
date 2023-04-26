@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"strv-template-backend-go-api/api/rest/v1/model"
-	domuser "strv-template-backend-go-api/domain/user"
-	apierrors "strv-template-backend-go-api/types/errors"
-	utilctx "strv-template-backend-go-api/util/context"
+	"newsletter-manager-go/api/rest/v1/model"
+	domuser "newsletter-manager-go/domain/user"
+	apierrors "newsletter-manager-go/types/errors"
+	utilctx "newsletter-manager-go/util/context"
 )
 
 // CreateUser creates new user.

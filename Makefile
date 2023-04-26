@@ -56,7 +56,7 @@ start-local:
 build-image:
 ifdef CONTAINER_REGISTRY
 	@echo Building container image...
-	docker build -t $(CONTAINER_REGISTRY)/strv-template-backend-go-api:$(IMAGE_TAG) --build-arg APP_VERSION=$(APP_VERSION) .
+	docker build -t $(CONTAINER_REGISTRY)/newsletter-manager-go:$(IMAGE_TAG) --build-arg APP_VERSION=$(APP_VERSION) .
 else
 	$(info missing required value CONTAINER_REGISTRY)
 endif

@@ -34,7 +34,7 @@ services:
       context: .
       args:
         - APP_VERSION=${APP_VERSION}
-    container_name: strv-template-backend-go-api
+    container_name: newsletter-manager-go
     depends_on:
       migrate:
         condition: service_completed_successfully

@@ -2,11 +2,11 @@ package v1
 
 import (
 	"context"
+	domsession "newsletter-manager-go/domain/session"
 
-	domsession "strv-template-backend-go-api/domain/session"
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
 )
 
 // UserService is an interface for v1 user endpoints.

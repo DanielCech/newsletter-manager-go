@@ -3,8 +3,8 @@ package user
 import (
 	"time"
 
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/types/id"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/types/id"
 )
 
 // user represents table user.

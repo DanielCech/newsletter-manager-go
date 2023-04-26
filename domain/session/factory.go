@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"time"
 
-	"strv-template-backend-go-api/types/id"
-	"strv-template-backend-go-api/util/timesource"
+	"newsletter-manager-go/types/id"
+	"newsletter-manager-go/util/timesource"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"

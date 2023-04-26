@@ -10,11 +10,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	domsession "strv-template-backend-go-api/domain/session"
-	domuser "strv-template-backend-go-api/domain/user"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/types/id"
-	utilctx "strv-template-backend-go-api/util/context"
+	domsession "newsletter-manager-go/domain/session"
+	domuser "newsletter-manager-go/domain/user"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/types/id"
+	utilctx "newsletter-manager-go/util/context"
 
 	httpx "go.strv.io/net/http"
 

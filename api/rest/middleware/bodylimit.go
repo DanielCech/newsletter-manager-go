@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net/http"
 
-	httputil "strv-template-backend-go-api/api/rest/util"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/util"
+	httputil "newsletter-manager-go/api/rest/util"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/util"
 
 	"go.uber.org/zap"
 )

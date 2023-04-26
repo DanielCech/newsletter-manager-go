@@ -1,4 +1,4 @@
-module strv-template-backend-go-api
+module newsletter-manager-go
 
 go 1.20
 

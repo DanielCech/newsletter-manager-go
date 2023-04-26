@@ -8,12 +8,12 @@ import (
 	"testing"
 	"time"
 
-	domsession "strv-template-backend-go-api/domain/session"
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/types"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/types/id"
-	"strv-template-backend-go-api/util/timesource"
+	domsession "newsletter-manager-go/domain/session"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/types"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/types/id"
+	"newsletter-manager-go/util/timesource"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

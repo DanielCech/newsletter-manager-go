@@ -143,7 +143,7 @@ Add an entry for the external model in the models section in `gqlgen.yaml`. Exam
 ```yaml
 UUID:
   model:
-    - strv-template-backend-go-api/api/graphql/graph/model.UUID
+    - newsletter-manager-go/api/graphql/graph/model.UUID
 ```
 
 Add serialization functions in the models package which is linked in the autobind section of the config above:
@@ -214,22 +214,22 @@ loaders are initialized in the middleware in `api/graphql/middleware/dataloader.
 are queries, which select N objects for N keys at once. We use dataloaders from `github.com/graph-gophers/dataloader`.
 Useful short reading with examples at `https://gqlgen.com/reference/dataloaders/`.
 
-[build]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/build.yaml
-[build-img]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/build.yaml/badge.svg
-[codecov]: https://codecov.io/gh/strvcom/strv-template-backend-go-api
-[codecov-img]: https://codecov.io/gh/strvcom/strv-template-backend-go-api/branch/master/graph/badge.svg?token=V10H1DOLYK
-[linter]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/lint.yaml
-[linter-img]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/lint.yaml/badge.svg
-[release]: https://github.com/strvcom/strv-template-backend-go-api/releases
-[release-img]: https://img.shields.io/github/v/release/strvcom/strv-template-backend-go-api?display_name=tag&sort=semver
-[tests]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/tests.yaml
-[tests-img]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/tests.yaml/badge.svg
-[vuln-scan]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/vuln-scan.yaml
-[vuln-scan-img]: https://github.com/strvcom/strv-template-backend-go-api/actions/workflows/vuln-scan.yaml/badge.svg
+[build]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/build.yaml
+[build-img]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/build.yaml/badge.svg
+[codecov]: https://codecov.io/gh/strvcom/newsletter-manager-go
+[codecov-img]: https://codecov.io/gh/strvcom/newsletter-manager-go/branch/master/graph/badge.svg?token=V10H1DOLYK
+[linter]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/lint.yaml
+[linter-img]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/lint.yaml/badge.svg
+[release]: https://github.com/strvcom/newsletter-manager-go/releases
+[release-img]: https://img.shields.io/github/v/release/strvcom/newsletter-manager-go?display_name=tag&sort=semver
+[tests]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/tests.yaml
+[tests-img]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/tests.yaml/badge.svg
+[vuln-scan]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/vuln-scan.yaml
+[vuln-scan-img]: https://github.com/strvcom/newsletter-manager-go/actions/workflows/vuln-scan.yaml/badge.svg
 
 [//]: # ([goreference]: https://pkg.go.dev/go.strv.io/<open-source-lib-name>)
 [//]: # ([goreference-img]: https://pkg.go.dev/badge/go.strv.io/<open-source-lib-name>.svg)
 [//]: # ([goreportcard]: https://goreportcard.com/report/go.strv.io/<open-source-lib-name>)
 [//]: # ([goreportcard-img]: https://goreportcard.com/badge/go.strv.io/<open-source-lib-name>)
 [//]: # ([license]: https://opensource.org/licenses/MIT)
-[//]: # ([license-img]: https://img.shields.io/github/license/strvcom/strv-template-backend-go-api)
+[//]: # ([license-img]: https://img.shields.io/github/license/strvcom/newsletter-manager-go)

@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 	"reflect"
 
-	apierrors "strv-template-backend-go-api/types/errors"
-	customvalidator "strv-template-backend-go-api/types/validator"
+	apierrors "newsletter-manager-go/types/errors"
+	customvalidator "newsletter-manager-go/types/validator"
 
 	httpparam "go.strv.io/net/http/param"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-playground/validator/v10"
 )
 
 // ParseRequestBody decodes and validates a struct.

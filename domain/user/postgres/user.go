@@ -3,14 +3,13 @@ package user
 import (
 	"context"
 	"errors"
-
-	"strv-template-backend-go-api/database/sql"
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/domain/user/postgres/query"
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
-
 	"github.com/jackc/pgx/v5"
+
+	"newsletter-manager-go/database/sql"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/domain/user/postgres/query"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
 )
 
 // Repository represents user data layer.
@@ -45,12 +44,12 @@ func (r *Repository) Create(ctx context.Context, user *domuser.User) error {
 			"updated_at":    user.UpdatedAt,
 		})
 		if err != nil {
-			if sql.IsUnique(err, query.ConstraintUniqueUserEmail) {
-				return domuser.ErrUserEmailAlreadyExists
-			}
-			if sql.IsForeignKey(err, query.ConstraintReferrerID) {
-				return domuser.ErrReferrerNotFound
-			}
+			//if sql.IsUnique(err, query.ConstraintUniqueUserEmail) {
+			//	return domuser.ErrUserEmailAlreadyExists
+			//}
+			//if sql.IsForeignKey(err, query.ConstraintReferrerID) {
+			//	return domuser.ErrReferrerNotFound
+			//}
 			return err
 		}
 		return nil

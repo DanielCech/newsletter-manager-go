@@ -4,12 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	domsession "newsletter-manager-go/domain/session"
 
-	domsession "strv-template-backend-go-api/domain/session"
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/types"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/types/id"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/types"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/types/id"
 
 	"github.com/prometheus/client_golang/prometheus"
 )

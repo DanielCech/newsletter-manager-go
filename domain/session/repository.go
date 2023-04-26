@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"strv-template-backend-go-api/types/id"
+	"newsletter-manager-go/types/id"
 )
 
 var (

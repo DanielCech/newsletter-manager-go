@@ -1,9 +1,9 @@
 package model
 
 import (
-	domuser "strv-template-backend-go-api/domain/user"
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
+	domuser "newsletter-manager-go/domain/user"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
 )
 
 // User consists of fields which describe an user.

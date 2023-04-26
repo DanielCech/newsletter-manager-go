@@ -3,14 +3,14 @@ package middleware
 import (
 	"errors"
 	"net/http"
+	domsession "newsletter-manager-go/domain/session"
 	"strings"
 
-	httputil "strv-template-backend-go-api/api/rest/util"
-	domsession "strv-template-backend-go-api/domain/session"
-	domuser "strv-template-backend-go-api/domain/user"
-	apierrors "strv-template-backend-go-api/types/errors"
-	"strv-template-backend-go-api/util"
-	utilctx "strv-template-backend-go-api/util/context"
+	httputil "newsletter-manager-go/api/rest/util"
+	domuser "newsletter-manager-go/domain/user"
+	apierrors "newsletter-manager-go/types/errors"
+	"newsletter-manager-go/util"
+	utilctx "newsletter-manager-go/util/context"
 
 	"go.uber.org/zap"
 )

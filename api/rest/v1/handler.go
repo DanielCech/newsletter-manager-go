@@ -3,9 +3,9 @@ package v1
 import (
 	"net/http"
 
-	"strv-template-backend-go-api/api/rest/middleware"
-	httputil "strv-template-backend-go-api/api/rest/util"
-	domuser "strv-template-backend-go-api/domain/user"
+	"newsletter-manager-go/api/rest/middleware"
+	httputil "newsletter-manager-go/api/rest/util"
+	domuser "newsletter-manager-go/domain/user"
 
 	"go.strv.io/net/http/signature"
 
@@ -47,7 +47,6 @@ func (h *Handler) initRouter() {
 	authenticate := middleware.Authenticate(h.logger, h.tokenParser)
 	authorizeAdmin := middleware.Authorize(h.logger, domuser.RoleAdmin)
 	authorizeUser := middleware.Authorize(h.logger, domuser.RoleUser)
-	noCacheHeaders := middleware.NoCacheHeaders()
 
 	w := signature.DefaultWrapper().
 		WithInputGetter(httputil.ParseRequestBody).
@@ -80,7 +79,6 @@ func (h *Handler) initRouter() {
 
 	r.Route("/sessions", func(r chi.Router) {
 		r.Group(func(r chi.Router) {
-			r.Use(noCacheHeaders)
 			r.Post("/native", signature.WrapHandler(wCreated, h.CreateSession))
 			r.Post("/refresh", signature.WrapHandler(wCreated, h.RefreshSession))
 		})

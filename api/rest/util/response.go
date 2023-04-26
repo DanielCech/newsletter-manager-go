@@ -5,7 +5,7 @@ import (
 	"errors"
 	"net/http"
 
-	apierrors "strv-template-backend-go-api/types/errors"
+	apierrors "newsletter-manager-go/types/errors"
 
 	netx "go.strv.io/net"
 	httpx "go.strv.io/net/http"

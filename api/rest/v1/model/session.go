@@ -3,9 +3,9 @@ package model
 import (
 	"time"
 
-	domsession "strv-template-backend-go-api/domain/session"
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
+	domsession "newsletter-manager-go/domain/session"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
 )
 
 // CreateSessionInput represents JSON body needed for creating a new session.

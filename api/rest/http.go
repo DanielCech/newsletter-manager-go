@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"strv-template-backend-go-api/api/rest/middleware"
-	httputil "strv-template-backend-go-api/api/rest/util"
-	httpv1 "strv-template-backend-go-api/api/rest/v1"
-	"strv-template-backend-go-api/util"
+	"newsletter-manager-go/api/rest/middleware"
+	httputil "newsletter-manager-go/api/rest/util"
+	httpv1 "newsletter-manager-go/api/rest/v1"
+	"newsletter-manager-go/util"
 
 	httpx "go.strv.io/net/http"
 

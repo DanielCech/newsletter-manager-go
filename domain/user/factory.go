@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
-	"strv-template-backend-go-api/util/timesource"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
+	"newsletter-manager-go/util/timesource"
 )
 
 // Hasher describes object which is capable of password hashing and comparing.

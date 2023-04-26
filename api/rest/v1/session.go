@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"strv-template-backend-go-api/api/rest/v1/model"
+	"newsletter-manager-go/api/rest/v1/model"
 )
 
 // CreateSession creates new stateless session.

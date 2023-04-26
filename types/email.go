@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"strv-template-backend-go-api/types/validator"
+	"newsletter-manager-go/types/validator"
 )
 
 // Email is a custom type for email address representation.

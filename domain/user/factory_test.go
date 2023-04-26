@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"strv-template-backend-go-api/types"
-	"strv-template-backend-go-api/types/id"
+	"newsletter-manager-go/types"
+	"newsletter-manager-go/types/id"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
