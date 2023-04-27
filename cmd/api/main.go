@@ -5,24 +5,26 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-playground/validator/v10"
-	envx "go.strv.io/env"
-	zapx "go.strv.io/logging/zap"
-	httpx "go.strv.io/net/http"
-	"io/fs"
-	"newsletter-manager-go/database/sql"
-	domnewsletter "newsletter-manager-go/domain/newsletter"
-	pgnewsletter "newsletter-manager-go/domain/newsletter/postgres"
-	"newsletter-manager-go/util"
-	"newsletter-manager-go/util/timesource"
-
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
+	envx "go.strv.io/env"
+	zapx "go.strv.io/logging/zap"
+	httpx "go.strv.io/net/http"
 	timex "go.strv.io/time"
 	"go.uber.org/zap"
+	"io/fs"
+
 	httpapi "newsletter-manager-go/api/rest"
+	"newsletter-manager-go/database/sql"
 	domauthor "newsletter-manager-go/domain/author"
 	pgauthor "newsletter-manager-go/domain/author/postgres"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
+	pgnewsletter "newsletter-manager-go/domain/newsletter/postgres"
+	svcauthor "newsletter-manager-go/service/author"
+	svcnewsletter "newsletter-manager-go/service/newsletter"
+	"newsletter-manager-go/util"
+	"newsletter-manager-go/util/timesource"
 )
 
 var (
@@ -173,7 +175,7 @@ func main() {
 	}
 
 	// For integration tests
-	// mockTokenParser := mockauth.NewIntegrationMockTokenParser()
+	tokenParser := mockauth.NewIntegrationMockTokenParser()
 
 	//var tokenParser middleware.TokenParser
 	//if integrationTests {
@@ -185,6 +187,7 @@ func main() {
 	controller, err := httpapi.NewController(
 		authorService,
 		newsletterService,
+		tokenParser,
 		logger,
 	)
 	if err != nil {

@@ -20,7 +20,7 @@ func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input
 	if err != nil {
 		return nil, apierrors.NewInvalidBodyError(err, "new create user input").WithPublicMessage(err.Error())
 	}
-	newsletter, session, err := h.userService.Create(r.Context(), createNewsletterInput)
+	newsletter, session, err := h.newsletterService.Create(r.Context(), createNewsletterInput)
 	if err != nil {
 		return nil, fmt.Errorf("creating user: %w", err)
 	}
@@ -33,7 +33,7 @@ func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input
 
 // ListNewsletters returns all existing users.
 func (h *Handler) ListNewsletters(_ http.ResponseWriter, r *http.Request) ([]model.Newsletter, error) {
-	users, err := h.userService.List(r.Context())
+	users, err := h.newsletterService.List(r.Context())
 	if err != nil {
 		return nil, fmt.Errorf("listing users: %w", err)
 	}

@@ -3,11 +3,9 @@ package v1
 import (
 	"net/http"
 
+	"go.strv.io/net/http/signature"
 	"newsletter-manager-go/api/rest/middleware"
 	httputil "newsletter-manager-go/api/rest/util"
-	domauthor "newsletter-manager-go/domain/author"
-
-	"go.strv.io/net/http/signature"
 
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
@@ -17,24 +15,25 @@ import (
 type Handler struct {
 	*chi.Mux
 
-	userService    UserService
-	sessionService SessionService
-	tokenParser    middleware.TokenParser
-	logger         *zap.Logger
+	authorService     AuthorService
+	sessionService    SessionService
+	newsletterService NewsletterService
+	tokenParser       middleware.TokenParser
+	logger            *zap.Logger
 }
 
 // NewHandler returns new instance of handler handling /v1 endpoints.
 func NewHandler(
-	userService UserService,
-	sessionService SessionService,
+	authorService AuthorService,
+	newsletterService NewsletterService,
 	tokenParser middleware.TokenParser,
 	logger *zap.Logger,
 ) *Handler {
 	h := &Handler{
-		userService:    userService,
-		sessionService: sessionService,
-		tokenParser:    tokenParser,
-		logger:         logger,
+		authorService:     authorService,
+		newsletterService: newsletterService,
+		tokenParser:       tokenParser,
+		logger:            logger,
 	}
 	h.initRouter()
 	return h
@@ -45,8 +44,6 @@ func (h *Handler) initRouter() {
 	r := chi.NewRouter()
 
 	authenticate := middleware.Authenticate(h.logger, h.tokenParser)
-	authorizeAdmin := middleware.Authorize(h.logger, domauthor.RoleAdmin)
-	authorizeUser := middleware.Authorize(h.logger, domauthor.RoleUser)
 
 	w := signature.DefaultWrapper().
 		WithInputGetter(httputil.ParseRequestBody).
@@ -55,24 +52,22 @@ func (h *Handler) initRouter() {
 		})
 	wCreated := w.WithResponseMarshaler(signature.FixedResponseCodeMarshal(http.StatusCreated))
 
-	r.Route("/users", func(r chi.Router) {
+	r.Route("/authors", func(r chi.Router) {
 		r.Route("/register", func(r chi.Router) {
-			r.Post("/", signature.WrapHandler(wCreated, h.CreateUser))
+			r.Post("/", signature.WrapHandler(wCreated, h.CreateAuthor))
 		})
 		r.Group(func(r chi.Router) {
 			r.Use(authenticate)
 			r.Group(func(r chi.Router) {
-				r.Use(authorizeUser)
 				r.Route("/me", func(r chi.Router) {
-					r.Get("/", signature.WrapHandlerResponse(w, h.ReadLoggedUser))
+					r.Get("/", signature.WrapHandlerResponse(w, h.ReadLoggedAuthor))
 				})
 				r.Route("/change-password", func(r chi.Router) {
-					r.Patch("/", signature.WrapHandlerInput(w, h.ChangeUserPassword))
+					r.Patch("/", signature.WrapHandlerInput(w, h.ChangeAuthorPassword))
 				})
 			})
 			r.Group(func(r chi.Router) {
-				r.Use(authorizeAdmin)
-				r.Get("/", signature.WrapHandlerResponse(w, h.ListUsers))
+				r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
 			})
 		})
 	})

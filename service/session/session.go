@@ -14,8 +14,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-// UserService represents object which is capable of reading user in several ways.
-type UserService interface {
+// authorService represents object which is capable of reading user in several ways.
+type authorService interface {
 	Read(ctx context.Context, AuthorID id.Author) (*domauthor.Author, error)
 	ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domauthor.Author, error)
 }
@@ -24,32 +24,32 @@ type UserService interface {
 type Service struct {
 	sessionFactory    domsession.Factory
 	sessionRepository domsession.Repository
-	userService       UserService
+	authorService     authorService
 }
 
 // NewService returns new instance of a session service.
 func NewService(
 	sessionFactory domsession.Factory,
 	sessionRepository domsession.Repository,
-	userService UserService,
+	authorService authorService,
 ) (*Service, error) {
 	if sessionRepository == nil {
 		return nil, errors.New("invalid session repository")
 	}
-	if userService == nil {
+	if authorService == nil {
 		return nil, errors.New("invalid user service")
 	}
 	return &Service{
 		sessionFactory:    sessionFactory,
 		sessionRepository: sessionRepository,
-		userService:       userService,
+		authorService:     authorService,
 	}, nil
 }
 
 // Create creates a new session and creates refresh token in the repository.
 // Returns a newly created session along with user who is the session owner.
 func (s *Service) Create(ctx context.Context, email types.Email, password types.Password) (*domsession.Session, *domauthor.Author, error) {
-	user, err := s.userService.ReadByCredentials(ctx, email, password)
+	user, err := s.authorService.ReadByCredentials(ctx, email, password)
 	if err != nil {
 		return nil, nil, fmt.Errorf("reading user by credentials: %w", err)
 	}
@@ -107,7 +107,7 @@ func (s *Service) Refresh(ctx context.Context, refreshTokenID id.RefreshToken) (
 		if oldRefreshToken.IsExpired() {
 			return nil, domsession.ErrRefreshTokenExpired
 		}
-		user, err := s.userService.Read(ctx, oldRefreshToken.AuthorID)
+		user, err := s.authorService.Read(ctx, oldRefreshToken.AuthorID)
 		if err != nil {
 			return nil, fmt.Errorf("reading user: %w", err)
 		}
