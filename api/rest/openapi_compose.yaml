@@ -39,18 +39,18 @@ paths:
     $ref: './v1/paths/newsletter.yamll#/Newsletter'
 
   /api/v1/emails/{emailId}:
-    $ref: './v1/paths/email.yamll#/Email'
+    $ref: './v1/paths/email.yaml#/Email'
   /api/v1/newsletters/{newsletterId}/emails:
-    $ref: './v1/paths/email.yamll#/Emails'
+    $ref: './v1/paths/email.yaml#/Emails'
 
   /api/v1/newsletters/{newsletterId}/subscribe:
-    $ref: './v1/paths/subscription.yamll#/Subscribe'
+    $ref: './v1/paths/subscription.yaml#/Subscribe'
   /api/v1/newsletters/{newsletterId}/unsubscribe:
-    $ref: './v1/paths/subscription.yamll#/Unubscribe'
+    $ref: './v1/paths/subscription.yaml#/Unubscribe'
   /api/v1/newsletters/{newsletterId}/subscriptions:
-    $ref: './v1/paths/subscription.yamll#/NewsletterSubscriptions'
+    $ref: './v1/paths/subscription.yaml#/NewsletterSubscriptions'
   /api/v1/subscriptions:
-    $ref: './v1/paths/author.yamll#/Subscriptions'
+    $ref: './v1/paths/subscription.yaml#/Subscriptions'
 
   /healthz:
     $ref: './v1/paths/maintenance.yaml#/Healthz'

@@ -1,500 +1,56 @@
 openapi: 3.0.3
 info:
-  title: API for Go project template
-  description: "This is an API for Go project template, that can be used as a base\
-    \ for your own API."
+  title: API for NewsletterManager
+  description: This is testing Go project.
   version: 0.0.0
 servers:
-- url: http://api.example.com/
-  description: "Optional server description, e.g. Main (production) server"
+- url: <no url>
+  description: Main production server
 tags:
-- name: v1/users
-  description: Users API
-- name: v1/sessions
-  description: Sessions API
+- name: authors
+  description: Authors API
+- name: newsletters
+  description: Newsletters API
+- name: emails
+  description: Emails API
+- name: subscriptions
+  description: Subscriptions API
 - name: maintenance
   description: Maintenance API
 paths:
-  /api/v1/users:
-    get:
-      tags:
-      - v1/users
-      description: Read info about all users
-      operationId: getUsers
-      responses:
-        "200":
-          description: List of users
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/users/register:
-    post:
-      tags:
-      - v1/users
-      description: Create a new user
-      operationId: registerUser
-      requestBody:
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/CreateUserInput'
-      responses:
-        "201":
-          description: Successfully created user
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/CreateUserResp'
-        "400":
-          description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "409":
-          description: A user with the same email already exists
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "422":
-          description: Values in input body are not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-  /api/v1/users/me:
-    get:
-      tags:
-      - v1/users
-      description: Read info about logged user
-      operationId: getCurrentUser
-      responses:
-        "200":
-          description: Info about logged user
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/User'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "404":
-          description: User not found
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/users/change-password:
-    patch:
-      tags:
-      - v1/users
-      description: Change user password. All user's sessions are destroyed.
-      operationId: changeUserPassword
-      requestBody:
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/ChangeUserPasswordInput'
-      responses:
-        "204":
-          description: User password has been changed
-        "400":
-          description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "404":
-          description: User not found
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "422":
-          description: Values in input body are not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/sessions/native:
-    post:
-      tags:
-      - v1/sessions
-      description: Create new stateless session
-      operationId: createSession
-      requestBody:
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/CreateSessionInput'
-      responses:
-        "201":
-          description: Successfully created session
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/CreateSessionResp'
-        "400":
-          description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "401":
-          description: Invalid credentials
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "422":
-          description: Values in input body are not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-  /api/v1/sessions/refresh:
-    post:
-      tags:
-      - v1/sessions
-      description: Refresh stateless session
-      operationId: refreshSession
-      requestBody:
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/RefreshSessionInput'
-      responses:
-        "201":
-          description: Successfully created session
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/Session'
-        "400":
-          description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "401":
-          description: Refresh token is not valid or is expired
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "404":
-          description: Refresh token is valid but the session was already destroyed
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "422":
-          description: Values in input body are not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-  /api/v1/sessions/destroy:
-    post:
-      tags:
-      - v1/sessions
-      description: Destroy stateless session
-      operationId: destroySession
-      requestBody:
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/DestroySessionInput'
-      responses:
-        "204":
-          description: Session successfully destroyed
-        "400":
-          description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "401":
-          description: Refresh token is not valid or is expired
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "404":
-          description: Refresh token is valid but the session was already destroyed
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "422":
-          description: Values in input body are not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
+  /api/v1/authors:
+    $ref: ./v1/paths/author.yamll#/Authors
+  /api/v1/authors/{authorId}:
+    $ref: ./v1/paths/author.yamll#/Author
+  /api/v1/authors/sign-in:
+    $ref: ./v1/paths/author.yamll#/AuthorSignIn
+  /api/v1/authors/sign-up:
+    $ref: ./v1/paths/author.yamll#/AuthorSignUp
+  /api/v1/authors/change-password:
+    $ref: ./v1/paths/author.yamll#/ChangeAuthorPassword
+  /api/v1/authors/refresh-token:
+    $ref: ./v1/paths/author.yamll#/RefreshToken
+  /api/v1/authors/{authorId}/newsletters:
+    $ref: ./v1/paths/newsletter.yamll#/Newsletters
+  /api/v1/newsletters/{newsletterId}:
+    $ref: ./v1/paths/newsletter.yamll#/Newsletter
+  /api/v1/emails/{emailId}:
+    $ref: ./v1/paths/email.yaml#/Email
+  /api/v1/newsletters/{newsletterId}/emails:
+    $ref: ./v1/paths/email.yaml#/Emails
+  /api/v1/newsletters/{newsletterId}/subscribe:
+    $ref: ./v1/paths/subscription.yaml#/Subscribe
+  /api/v1/newsletters/{newsletterId}/unsubscribe:
+    $ref: ./v1/paths/subscription.yaml#/Unubscribe
+  /api/v1/newsletters/{newsletterId}/subscriptions:
+    $ref: ./v1/paths/subscription.yaml#/NewsletterSubscriptions
+  /api/v1/subscriptions:
+    $ref: ./v1/paths/subscription.yaml#/Subscriptions
   /healthz:
-    get:
-      tags:
-      - maintenance
-      description: Heartbeat
-      operationId: healthz
-      responses:
-        "204":
-          description: OK
+    $ref: ./v1/paths/maintenance.yaml#/Healthz
   /api/openapi.yaml:
-    get:
-      tags:
-      - maintenance
-      summary: Get content of openapi.yaml
-      operationId: openApi
-      responses:
-        "200":
-          description: Content of this file
-      security:
-      - bearerAuth: []
+    $ref: ./v1/paths/maintenance.yaml#/OpenAPI
 components:
-  schemas:
-    User:
-      required:
-      - email
-      - id
-      - name
-      - role
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/ID'
-        referrerId:
-          $ref: '#/components/schemas/ID'
-        name:
-          $ref: '#/components/schemas/Name'
-        email:
-          $ref: '#/components/schemas/Email'
-        role:
-          $ref: '#/components/schemas/Role'
-      description: User object
-    APIError:
-      required:
-      - errorCode
-      - requestId
-      type: object
-      properties:
-        requestId:
-          type: string
-          description: Request ID
-          example: 2cb1a484-0f55-4e4a-a627-16a322d9eee6
-        errorCode:
-          type: string
-          description: Error code
-          example: ERR_INVALID_REQUEST
-          enum:
-          - ERR_INVALID_REQUEST
-          - ERR_UNAUTHORIZED
-          - ERR_FORBIDDEN
-          - ERR_NOT_FOUND
-          - ERR_ALREADY_EXISTS
-          - ERR_GONE
-          - ERR_PAYLOAD_TOO_LARGE
-          - ERR_INVALID_BODY
-        errorMessage:
-          type: string
-          description: Public human readable error message
-          example: invalid field xyz
-        errorData:
-          type: object
-          description: Error data
-    CreateUserInput:
-      required:
-      - email
-      - name
-      - password
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/Name'
-        email:
-          $ref: '#/components/schemas/Email'
-        password:
-          $ref: '#/components/schemas/Password'
-        referrerId:
-          $ref: '#/components/schemas/ID'
-      description: User object for creating a user
-    CreateUserResp:
-      required:
-      - session
-      - user
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        session:
-          $ref: '#/components/schemas/Session'
-      description: Session object
-    ChangeUserPasswordInput:
-      required:
-      - newPassword
-      - oldPassword
-      type: object
-      properties:
-        oldPassword:
-          $ref: '#/components/schemas/Password'
-        newPassword:
-          $ref: '#/components/schemas/Password'
-      description: Old and new password
-    CreateSessionInput:
-      required:
-      - email
-      - password
-      type: object
-      properties:
-        email:
-          $ref: '#/components/schemas/Email'
-        password:
-          $ref: '#/components/schemas/Password'
-      description: Session object for creating a stateless session
-    CreateSessionResp:
-      required:
-      - session
-      - user
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/User'
-        session:
-          $ref: '#/components/schemas/Session'
-      description: Session object
-    RefreshSessionInput:
-      required:
-      - refreshToken
-      type: object
-      properties:
-        refreshToken:
-          $ref: '#/components/schemas/RefreshToken'
-      description: Object for refreshing session
-    Session:
-      required:
-      - accessToken
-      - accessTokenExpiresAt
-      - refreshToken
-      - refreshTokenExpiresAt
-      type: object
-      properties:
-        accessToken:
-          $ref: '#/components/schemas/AccessToken'
-        accessTokenExpiresAt:
-          $ref: '#/components/schemas/DateTime'
-        refreshToken:
-          $ref: '#/components/schemas/RefreshToken'
-        refreshTokenExpiresAt:
-          $ref: '#/components/schemas/DateTime'
-      description: Session object
-    DestroySessionInput:
-      required:
-      - refreshToken
-      type: object
-      properties:
-        refreshToken:
-          $ref: '#/components/schemas/RefreshToken'
-      description: Object for destroying session
-    ID:
-      type: string
-      description: Universal unique identifier
-      format: uuid
-      example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
-    Name:
-      type: string
-      description: User name
-      example: John Snow
-    Email:
-      type: string
-      description: User email
-      format: email
-      example: example@email.com
-    Role:
-      type: string
-      description: User role
-      enum:
-      - user
-      - admin
-    Password:
-      minLength: 8
-      type: string
-      description: "User password with at least 8 characters, one upper case letter,\
-        \ one lower case letter and one number"
-      format: password
-      example: Topsecret1
-    RefreshToken:
-      type: string
-      description: Refresh token string
-      format: uuid
-      example: 1ef1f299-1e4a-4c65-b5f7-220c3b00391b
-    AccessToken:
-      type: string
-      description: Signed access token
-      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTcxMTIzNzQsInVzZXJfaWQiOiI1MCJ9.__yasD49ywo4mpUQ7h-7mEUO7y3AOSSELhyfAToVfkI
-    DateTime:
-      type: string
-      description: Date time in format RFC3339
-      format: date-time
-      example: 2022-07-06T12:59:34Z
-  responses:
-    UnauthenticatedError:
-      description: Authentication token is not present or not valid
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
-    ForbiddenError:
-      description: "Authentication token is present, but the user is not authorized\
-        \ to perform this operation"
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
-    BadRequestError:
-      description: Input body is not valid JSON
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
-    InvalidBodyError:
-      description: Values in input body are not valid
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
   securitySchemes:
     bearerAuth:
       type: http

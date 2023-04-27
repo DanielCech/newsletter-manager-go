@@ -1,9 +1,9 @@
-Users:
+Newsletters:
   get:
-    description: Read info about all users
+    description: The list of author's newsletters
     tags:
-      - v1/users
-    operationId: getUsers
+      - newsletter
+    operationId: getNewsletters
     security:
       - bearerAuth: []
     responses:
@@ -19,12 +19,32 @@ Users:
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
-UserRegister:
   post:
-    description: Create a new user
+    description: TCreates a new newsletter. Request requires access token in Bearer format.
     tags:
-      - v1/users
-    operationId: registerUser
+      - newsletter
+    operationId: createNewsletter
+    security:
+      - bearerAuth: [ ]
+    responses:
+      200:
+        description: List of users
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/user.yaml#/User'
+      "401":
+        $ref: '../schemas/common.yaml#/UnauthenticatedError'
+      "403":
+        $ref: '../schemas/common.yaml#/ForbiddenError'
+Newsletter:
+  delete:
+    description: Delete the newsletter
+    tags:
+      - newsletter
+    operationId: deleteNewsletter
     requestBody:
       content:
         application/json; charset=utf-8:
@@ -47,51 +67,54 @@ UserRegister:
               $ref: '../schemas/common.yaml#/APIError'
       "422":
         $ref: '../schemas/common.yaml#/InvalidBodyError'
-Me:
   get:
-    description: Read info about logged user
+    description: Get newsletter by ID
     tags:
-      - v1/users
-    operationId: getCurrentUser
-    security:
-      - bearerAuth: []
-    responses:
-      "200":
-        description: Info about logged user
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '../schemas/user.yaml#/User'
-      "401":
-        $ref: '../schemas/common.yaml#/UnauthenticatedError'
-      "404":
-        description: User not found
-        content:
-          application/json; charset=utf-8:
-            schema:
-              $ref: '../schemas/common.yaml#/APIError'
-ChangeUserPassword:
-  patch:
-    description: Change user password. All user's sessions are destroyed.
-    tags:
-      - v1/users
-    operationId: changeUserPassword
-    security:
-      - bearerAuth: []
+      - newsletter
+    operationId: deleteNewsletter
     requestBody:
       content:
         application/json; charset=utf-8:
           schema:
-            $ref: '../schemas/user.yaml#/ChangeUserPasswordInput'
+            $ref: '../schemas/user.yaml#/CreateUserInput'
     responses:
-      "204":
-        description: User password has been changed
+      "201":
+        description: Successfully created user
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/user.yaml#/CreateUserResp'
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
-      "401":
-        $ref: '../schemas/common.yaml#/UnauthenticatedError'
-      "404":
-        description: User not found
+      "409":
+        description: A user with the same email already exists
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "422":
+        $ref: '../schemas/common.yaml#/InvalidBodyError'
+  patch:
+    description: Update newsletter
+    tags:
+      - newsletter
+    operationId: updateNewsletter
+    requestBody:
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../schemas/user.yaml#/CreateUserInput'
+    responses:
+      "201":
+        description: Successfully created user
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/user.yaml#/CreateUserResp'
+      "400":
+        $ref: '../schemas/common.yaml#/BadRequestError'
+      "409":
+        description: A user with the same email already exists
         content:
           application/json; charset=utf-8:
             schema:
