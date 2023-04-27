@@ -10,19 +10,26 @@ import (
 	httpx "go.strv.io/net/http"
 	"io/fs"
 	"newsletter-manager-go/database/sql"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
+	pgnewsletter "newsletter-manager-go/domain/newsletter/postgres"
 	"newsletter-manager-go/util"
+	"newsletter-manager-go/util/timesource"
 
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	timex "go.strv.io/time"
 	"go.uber.org/zap"
+	httpapi "newsletter-manager-go/api/rest"
+	domauthor "newsletter-manager-go/domain/author"
+	pgauthor "newsletter-manager-go/domain/author/postgres"
 )
 
 var (
 	// version is set during the build.
-	version    = "0.0.0"
-	configPath string
+	version          = "0.0.0"
+	configPath       string
+	integrationTests bool
 )
 
 const (
@@ -30,10 +37,9 @@ const (
 )
 
 type config struct {
-	Port       uint       `json:"port" yaml:"port" env:"PORT" validate:"gt=0"`
-	Database   sql.Config `json:"database" yaml:"database" env:",dive"`
-	AuthSecret string     `json:"auth_secret" yaml:"auth_secret" env:"AUTH_SECRET" validate:"gte=64"`
-	Session    struct {
+	Port     uint       `json:"port" yaml:"port" env:"PORT" validate:"gt=0"`
+	Database sql.Config `json:"database" yaml:"database" env:",dive"`
+	Session  struct {
 		AccessTokenExpiration  timex.Duration `json:"access_token_expiration" yaml:"access_token_expiration" env:"SESSION_ACCESS_TOKEN_EXPIRATION" validate:"required"`
 		RefreshTokenExpiration timex.Duration `json:"refresh_token_expiration" yaml:"refresh_token_expiration" env:"SESSION_REFRESH_TOKEN_EXPIRATION" validate:"required"`
 	} `json:"session" yaml:"session" env:",dive"`
@@ -42,6 +48,7 @@ type config struct {
 
 func init() {
 	pflag.StringVarP(&configPath, "config", "c", defaultConfigPath, "Path to configuration file")
+	pflag.BoolVarP(&integrationTests, "integration", "i", false, "Mocked environment for integration tests")
 	pflag.Parse()
 }
 
@@ -82,140 +89,26 @@ func parseConfig(path string) (cfg config, err error) {
 	return cfg, nil
 }
 
-//
-//func loadAWSConfig(ctx context.Context) (aws.Config, error) {
-//	return awsconfig.LoadDefaultConfig(
-//		ctx,
-//		awsconfig.WithEndpointResolverWithOptions(
-//			aws.EndpointResolverWithOptionsFunc(func(string, string, ...any) (aws.Endpoint, error) {
-//				if awsEndpointURL != nil {
-//					return aws.Endpoint{
-//						URL:           *awsEndpointURL,
-//						PartitionID:   "aws-local-stack",
-//						SigningRegion: "us-east-1",
-//					}, nil
-//				}
-//				// Fallback to default AWS endpoint.
-//				return aws.Endpoint{}, &aws.EndpointNotFoundError{}
-//			}),
-//		),
-//	)
-//}
+func getConnString() string {
+	connString := "postgres://postgres:matchtheface123@localhost:5433/event-facematch?sslmode=disable"
 
-//func setupDatabase(ctx context.Context, cfg config) (sql.Database, error) {
-//	awsCfg, err := loadAWSConfig(ctx, cfg.AWSEndpointURL)
-//	if err != nil {
-//		return sql.Database{}, fmt.Errorf("loading aws config: %w", err)
-//	}
-//
-//	secretsManager := secret.NewSecretsManager(awsCfg)
-//	databaseSecret := secret.NewSecret[sql.DSNValues](cfg.Database.Secret)
-//	dsnValues, err := databaseSecret.Resolve(ctx, secretsManager)
-//	if err != nil {
-//		return sql.Database{}, fmt.Errorf("resolving database configuration: %w", err)
-//	}
-//
-//	connString, err := dsnValues.ConnString()
-//	if err != nil {
-//		return sql.Database{}, fmt.Errorf("parsing database connection string: %w", err)
-//	}
-//	database, err := sql.Open(ctx, connString)
-//	if err != nil {
-//		return sql.Database{}, fmt.Errorf("opening database: %w", err)
-//	}
-//
-//	return database, nil
-//}
+	if integrationTests {
+		// Integration tests need modified connection string without caching and with the special exec mode. This mode is slower than usual but it works well with the frequent DB schema changes
+		connString += "&default_query_exec_mode=describe_exec"
+	}
 
-//func setupUserServiceDeps(database sql.Database, cfg config) (domuser.Factory, domuser.Repository, error) {
-//	userFactory, err := domuser.NewFactory(
-//		crypto.NewDefaultBcryptHasher([]byte(cfg.HashPepper)),
-//		timesource.DefaultTimeSource{},
-//	)
-//	if err != nil {
-//		return domuser.Factory{}, nil, fmt.Errorf("new user factory: %w", err)
-//	}
-//
-//	userRepository, err := pguser.NewRepository(database, userFactory)
-//	if err != nil {
-//		return domuser.Factory{}, nil, fmt.Errorf("new user repository: %w", err)
-//	}
-//
-//	return userFactory, userRepository, nil
-//}
-//
-//func setupSessionServiceDeps(database sql.Database, cfg config) (domsession.Factory, domsession.Repository, error) {
-//	sessionFactory, err := domsession.NewFactory(
-//		[]byte(cfg.AuthSecret),
-//		timesource.DefaultTimeSource{},
-//		cfg.Session.AccessTokenExpiration.Duration(),
-//		cfg.Session.RefreshTokenExpiration.Duration(),
-//	)
-//	if err != nil {
-//		return domsession.Factory{}, nil, fmt.Errorf("new session factory: %w", err)
-//	}
-//
-//	sessionRepository, err := pgsession.NewRepository(database, sessionFactory)
-//	if err != nil {
-//		return domsession.Factory{}, nil, fmt.Errorf("new session repository: %w", err)
-//	}
-//
-//	return sessionFactory, sessionRepository, nil
-//}
-
-// TODO: As can be seen, dependency injection is sort of hacked. Waiting for resolving this big issue.
-//func setupController(database sql.Database, logger *zap.Logger, cfg config) (*httpapi.Controller, error) {
-//	userService := new(svcuser.Service)
-//	sessionService := new(svcsession.Service)
-
-//userFactory, userRepository, err := setupUserServiceDeps(database, cfg)
-//if err != nil {
-//	return nil, fmt.Errorf("setup user service dependencies: %w", err)
-//}
-//userServiceTmp, err := svcuser.NewService(
-//	userFactory,
-//	userRepository,
-//	sessionService,
-//)
-//if err != nil {
-//	return nil, fmt.Errorf("new user service: %w", err)
-//}
-//*userService = *userServiceTmp
-//
-//sessionFactory, sessionRepository, err := setupSessionServiceDeps(database, cfg)
-//if err != nil {
-//	return nil, fmt.Errorf("setup session service dependencies: %w", err)
-//}
-//sessionServiceTmp, err := svcsession.NewService(
-//	sessionFactory,
-//	sessionRepository,
-//	userService,
-//)
-//if err != nil {
-//	return nil, fmt.Errorf("new session service: %w", err)
-//}
-//*sessionService = *sessionServiceTmp
-
-//	controller, err := httpapi.NewController(
-//		userService,
-//		sessionService,
-//		sessionFactory,
-//		cfg.CORS,
-//		logger,
-//	)
-//	if err != nil {
-//		return nil, fmt.Errorf("new http controller: %w", err)
-//	}
-//
-//	metrics.MustRegister(userService, sessionService)
-//	return controller, nil
-//}
+	return connString
+}
 
 func main() {
 	// Parse config, set up logger.
 	cfg, err := parseConfig(configPath)
 	if err != nil {
 		panic(fmt.Errorf("parse config: %w", err))
+	}
+
+	if integrationTests {
+		_, _ = fmt.Println("Running in integration tests mode")
 	}
 
 	util.SetServerLogLevel(cfg.LogLevel)
@@ -232,21 +125,71 @@ func main() {
 		zap.String("addr", addr),
 	).Info("starting application")
 
-	//database, err := setupDatabase(ctx, cfg)
-	//if err != nil {
-	//	logger.Fatal("setup database", zap.Error(err))
+	connString := getConnString()
+
+	database, err := sql.Open(ctx, connString)
+	if err != nil {
+		logger.Fatal("opening database", zap.Error(err))
+	}
+
+	authorFactory, err := domauthor.NewFactory(
+		timesource.DefaultTimeSource{},
+	)
+	if err != nil {
+		logger.Fatal("new author factory", zap.Error(err))
+	}
+
+	authorRepository, err := pgauthor.NewRepository(database, authorFactory)
+	if err != nil {
+		logger.Fatal("new author repository", zap.Error(err))
+	}
+
+	authorService, err := svcauthor.NewService(
+		authorFactory,
+		authorRepository,
+	)
+	if err != nil {
+		logger.Fatal("new author service", zap.Error(err))
+	}
+
+	newsletterFactory, err := domnewsletter.NewFactory(
+		timesource.DefaultTimeSource{},
+	)
+	if err != nil {
+		logger.Fatal("new newsletter factory", zap.Error(err))
+	}
+
+	newsletterRepository, err := pgnewsletter.NewRepository(database, newsletterFactory)
+	if err != nil {
+		logger.Fatal("new newsletter repository", zap.Error(err))
+	}
+
+	newsletterService, err := svcnewsletter.NewService(
+		newsletterFactory,
+		newsletterRepository,
+	)
+	if err != nil {
+		logger.Fatal("new newsletter service", zap.Error(err))
+	}
+
+	// For integration tests
+	// mockTokenParser := mockauth.NewIntegrationMockTokenParser()
+
+	//var tokenParser middleware.TokenParser
+	//if integrationTests {
+	//	tokenParser = &mockTokenParser
+	//} else {
+	//	tokenParser = firebaseClient
 	//}
-	//
-	//controller, err := setupController(database, logger, cfg)
-	//if err != nil {
-	//	logger.Fatal("setup controller", zap.Error(err))
-	//}
-	//
-	//go func() {
-	//	if err := metrics.NewServer(cfg.Metrics).Run(ctx); err != nil {
-	//		logger.Error("metrics HTTP server unexpectedly ended", zap.Error(err))
-	//	}
-	//}()
+
+	controller, err := httpapi.NewController(
+		authorService,
+		newsletterService,
+		logger,
+	)
+	if err != nil {
+		logger.Fatal("new HTTP controller", zap.Error(err))
+	}
 
 	// Run API server.
 	serverConfig := httpx.ServerConfig{

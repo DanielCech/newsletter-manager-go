@@ -1,0 +1,3 @@
+func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
+	return c.cfg.HTTPClient.Do(request)
+}

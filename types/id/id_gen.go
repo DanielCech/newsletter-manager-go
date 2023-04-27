@@ -20,28 +20,100 @@ func scanUUID(u *uuid.UUID, idTypeName string, data any) error {
 	return nil
 }
 
-func NewUser() User {
-	return User(uuid.New())
+func NewAuthor() Author {
+	return Author(uuid.New())
 }
 
-func (i User) String() string {
+func (i Author) String() string {
 	return uuid.UUID(i).String()
 }
 
-func (i User) Empty() bool {
+func (i Author) Empty() bool {
 	return uuid.UUID(i) == uuid.Nil
 }
 
-func (i User) MarshalText() ([]byte, error) {
+func (i Author) MarshalText() ([]byte, error) {
 	return []byte(uuid.UUID(i).String()), nil
 }
 
-func (i *User) UnmarshalText(data []byte) error {
-	return unmarshalUUID((*uuid.UUID)(i), "User", data)
+func (i *Author) UnmarshalText(data []byte) error {
+	return unmarshalUUID((*uuid.UUID)(i), "Author", data)
 }
 
-func (i *User) Scan(data any) error {
-	return scanUUID((*uuid.UUID)(i), "User", data)
+func (i *Author) Scan(data any) error {
+	return scanUUID((*uuid.UUID)(i), "Author", data)
+}
+
+func NewNewsletter() Newsletter {
+	return Newsletter(uuid.New())
+}
+
+func (i Newsletter) String() string {
+	return uuid.UUID(i).String()
+}
+
+func (i Newsletter) Empty() bool {
+	return uuid.UUID(i) == uuid.Nil
+}
+
+func (i Newsletter) MarshalText() ([]byte, error) {
+	return []byte(uuid.UUID(i).String()), nil
+}
+
+func (i *Newsletter) UnmarshalText(data []byte) error {
+	return unmarshalUUID((*uuid.UUID)(i), "Newsletter", data)
+}
+
+func (i *Newsletter) Scan(data any) error {
+	return scanUUID((*uuid.UUID)(i), "Newsletter", data)
+}
+
+func NewEmail() Email {
+	return Email(uuid.New())
+}
+
+func (i Email) String() string {
+	return uuid.UUID(i).String()
+}
+
+func (i Email) Empty() bool {
+	return uuid.UUID(i) == uuid.Nil
+}
+
+func (i Email) MarshalText() ([]byte, error) {
+	return []byte(uuid.UUID(i).String()), nil
+}
+
+func (i *Email) UnmarshalText(data []byte) error {
+	return unmarshalUUID((*uuid.UUID)(i), "Email", data)
+}
+
+func (i *Email) Scan(data any) error {
+	return scanUUID((*uuid.UUID)(i), "Email", data)
+}
+
+func NewSubscription() Subscription {
+	return Subscription(uuid.New())
+}
+
+func (i Subscription) String() string {
+	return uuid.UUID(i).String()
+}
+
+func (i Subscription) Empty() bool {
+	return uuid.UUID(i) == uuid.Nil
+}
+
+func (i Subscription) MarshalText() ([]byte, error) {
+	return []byte(uuid.UUID(i).String()), nil
+}
+
+func (i *Subscription) UnmarshalText(data []byte) error {
+	return unmarshalUUID((*uuid.UUID)(i), "Subscription", data)
+}
+
+func (i *Subscription) Scan(data any) error {
+	return scanUUID((*uuid.UUID)(i), "Subscription", data)
 }
 
 func (i *RefreshToken) UnmarshalText(data []byte) error {

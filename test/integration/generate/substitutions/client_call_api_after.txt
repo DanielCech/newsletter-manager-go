@@ -1,0 +1,6 @@
+func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
+	testlog.LogRequest(request)
+	response, err := c.cfg.HTTPClient.Do(request)
+	testlog.LogResponse(response)
+	return response, err
+}

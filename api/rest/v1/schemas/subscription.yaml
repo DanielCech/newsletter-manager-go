@@ -1,0 +1,67 @@
+Email:
+  type: string
+  description: User email
+  format: email
+  example: example@email.com
+Name:
+  type: string
+  description: User name
+  example: John Snow
+Password:
+  type: string
+  description: User password with at least 8 characters, one upper case letter, one lower case letter and one number
+  minLength: 8
+  format: password
+  example: Topsecret1
+Role:
+  type: string
+  description: User role
+  enum:
+    - user
+    - admin
+User:
+  type: object
+  description: User object
+  properties:
+    id:
+      $ref: './common.yaml#/ID'
+    referrerId:
+      $ref: './common.yaml#/ID'
+    name:
+      $ref: './user.yaml#/Name'
+    email:
+      $ref: './user.yaml#/Email'
+    role:
+      $ref: './user.yaml#/Role'
+  required: [id, name, email, role]
+CreateUserInput:
+  type: object
+  description: User object for creating a user
+  properties:
+    name:
+      $ref: './user.yaml#/Name'
+    email:
+      $ref: './user.yaml#/Email'
+    password:
+      $ref: './user.yaml#/Password'
+    referrerId:
+      $ref: './common.yaml#/ID'
+  required: [name, email, password]
+CreateUserResp:
+  type: object
+  description: Session object
+  properties:
+    user:
+      $ref: './user.yaml#/User'
+    session:
+      $ref: './session.yaml#/Session'
+  required: [user, session]
+ChangeUserPasswordInput:
+  type: object
+  description: Old and new password
+  properties:
+    oldPassword:
+      $ref: './user.yaml#/Password'
+    newPassword:
+      $ref: './user.yaml#/Password'
+  required: [oldPassword, newPassword]
