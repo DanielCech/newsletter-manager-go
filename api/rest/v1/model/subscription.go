@@ -1,7 +1,7 @@
 package model
 
 import (
-	domsubscription "newsletter-manager-go/domain/subscription"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
 )
@@ -14,7 +14,7 @@ type Subscription struct {
 }
 
 // FromSubscription converts domain object to api object.
-func FromSubscription(subscription *domsubscription.Subscription) Subscription {
+func FromSubscription(subscription *domnewsletter.Subscription) Subscription {
 	return Subscription{
 		ID:    subscription.ID,
 		Name:  subscription.Name,
@@ -23,7 +23,7 @@ func FromSubscription(subscription *domsubscription.Subscription) Subscription {
 }
 
 // FromSubscriptions converts domain object to api object.
-func FromSubscriptions(dsubscriptions []domsubscription.Subscription) []Subscription {
+func FromSubscriptions(dsubscriptions []domnewsletter.Subscription) []Subscription {
 	subscriptions := make([]Subscription, 0, len(dsubscriptions))
 	for _, u := range dsubscriptions {
 		subscriptions = append(subscriptions, Subscription{

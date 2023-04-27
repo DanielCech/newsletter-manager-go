@@ -139,31 +139,31 @@ func Test_ParseRequestBody(t *testing.T) {
 }
 
 func Test_GetPathID(t *testing.T) {
-	userID := id.NewUser()
+	AuthorID := id.NewUser()
 
 	type args struct {
 		request   *http.Request
 		paramName string
 	}
 	tests := []struct {
-		name           string
-		args           args
-		expectedUserID id.User
-		expectedErr    *apierrors.Error
+		name             string
+		args             args
+		expectedAuthorID id.Author
+		expectedErr      *apierrors.Error
 	}{
 		{
 			name: "success",
 			args: args{
 				request: func() *http.Request {
-					r, err := http.NewRequest(http.MethodGet, "/users/"+userID.String(), http.NoBody)
+					r, err := http.NewRequest(http.MethodGet, "/users/"+AuthorID.String(), http.NoBody)
 					require.NoError(t, err)
-					r = addURLParam(r, "userId", userID.String())
+					r = addURLParam(r, "AuthorID", AuthorID.String())
 					return r
 				}(),
-				paramName: "userId",
+				paramName: "AuthorID",
 			},
-			expectedUserID: userID,
-			expectedErr:    nil,
+			expectedAuthorID: AuthorID,
+			expectedErr:      nil,
 		},
 		{
 			name: "failure:unmarshal-text",
@@ -173,22 +173,22 @@ func Test_GetPathID(t *testing.T) {
 					require.NoError(t, err)
 					return r
 				}(),
-				paramName: "userId",
+				paramName: "AuthorID",
 			},
-			expectedUserID: id.User{},
+			expectedAuthorID: id.Author{},
 			expectedErr: apierrors.NewBadRequestError(
 				errors.New(`unmarshalling text: parsing "User" id value: invalid UUID length: 0`),
 				"",
-			).WithPublicMessage(`invalid path id parameter "userId"`),
+			).WithPublicMessage(`invalid path id parameter "AuthorID"`),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := GetPathID[id.User](tt.args.request, tt.args.paramName)
+			result, err := GetPathID[id.Author](tt.args.request, tt.args.paramName)
 			if tt.expectedErr == nil {
 				assert.NoError(t, err)
-				assert.Equal(t, tt.expectedUserID, result)
+				assert.Equal(t, tt.expectedAuthorID, result)
 				return
 			}
 			e := &apierrors.Error{}
@@ -202,30 +202,30 @@ func Test_GetPathID(t *testing.T) {
 }
 
 func Test_GetQueryID(t *testing.T) {
-	userID := id.NewUser()
+	AuthorID := id.NewUser()
 
 	type args struct {
 		request   *http.Request
 		paramName string
 	}
 	tests := []struct {
-		name           string
-		args           args
-		expectedUserID *id.User
-		expectedErr    *apierrors.Error
+		name             string
+		args             args
+		expectedAuthorID *id.Author
+		expectedErr      *apierrors.Error
 	}{
 		{
 			name: "success",
 			args: args{
 				request: func() *http.Request {
-					r, err := http.NewRequest(http.MethodGet, "/test?userId="+userID.String(), http.NoBody)
+					r, err := http.NewRequest(http.MethodGet, "/test?AuthorID="+AuthorID.String(), http.NoBody)
 					require.NoError(t, err)
 					return r
 				}(),
-				paramName: "userId",
+				paramName: "AuthorID",
 			},
-			expectedUserID: &userID,
-			expectedErr:    nil,
+			expectedAuthorID: &AuthorID,
+			expectedErr:      nil,
 		},
 		{
 			name: "success:no-query-parameter-set",
@@ -235,35 +235,35 @@ func Test_GetQueryID(t *testing.T) {
 					require.NoError(t, err)
 					return r
 				}(),
-				paramName: "userId",
+				paramName: "AuthorID",
 			},
-			expectedUserID: &id.User{},
-			expectedErr:    nil,
+			expectedAuthorID: &id.Author{},
+			expectedErr:      nil,
 		},
 		{
 			name: "failure:unmarshal-text",
 			args: args{
 				request: func() *http.Request {
-					r, err := http.NewRequest(http.MethodGet, "/test?userId=abc-123", http.NoBody)
+					r, err := http.NewRequest(http.MethodGet, "/test?AuthorID=abc-123", http.NoBody)
 					require.NoError(t, err)
 					return r
 				}(),
-				paramName: "userId",
+				paramName: "AuthorID",
 			},
-			expectedUserID: nil,
+			expectedAuthorID: nil,
 			expectedErr: apierrors.NewBadRequestError(
 				errors.New(`unmarshalling text: parsing "User" id value: invalid UUID length: 7`),
 				"",
-			).WithPublicMessage(`invalid query id parameter "userId"`),
+			).WithPublicMessage(`invalid query id parameter "AuthorID"`),
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := GetQueryID[id.User](tt.args.request, tt.args.paramName)
+			result, err := GetQueryID[id.Author](tt.args.request, tt.args.paramName)
 			if tt.expectedErr == nil {
 				assert.NoError(t, err)
-				assert.Equal(t, tt.expectedUserID, result)
+				assert.Equal(t, tt.expectedAuthorID, result)
 				return
 			}
 			e := &apierrors.Error{}

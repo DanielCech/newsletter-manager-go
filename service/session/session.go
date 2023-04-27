@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	domsession "newsletter-manager-go/domain/session"
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/user"
 	"newsletter-manager-go/types"
 	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/types/id"
@@ -16,8 +16,8 @@ import (
 
 // UserService represents object which is capable of reading user in several ways.
 type UserService interface {
-	Read(ctx context.Context, userID id.User) (*domuser.User, error)
-	ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domuser.User, error)
+	Read(ctx context.Context, AuthorID id.Author) (*domauthor.Author, error)
+	ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domauthor.Author, error)
 }
 
 // Service consists of session factory and repository and user reader.
@@ -48,7 +48,7 @@ func NewService(
 
 // Create creates a new session and creates refresh token in the repository.
 // Returns a newly created session along with user who is the session owner.
-func (s *Service) Create(ctx context.Context, email types.Email, password types.Password) (*domsession.Session, *domuser.User, error) {
+func (s *Service) Create(ctx context.Context, email types.Email, password types.Password) (*domsession.Session, *domauthor.Author, error) {
 	user, err := s.userService.ReadByCredentials(ctx, email, password)
 	if err != nil {
 		return nil, nil, fmt.Errorf("reading user by credentials: %w", err)
@@ -62,12 +62,12 @@ func (s *Service) Create(ctx context.Context, email types.Email, password types.
 
 // CreateForUser creates a new session and creates refresh token in the repository.
 // Returns a newly created session.
-func (s *Service) CreateForUser(ctx context.Context, user *domuser.User) (*domsession.Session, error) {
+func (s *Service) CreateForUser(ctx context.Context, user *domauthor.Author) (*domsession.Session, error) {
 	return s.create(ctx, user.ID, user.Role)
 }
 
-func (s *Service) create(ctx context.Context, userID id.User, userRole domuser.Role) (*domsession.Session, error) {
-	claims, err := domsession.NewClaims(userID, userRole)
+func (s *Service) create(ctx context.Context, AuthorID id.Author, userRole domauthor.Role) (*domsession.Session, error) {
+	claims, err := domsession.NewClaims(AuthorID, userRole)
 	if err != nil {
 		return nil, fmt.Errorf("new claims: %w", err)
 	}
@@ -93,8 +93,8 @@ func (s *Service) Destroy(ctx context.Context, refreshTokenID id.RefreshToken) e
 }
 
 // DestroyForUser destroys all sessions by deleting refresh tokens from the repository by user id.
-func (s *Service) DestroyForUser(ctx context.Context, userID id.User) error {
-	if err := s.sessionRepository.DeleteRefreshTokensByUserID(ctx, userID); err != nil {
+func (s *Service) DestroyForUser(ctx context.Context, AuthorID id.Author) error {
+	if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
 		return fmt.Errorf("deleting refresh tokens by user id: %w", err)
 	}
 	return nil
@@ -107,7 +107,7 @@ func (s *Service) Refresh(ctx context.Context, refreshTokenID id.RefreshToken) (
 		if oldRefreshToken.IsExpired() {
 			return nil, domsession.ErrRefreshTokenExpired
 		}
-		user, err := s.userService.Read(ctx, oldRefreshToken.UserID)
+		user, err := s.userService.Read(ctx, oldRefreshToken.AuthorID)
 		if err != nil {
 			return nil, fmt.Errorf("reading user: %w", err)
 		}

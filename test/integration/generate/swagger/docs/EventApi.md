@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CancelEvent**](EventApi.md#CancelEvent) | **Post** /api/v1/events/{eventId}/cancel | Cancel event. Event \&quot;soft\&quot; deletion.
 [**CreateEvent**](EventApi.md#CreateEvent) | **Post** /api/v1/events | Create a new event as an organizer
-[**DeleteParticipant**](EventApi.md#DeleteParticipant) | **Delete** /api/v1/events/{eventId}/participants/{userId} | Delete a participant from event
+[**DeleteParticipant**](EventApi.md#DeleteParticipant) | **Delete** /api/v1/events/{eventId}/participants/{AuthorID} | Delete a participant from event
 [**GetEvent**](EventApi.md#GetEvent) | **Get** /api/v1/events/{eventId} | Read an existing event
 [**GetEventByCode**](EventApi.md#GetEventByCode) | **Get** /api/v1/events/code/{eventCode} | Get an event by its code for joining
 [**GetEventCategoryImages**](EventApi.md#GetEventCategoryImages) | **Get** /api/v1/event-categories/{eventCategory}/images | (TODO) Get possible images for particular event category
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteParticipant**
-> DeleteParticipant(ctx, eventId, userId)
+> DeleteParticipant(ctx, eventId, AuthorID)
 Delete a participant from event
 
 Permanently delete a participant and all related records from event.
@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **eventId** | [**string**](.md)| ID of the event | 
-  **userId** | [**string**](.md)| ID of the participant to delete | 
+  **AuthorID** | [**string**](.md)| ID of the participant to delete | 
 
 ### Return type
 

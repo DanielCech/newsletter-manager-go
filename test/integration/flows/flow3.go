@@ -50,7 +50,7 @@ func Flow3(client *swagger.APIClient) {
 	_, err = client.EventApi.JoinEvent(user2.Context, eventJoinReq, event1.Id)
 	common.AssertNoError(err)
 
-	_, err = client.EventApi.DeleteParticipant(user1.Context, event1.Id, user2.UserID)
+	_, err = client.EventApi.DeleteParticipant(user1.Context, event1.Id, user2.AuthorID)
 	common.AssertNoError(err)
 
 	list, _, err := client.UserApi.ListParticipatingEvents(user2.Context)

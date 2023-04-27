@@ -16,7 +16,7 @@ type CreateSessionInput struct {
 
 // CreateSessionResp represents JSON response body of creating a new session.
 type CreateSessionResp struct {
-	User    User    `json:"user"`
+	Author  Author  `json:"user"`
 	Session Session `json:"session"`
 }
 

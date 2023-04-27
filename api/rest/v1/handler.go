@@ -5,7 +5,7 @@ import (
 
 	"newsletter-manager-go/api/rest/middleware"
 	httputil "newsletter-manager-go/api/rest/util"
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/author"
 
 	"go.strv.io/net/http/signature"
 
@@ -45,8 +45,8 @@ func (h *Handler) initRouter() {
 	r := chi.NewRouter()
 
 	authenticate := middleware.Authenticate(h.logger, h.tokenParser)
-	authorizeAdmin := middleware.Authorize(h.logger, domuser.RoleAdmin)
-	authorizeUser := middleware.Authorize(h.logger, domuser.RoleUser)
+	authorizeAdmin := middleware.Authorize(h.logger, domauthor.RoleAdmin)
+	authorizeUser := middleware.Authorize(h.logger, domauthor.RoleUser)
 
 	w := signature.DefaultWrapper().
 		WithInputGetter(httputil.ParseRequestBody).

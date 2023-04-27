@@ -523,7 +523,7 @@ paths:
                 $ref: '#/components/schemas/APIError'
       security:
       - bearerAuth: []
-  /api/v1/events/{eventId}/participants/{userId}:
+  /api/v1/events/{eventId}/participants/{AuthorID}:
     delete:
       tags:
       - event
@@ -538,7 +538,7 @@ paths:
         schema:
           type: string
           format: uuid
-      - name: userId
+      - name: AuthorID
         in: path
         description: ID of the participant to delete
         required: true

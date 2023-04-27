@@ -8,33 +8,33 @@ import (
 )
 
 type IntegrationMockTokenParser struct {
-	userIDMappings map[string]id.User
+	AuthorIDMappings map[string]id.Author
 }
 
 func NewIntegrationMockTokenParser() IntegrationMockTokenParser {
-	return IntegrationMockTokenParser{userIDMappings: make(map[string]id.User)}
+	return IntegrationMockTokenParser{AuthorIDMappings: make(map[string]id.Author)}
 }
 
 func (p *IntegrationMockTokenParser) VerifyIDToken(ctx context.Context, idToken string) (firebase.VerifiedToken, error) {
-	userID, ok := p.userIDMappings[idToken]
+	AuthorID, ok := p.AuthorIDMappings[idToken]
 	if !ok {
 		return firebase.VerifiedToken{
-			UserID:         nil,
-			FirebaseUserID: idToken,
+			AuthorID:         nil,
+			FirebaseAuthorID: idToken,
 		}, nil
 	}
 
 	return firebase.VerifiedToken{
-		UserID:         &userID,
-		FirebaseUserID: idToken,
+		AuthorID:         &AuthorID,
+		FirebaseAuthorID: idToken,
 	}, nil
 }
 
-func (p *IntegrationMockTokenParser) SetUserIDCustomClaim(ctx context.Context, firebaseUserID string, userID id.User) error {
-	p.userIDMappings[firebaseUserID] = userID
+func (p *IntegrationMockTokenParser) SetAuthorIDCustomClaim(ctx context.Context, firebaseAuthorID string, AuthorID id.Author) error {
+	p.AuthorIDMappings[firebaseAuthorID] = AuthorID
 	return nil
 }
 
-func (p *IntegrationMockTokenParser) DeleteUser(ctx context.Context, firebaseUserID string) error {
+func (p *IntegrationMockTokenParser) DeleteUser(ctx context.Context, firebaseAuthorID string) error {
 	return nil
 }

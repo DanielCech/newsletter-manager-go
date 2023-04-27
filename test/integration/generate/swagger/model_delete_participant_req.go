@@ -10,5 +10,5 @@ package swagger
 
 type DeleteParticipantReq struct {
 	// User ID
-	UserId string `json:"userId"`
+	AuthorID string `json:"AuthorID"`
 }

@@ -1,7 +1,7 @@
 package model
 
 import (
-	domemail "newsletter-manager-go/domain/email"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
 )
@@ -14,7 +14,7 @@ type Email struct {
 }
 
 // FromEmail converts domain object to api object.
-func FromEmail(email *domemail.Email) Email {
+func FromEmail(email *domnewsletter.Email) Email {
 	return Email{
 		ID:    email.ID,
 		Name:  email.Name,
@@ -23,7 +23,7 @@ func FromEmail(email *domemail.Email) Email {
 }
 
 // FromEmails converts domain object to api object.
-func FromEmails(demails []domemail.Email) []Email {
+func FromEmails(demails []domnewsletter.Email) []Email {
 	emails := make([]Email, 0, len(demails))
 	for _, u := range demails {
 		emails = append(emails, Email{

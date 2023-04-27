@@ -23,7 +23,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *EventApi* | [**CancelEvent**](docs/EventApi.md#cancelevent) | **Post** /api/v1/events/{eventId}/cancel | Cancel event. Event \&quot;soft\&quot; deletion.
 *EventApi* | [**CreateEvent**](docs/EventApi.md#createevent) | **Post** /api/v1/events | Create a new event as an organizer
-*EventApi* | [**DeleteParticipant**](docs/EventApi.md#deleteparticipant) | **Delete** /api/v1/events/{eventId}/participants/{userId} | Delete a participant from event
+*EventApi* | [**DeleteParticipant**](docs/EventApi.md#deleteparticipant) | **Delete** /api/v1/events/{eventId}/participants/{AuthorID} | Delete a participant from event
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /api/v1/events/{eventId} | Read an existing event
 *EventApi* | [**GetEventByCode**](docs/EventApi.md#geteventbycode) | **Get** /api/v1/events/code/{eventCode} | Get an event by its code for joining
 *EventApi* | [**GetEventCategoryImages**](docs/EventApi.md#geteventcategoryimages) | **Get** /api/v1/event-categories/{eventCategory}/images | (TODO) Get possible images for particular event category

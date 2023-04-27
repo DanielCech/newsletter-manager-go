@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"newsletter-manager-go/api/rest/v1/model"
-	domuser "newsletter-manager-go/domain/user"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	apierrors "newsletter-manager-go/types/errors"
 )
 
 // CreateNewsletter creates new user.
 func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input model.CreateNewsletterInput) (*model.CreateNewsletterResp, error) {
-	createNewsletterInput, err := domuser.NewCreateNewsletterInput(
+	createNewsletterInput, err := domnewsletter.NewCreateNewsletterInput(
 		input.Name,
 		input.Email,
 		input.Password,
@@ -20,12 +20,12 @@ func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input
 	if err != nil {
 		return nil, apierrors.NewInvalidBodyError(err, "new create user input").WithPublicMessage(err.Error())
 	}
-	user, session, err := h.userService.Create(r.Context(), createNewsletterInput)
+	newsletter, session, err := h.userService.Create(r.Context(), createNewsletterInput)
 	if err != nil {
 		return nil, fmt.Errorf("creating user: %w", err)
 	}
 	createNewsletterResp := model.CreateNewsletterResp{
-		Newsletter: model.FromNewsletter(user),
+		Newsletter: model.FromNewsletter(newsletter),
 		Session:    model.FromSession(session),
 	}
 	return &createNewsletterResp, nil

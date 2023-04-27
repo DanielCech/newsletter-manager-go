@@ -231,9 +231,9 @@ EventApiService Delete a participant from event
 Permanently delete a participant and all related records from event.
   - @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
   - @param eventId ID of the event
-  - @param userId ID of the participant to delete
+  - @param AuthorID ID of the participant to delete
 */
-func (a *EventApiService) DeleteParticipant(ctx context.Context, eventId string, userId string) (*http.Response, error) {
+func (a *EventApiService) DeleteParticipant(ctx context.Context, eventId string, AuthorID string) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Delete")
 		localVarPostBody   interface{}
@@ -242,9 +242,9 @@ func (a *EventApiService) DeleteParticipant(ctx context.Context, eventId string,
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/v1/events/{eventId}/participants/{userId}"
+	localVarPath := a.client.cfg.BasePath + "/api/v1/events/{eventId}/participants/{AuthorID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"eventId"+"}", fmt.Sprintf("%v", eventId), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", fmt.Sprintf("%v", userId), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"AuthorID"+"}", fmt.Sprintf("%v", AuthorID), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

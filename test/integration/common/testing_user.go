@@ -8,7 +8,7 @@ import (
 
 type TestingUser struct {
 	FirebaseID uuid.UUID
-	UserID     string
+	AuthorID   string
 	Context    context.Context
 }
 
@@ -22,5 +22,5 @@ func NewUser() TestingUser {
 }
 
 func (user *TestingUser) UpdateWith(resp swagger.SignInResp) {
-	user.UserID = resp.User.Id
+	user.AuthorID = resp.User.Id
 }

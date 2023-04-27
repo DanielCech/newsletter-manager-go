@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/author"
 	"newsletter-manager-go/types/id"
 	"newsletter-manager-go/util/timesource"
 )
@@ -16,18 +16,18 @@ var (
 
 // Claims object contains fields used for access/refresh tokens.
 type Claims struct {
-	// UserID represents subject claim.
+	// AuthorID represents subject claim.
 	// See https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.2
-	UserID id.User
-	Custom CustomClaims
+	AuthorID id.Author
+	Custom   CustomClaims
 }
 
 // NewClaims returns new instance of Claims.
-func NewClaims(userID id.User, userRole domuser.Role) (Claims, error) {
+func NewClaims(authorID id.Author, authorRole domauthor.Role) (Claims, error) {
 	customClaims := Claims{
-		UserID: userID,
+		AuthorID: authorID,
 		Custom: CustomClaims{
-			UserRole: userRole,
+			AuthorRole: authorRole,
 		},
 	}
 	if err := customClaims.Valid(); err != nil {
@@ -38,10 +38,10 @@ func NewClaims(userID id.User, userRole domuser.Role) (Claims, error) {
 
 // Valid checks whether custom jwtClaims are valid.
 func (c Claims) Valid() error {
-	if c.UserID.Empty() {
-		return domuser.ErrInvalidUserID
+	if c.AuthorID.Empty() {
+		return domauthor.ErrInvalidAuthorID
 	}
-	return c.Custom.UserRole.Valid()
+	return c.Custom.AuthorRole.Valid()
 }
 
 // AccessToken is used for stateless session according to RFC 7519.
@@ -67,7 +67,7 @@ type RefreshToken struct {
 
 	// ID is safe to return as a refresh token payload.
 	ID        id.RefreshToken
-	UserID    id.User
+	AuthorID  id.Author
 	ExpiresAt time.Time
 	CreatedAt time.Time
 }
@@ -87,5 +87,5 @@ type Session struct {
 
 // CustomClaims object contains non-standard fields used for access/refresh tokens.
 type CustomClaims struct {
-	UserRole domuser.Role `json:"user_role,omitempty"`
+	AuthorRole domauthor.Role `json:"author_role,omitempty"`
 }

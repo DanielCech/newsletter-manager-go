@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"newsletter-manager-go/api/rest/v1/model"
-	domsubscription "newsletter-manager-go/domain/subscription"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	apierrors "newsletter-manager-go/types/errors"
 )
 
 // CreateSubscription creates new subscription.
 func (h *Handler) CreateSubscription(_ http.ResponseWriter, r *http.Request, input model.CreateSubscriptionInput) (*model.CreateSubscriptionResp, error) {
-	createSubscriptionInput, err := domsubscription.NewCreateSubscriptionInput(
+	createSubscriptionInput, err := domnewsletter.NewCreateSubscriptionInput(
 		input.Name,
 		input.Email,
 		input.Password,

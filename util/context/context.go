@@ -3,40 +3,40 @@ package context
 import (
 	"context"
 
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/author"
 	"newsletter-manager-go/types/id"
 )
 
 var (
 	contextKey = struct {
-		userID   ctxKeyUserID
+		AuthorID ctxKeyAuthorID
 		userRole ctxKeyUserRole
 	}{}
 )
 
 type (
-	ctxKeyUserID   struct{}
+	ctxKeyAuthorID struct{}
 	ctxKeyUserRole struct{}
 )
 
-// WithUserID passes user ID to the context.
-func WithUserID(ctx context.Context, userID id.User) context.Context {
-	return context.WithValue(ctx, contextKey.userID, userID)
+// WithAuthorID passes user ID to the context.
+func WithAuthorID(ctx context.Context, AuthorID id.Author) context.Context {
+	return context.WithValue(ctx, contextKey.AuthorID, AuthorID)
 }
 
-// UserIDFromCtx gets user ID from the context.
-func UserIDFromCtx(ctx context.Context) (id.User, bool) {
-	userID, ok := ctx.Value(contextKey.userID).(id.User)
-	return userID, ok
+// AuthorIDFromCtx gets user ID from the context.
+func AuthorIDFromCtx(ctx context.Context) (id.Author, bool) {
+	AuthorID, ok := ctx.Value(contextKey.AuthorID).(id.Author)
+	return AuthorID, ok
 }
 
 // WithUserRole passes user role to the context.
-func WithUserRole(ctx context.Context, role domuser.Role) context.Context {
+func WithUserRole(ctx context.Context, role domauthor.Role) context.Context {
 	return context.WithValue(ctx, contextKey.userRole, role)
 }
 
 // UserRoleFromCtx gets user role from the context.
-func UserRoleFromCtx(ctx context.Context) (domuser.Role, bool) {
-	userRole, ok := ctx.Value(contextKey.userRole).(domuser.Role)
+func UserRoleFromCtx(ctx context.Context) (domauthor.Role, bool) {
+	userRole, ok := ctx.Value(contextKey.userRole).(domauthor.Role)
 	return userRole, ok
 }

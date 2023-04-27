@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	domsession "newsletter-manager-go/domain/session"
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/user"
 	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/types/id"
 	utilctx "newsletter-manager-go/util/context"
@@ -38,8 +38,8 @@ func (m *mockTokenParser) ParseAccessToken(token string) (*domsession.AccessToke
 }
 
 func Test_Authenticate(t *testing.T) {
-	userID := id.NewUser()
-	userRole := domuser.RoleUser
+	AuthorID := id.NewUser()
+	userRole := domauthor.RoleUser
 	token := "test_access_token"
 
 	tests := []struct {
@@ -55,8 +55,8 @@ func Test_Authenticate(t *testing.T) {
 			tokenParser: func() TokenParser {
 				accessToken := &domsession.AccessToken{
 					Claims: domsession.Claims{
-						UserID: userID,
-						Custom: domsession.CustomClaims{UserRole: userRole},
+						AuthorID: AuthorID,
+						Custom:   domsession.CustomClaims{UserRole: userRole},
 					},
 				}
 				tokenParser := &mockTokenParser{}
@@ -65,9 +65,9 @@ func Test_Authenticate(t *testing.T) {
 			}(),
 			handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				t.Helper()
-				uid, ok := utilctx.UserIDFromCtx(r.Context())
+				uid, ok := utilctx.AuthorIDFromCtx(r.Context())
 				assert.True(t, ok)
-				assert.Equal(t, userID, uid)
+				assert.Equal(t, AuthorID, uid)
 				urole, ok := utilctx.UserRoleFromCtx(r.Context())
 				assert.True(t, ok)
 				assert.Equal(t, userRole, urole)
@@ -132,7 +132,7 @@ func Test_Authenticate(t *testing.T) {
 
 func Test_Authorize(t *testing.T) {
 	type args struct {
-		userRole domuser.Role
+		userRole domauthor.Role
 	}
 	tests := []struct {
 		name               string
@@ -144,14 +144,14 @@ func Test_Authorize(t *testing.T) {
 	}{
 		{
 			name: "success",
-			args: args{userRole: domuser.RoleAdmin},
+			args: args{userRole: domauthor.RoleAdmin},
 			handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusNoContent)
 			}),
 			request: func() *http.Request {
 				r, err := http.NewRequest(http.MethodGet, "/test", http.NoBody)
 				require.NoError(t, err)
-				ctx := utilctx.WithUserRole(context.Background(), domuser.RoleAdmin)
+				ctx := utilctx.WithUserRole(context.Background(), domauthor.RoleAdmin)
 				return r.WithContext(ctx)
 			}(),
 			expectedStatusCode: http.StatusNoContent,
@@ -159,12 +159,12 @@ func Test_Authorize(t *testing.T) {
 		},
 		{
 			name:    "failure:insufficient-user-role",
-			args:    args{userRole: domuser.RoleAdmin},
+			args:    args{userRole: domauthor.RoleAdmin},
 			handler: nil,
 			request: func() *http.Request {
 				r, err := http.NewRequest(http.MethodGet, "/test", http.NoBody)
 				require.NoError(t, err)
-				ctx := utilctx.WithUserRole(context.Background(), domuser.RoleUser)
+				ctx := utilctx.WithUserRole(context.Background(), domauthor.RoleUser)
 				return r.WithContext(ctx)
 			}(),
 			expectedStatusCode: http.StatusForbidden,
@@ -176,7 +176,7 @@ func Test_Authorize(t *testing.T) {
 		},
 		{
 			name:    "failure:missing-user-role",
-			args:    args{userRole: domuser.RoleUser},
+			args:    args{userRole: domauthor.RoleUser},
 			handler: nil,
 			request: func() *http.Request {
 				r, err := http.NewRequest(http.MethodGet, "/test", http.NoBody)

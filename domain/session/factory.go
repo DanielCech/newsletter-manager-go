@@ -72,8 +72,8 @@ func (f Factory) ParseAccessToken(data string) (*AccessToken, error) {
 	return &AccessToken{
 		timeSource: f.timeSource,
 		Claims: Claims{
-			UserID: id.User(userUUID),
-			Custom: tokenClaims.Custom,
+			AuthorID: id.Author(userUUID),
+			Custom:   tokenClaims.Custom,
 		},
 		SignedData: data,
 		ExpiresAt:  tokenClaims.ExpiresAt.Time,
@@ -81,7 +81,7 @@ func (f Factory) ParseAccessToken(data string) (*AccessToken, error) {
 }
 
 // NewRefreshToken returns new instance of RefreshToken.
-func (f Factory) NewRefreshToken(userID id.User) (*RefreshToken, error) {
+func (f Factory) NewRefreshToken(AuthorID id.Author) (*RefreshToken, error) {
 	data := make([]byte, refreshTokenLen)
 	_, err := rand.Read(data)
 	if err != nil {
@@ -92,7 +92,7 @@ func (f Factory) NewRefreshToken(userID id.User) (*RefreshToken, error) {
 	return &RefreshToken{
 		timeSource: f.timeSource,
 		ID:         id.RefreshToken(base64.StdEncoding.EncodeToString(data)),
-		UserID:     userID,
+		AuthorID:   AuthorID,
 		ExpiresAt:  expiresAt,
 		CreatedAt:  now,
 	}, nil
@@ -103,14 +103,14 @@ func (f Factory) NewRefreshToken(userID id.User) (*RefreshToken, error) {
 // There is no validity check, it is responsibility of caller to ensure all fields are correct.
 func (f Factory) NewRefreshTokenFromFields(
 	id id.RefreshToken,
-	userID id.User,
+	AuthorID id.Author,
 	expiresAt time.Time,
 	createdAt time.Time,
 ) *RefreshToken {
 	refreshToken := &RefreshToken{
 		timeSource: f.timeSource,
 		ID:         id,
-		UserID:     userID,
+		AuthorID:   AuthorID,
 		ExpiresAt:  expiresAt,
 		CreatedAt:  createdAt,
 	}
@@ -124,7 +124,7 @@ func (f Factory) NewSession(claims Claims) (*Session, error) {
 	if err != nil {
 		return nil, err
 	}
-	refreshToken, err := f.NewRefreshToken(claims.UserID)
+	refreshToken, err := f.NewRefreshToken(claims.AuthorID)
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +160,7 @@ func (f Factory) parseAccessToken(data string) (*jwtClaims, error) {
 func (f Factory) signAccessToken(claims Claims, issuedAt, expiresAt time.Time) (string, error) {
 	c := jwtClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Subject:   claims.UserID.String(),
+			Subject:   claims.AuthorID.String(),
 			IssuedAt:  jwt.NewNumericDate(issuedAt),
 			ExpiresAt: jwt.NewNumericDate(expiresAt),
 		},

@@ -19,7 +19,6 @@ func FromAuthor(author *domauthor.Author) Author {
 		ID:    author.ID,
 		Name:  author.Name,
 		Email: author.Email,
-		Role:  string(author.Role),
 	}
 }
 
@@ -31,7 +30,6 @@ func FromAuthors(dauthors []domauthor.Author) []Author {
 			ID:    u.ID,
 			Name:  u.Name,
 			Email: u.Email,
-			Role:  string(u.Role),
 		})
 	}
 	return authors

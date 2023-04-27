@@ -40,7 +40,7 @@ func (r *Repository) CreateRefreshToken(ctx context.Context, refreshToken *domse
 func (r *Repository) createRefreshToken(dctx sql.DataContext, refreshToken *domsession.RefreshToken) error {
 	return sql.ExecOne(dctx, query.CreateRefreshToken, pgx.NamedArgs{
 		"id":         refreshToken.ID,
-		"user_id":    refreshToken.UserID,
+		"user_id":    refreshToken.AuthorID,
 		"expires_at": refreshToken.ExpiresAt,
 		"created_at": refreshToken.CreatedAt,
 	})
@@ -85,11 +85,11 @@ func (r *Repository) DeleteRefreshToken(ctx context.Context, refreshTokenID id.R
 	})
 }
 
-// DeleteRefreshTokensByUserID deletes all refresh tokens by user id.
-func (r *Repository) DeleteRefreshTokensByUserID(ctx context.Context, userID id.User) error {
+// DeleteRefreshTokensByAuthorID deletes all refresh tokens by user id.
+func (r *Repository) DeleteRefreshTokensByAuthorID(ctx context.Context, AuthorID id.Author) error {
 	return sql.WithConnection(ctx, r.dataSource, func(dctx sql.DataContext) error {
-		return sql.Exec(dctx, query.DeleteRefreshTokensByUserID, pgx.NamedArgs{
-			"user_id": userID,
+		return sql.Exec(dctx, query.DeleteRefreshTokensByAuthorID, pgx.NamedArgs{
+			"user_id": AuthorID,
 		})
 	})
 }

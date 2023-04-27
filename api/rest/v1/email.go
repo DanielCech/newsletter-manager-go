@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"newsletter-manager-go/api/rest/v1/model"
-	domemail "newsletter-manager-go/domain/email"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	apierrors "newsletter-manager-go/types/errors"
 )
 
 // CreateEmail creates new email.
 func (h *Handler) CreateEmail(_ http.ResponseWriter, r *http.Request, input model.CreateEmailInput) (*model.CreateEmailResp, error) {
-	createEmailInput, err := domemail.NewCreateEmailInput(
+	createEmailInput, err := domnewsletter.NewCreateEmailInput(
 		input.Name,
 		input.Email,
 		input.Password,

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	httputil "newsletter-manager-go/api/rest/util"
-	domuser "newsletter-manager-go/domain/user"
+	domauthor "newsletter-manager-go/domain/author"
 	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/util"
 	utilctx "newsletter-manager-go/util/context"
@@ -58,15 +58,15 @@ func Authenticate(logger *zap.Logger, tokenParser TokenParser) func(http.Handler
 				return
 			}
 
-			ctx := utilctx.WithUserID(r.Context(), accessToken.Claims.UserID)
-			ctx = utilctx.WithUserRole(ctx, accessToken.Claims.Custom.UserRole)
+			ctx := utilctx.WithAuthorID(r.Context(), accessToken.Claims.AuthorID)
+			//ctx = utilctx.WithUserRole(ctx, accessToken.Claims.Custom.UserRole)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }
 
 // Authorize checks if user role in context is sufficient.
-func Authorize(logger *zap.Logger, role domuser.Role) func(http.Handler) http.Handler {
+func Authorize(logger *zap.Logger, role domauthor.Role) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			userRole, ok := utilctx.UserRoleFromCtx(r.Context())

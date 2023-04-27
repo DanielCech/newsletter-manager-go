@@ -134,7 +134,7 @@ func newRefreshTokenRows() *pgxmock.Rows {
 func addRefreshTokenToRows(refreshToken *domsession.RefreshToken, rows *pgxmock.Rows) *pgxmock.Rows {
 	return rows.AddRow(
 		refreshToken.ID,
-		refreshToken.UserID,
+		refreshToken.AuthorID,
 		refreshToken.ExpiresAt,
 		refreshToken.CreatedAt,
 	)
@@ -143,7 +143,7 @@ func addRefreshTokenToRows(refreshToken *domsession.RefreshToken, rows *pgxmock.
 func refreshTokenQueryArgs(refreshToken *domsession.RefreshToken) pgx.NamedArgs {
 	return pgx.NamedArgs{
 		"id":         refreshToken.ID,
-		"user_id":    refreshToken.UserID,
+		"user_id":    refreshToken.AuthorID,
 		"expires_at": refreshToken.ExpiresAt,
 		"created_at": refreshToken.CreatedAt,
 	}
@@ -223,7 +223,7 @@ func Test_Repository_Refresh(t *testing.T) {
 	refreshTokenID := id.RefreshToken("5asd4a6d4a36d45as36da")
 	refreshToken := &domsession.RefreshToken{
 		ID:        refreshTokenID,
-		UserID:    id.NewUser(),
+		AuthorID:  id.NewUser(),
 		ExpiresAt: now,
 		CreatedAt: now,
 	}
@@ -466,12 +466,12 @@ func Test_Repository_DeleteRefreshToken(t *testing.T) {
 	}
 }
 
-func Test_Repository_DeleteRefreshTokensByUserID(t *testing.T) {
+func Test_Repository_DeleteRefreshTokensByAuthorID(t *testing.T) {
 	ctx := context.Background()
-	userID := id.NewUser()
+	AuthorID := id.NewUser()
 
 	type args struct {
-		userID id.User
+		AuthorID id.Author
 	}
 	tests := []struct {
 		name        string
@@ -481,33 +481,33 @@ func Test_Repository_DeleteRefreshTokensByUserID(t *testing.T) {
 	}{
 		{
 			name: "success",
-			args: args{userID: userID},
+			args: args{AuthorID: AuthorID},
 			mocks: func() mocks {
 				mocks := newMocks(t)
 				dctx := dbContext{Context: sql.WithQuerier(ctx, mocks.querier)}
 				mocks.dataSource.On("AcquireConnCtx").Return(dctx, nil)
 				mocks.dataSource.On("ReleaseConnCtx", dctx).Return(nil)
 				queryArgs := pgx.NamedArgs{
-					"user_id": userID,
+					"user_id": AuthorID,
 				}
 				result := pgxmock.NewResult("DELETE", 4)
-				mocks.querier.ExpectExec(query.DeleteRefreshTokensByUserID).WithArgs(queryArgs).WillReturnResult(result)
+				mocks.querier.ExpectExec(query.DeleteRefreshTokensByAuthorID).WithArgs(queryArgs).WillReturnResult(result)
 				return mocks
 			}(),
 			expectedErr: nil,
 		},
 		{
 			name: "failure:delete-refresh-tokens-by-user-id",
-			args: args{userID: userID},
+			args: args{AuthorID: AuthorID},
 			mocks: func() mocks {
 				mocks := newMocks(t)
 				dctx := dbContext{Context: sql.WithQuerier(ctx, mocks.querier)}
 				mocks.dataSource.On("AcquireConnCtx").Return(dctx, nil)
 				mocks.dataSource.On("ReleaseConnCtx", dctx).Return(nil)
 				queryArgs := pgx.NamedArgs{
-					"user_id": userID,
+					"user_id": AuthorID,
 				}
-				mocks.querier.ExpectExec(query.DeleteRefreshTokensByUserID).WithArgs(queryArgs).WillReturnError(errTest)
+				mocks.querier.ExpectExec(query.DeleteRefreshTokensByAuthorID).WithArgs(queryArgs).WillReturnError(errTest)
 				return mocks
 			}(),
 			expectedErr: errTest,
@@ -517,7 +517,7 @@ func Test_Repository_DeleteRefreshTokensByUserID(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			repository := newRepository(t, tt.mocks)
-			err := repository.DeleteRefreshTokensByUserID(ctx, tt.args.userID)
+			err := repository.DeleteRefreshTokensByAuthorID(ctx, tt.args.AuthorID)
 			assert.Equal(t, tt.expectedErr, err)
 			tt.mocks.assertExpectations(t)
 		})
