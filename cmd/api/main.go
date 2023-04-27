@@ -179,6 +179,7 @@ func main() {
 	controller, err := httpapi.NewController(
 		authorService,
 		newsletterService,
+		tokenParser,
 		logger,
 	)
 	if err != nil {
