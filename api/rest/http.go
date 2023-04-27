@@ -27,30 +27,24 @@ var OpenAPI []byte
 type Controller struct {
 	*chi.Mux
 
-	userService    httpv1.UserService
-	sessionService httpv1.SessionService
-	tokenParser    middleware.TokenParser
-	corsConfig     middleware.CORSConfig
-	logger         *zap.Logger
+	authorService     httpv1.AuthorService
+	newsletterService httpv1.NewsletterService
+	tokenParser       middleware.TokenParser
+	logger            *zap.Logger
 }
 
 // NewController returns new instance of a HTTP REST controller.
 func NewController(
-	userService httpv1.UserService,
-	sessionService httpv1.SessionService,
-	tokenParser middleware.TokenParser,
-	corsConfig middleware.CORSConfig,
+	authorService httpv1.AuthorService,
+	newsletterService httpv1.NewsletterService,
 	logger *zap.Logger,
 ) (*Controller, error) {
-	if err := newControllerValidate(userService, sessionService, tokenParser, logger); err != nil {
+	if err := newControllerValidate(authorService, newsletterService, logger); err != nil {
 		return nil, err
 	}
 	controller := &Controller{
-		userService:    userService,
-		sessionService: sessionService,
-		tokenParser:    tokenParser,
-		corsConfig:     corsConfig,
-		logger:         logger,
+		authorService: authorService,
+		logger:        logger,
 	}
 	controller.initRouter()
 	return controller, nil
@@ -60,7 +54,6 @@ func NewController(
 func (c *Controller) initRouter() {
 	r := chi.NewRouter()
 
-	r.Use(middleware.NewCORSHandler(c.corsConfig))
 	r.Use(httpx.RequestIDMiddleware(func(h http.Header) string {
 		return h.Get(httpx.Header.XRequestID)
 	}))
@@ -70,7 +63,7 @@ func (c *Controller) initRouter() {
 
 	authenticate := middleware.Authenticate(c.logger, c.tokenParser)
 
-	v1Handler := httpv1.NewHandler(c.userService, c.sessionService, c.tokenParser, c.logger)
+	v1Handler := httpv1.NewHandler(c.authorService, c.newsletterService, c.tokenParser, c.logger)
 
 	r.Route("/api", func(r chi.Router) {
 		r.With(authenticate).Get("/openapi.yaml", c.OpenAPI)
@@ -107,19 +100,15 @@ func (c *Controller) OpenAPI(w http.ResponseWriter, r *http.Request) {
 }
 
 func newControllerValidate(
-	userService httpv1.UserService,
-	sessionService httpv1.SessionService,
-	tokenParser middleware.TokenParser,
+	authorService httpv1.AuthorService,
+	newsletterService httpv1.NewsletterService,
 	logger *zap.Logger,
 ) error {
-	if userService == nil {
+	if authorService == nil {
 		return errors.New("invalid user service")
 	}
-	if sessionService == nil {
-		return errors.New("invalid session service")
-	}
-	if tokenParser == nil {
-		return errors.New("invalid token parser")
+	if newsletterService == nil {
+		return errors.New("invalid newsletter service")
 	}
 	if logger == nil {
 		return errors.New("invalid logger")

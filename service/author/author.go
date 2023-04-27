@@ -30,17 +30,13 @@ type Service struct {
 }
 
 // NewService returns new instance of a author service.
-func NewService(authorFactory domauthor.Factory, authorRepository domauthor.Repository, sessionCreator SessionService) (*Service, error) {
+func NewService(authorFactory domauthor.Factory, authorRepository domauthor.Repository) (*Service, error) {
 	if authorRepository == nil {
 		return nil, errors.New("invalid author repository")
-	}
-	if sessionCreator == nil {
-		return nil, errors.New("invalid session service")
 	}
 	return &Service{
 		authorFactory:    authorFactory,
 		authorRepository: authorRepository,
-		sessionService:   sessionCreator,
 	}, nil
 }
 

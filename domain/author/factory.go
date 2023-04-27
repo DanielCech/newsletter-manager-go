@@ -22,12 +22,11 @@ type Factory struct {
 }
 
 // NewFactory returns new instance of author Factory.
-func NewFactory(hasher Hasher, timesource timesource.TimeSource) (Factory, error) {
-	if err := newFactoryValidate(hasher, timesource); err != nil {
+func NewFactory(timesource timesource.TimeSource) (Factory, error) {
+	if err := newFactoryValidate(timesource); err != nil {
 		return Factory{}, err
 	}
 	return Factory{
-		hasher:     hasher,
 		timeSource: timesource,
 	}, nil
 }
@@ -86,10 +85,7 @@ func (f Factory) NewAuthorFromFields(
 	}
 }
 
-func newFactoryValidate(hasher Hasher, timesource timesource.TimeSource) error {
-	if hasher == nil {
-		return errors.New("invalid hasher")
-	}
+func newFactoryValidate(timesource timesource.TimeSource) error {
 	if timesource == nil {
 		return errors.New("invalid time source")
 	}

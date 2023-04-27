@@ -1,35 +1,57 @@
 openapi: 3.0.3
 info:
-  title: API for Go project template
-  description: This is an API for Go project template, that can be used as a base for your own API.
+  title: API for NewsletterManager
+  description: This is testing Go project.
   version: 0.0.0
 servers:
-  - url: http://api.example.com/
-    description: Optional server description, e.g. Main (production) server
+  - url: <no url>
+    description: Main production server
 
 tags:
-  - name: v1/users
-    description: Users API
-  - name: v1/sessions
-    description: Sessions API
+  - name: authors
+    description: Authors API
+  - name: newsletters
+    description: Newsletters API
+  - name: emails
+    description: Emails API
+  - name: subscriptions
+    description: Subscriptions API
   - name: maintenance
     description: Maintenance API
 
 paths:
-  /api/v1/users:
-    $ref: './v1/paths/user.yaml#/Users'
-  /api/v1/users/register:
-    $ref: './v1/paths/user.yaml#/UserRegister'
-  /api/v1/users/me:
-    $ref: './v1/paths/user.yaml#/Me'
-  /api/v1/users/change-password:
-    $ref: './v1/paths/user.yaml#/ChangeUserPassword'
-  /api/v1/sessions/native:
-    $ref: './v1/paths/session.yaml#/NativeSessions'
-  /api/v1/sessions/refresh:
-    $ref: './v1/paths/session.yaml#/RefreshSessions'
-  /api/v1/sessions/destroy:
-    $ref: './v1/paths/session.yaml#/DestroySessions'
+  /api/v1/authors:
+    $ref: './v1/paths/author.yamll#/Authors'
+  /api/v1/authors/{authorId}:
+    $ref: './v1/paths/author.yamll#/Author'
+  /api/v1/authors/sign-in:
+    $ref: './v1/paths/author.yamll#/AuthorSignIn'
+  /api/v1/authors/sign-up:
+    $ref: './v1/paths/author.yamll#/AuthorSignUp'
+  /api/v1/authors/change-password:
+    $ref: './v1/paths/author.yamll#/ChangeAuthorPassword'
+  /api/v1/authors/refresh-token:
+    $ref: './v1/paths/author.yamll#/RefreshToken'
+
+  /api/v1/authors/{authorId}/newsletters:
+    $ref: './v1/paths/newsletter.yamll#/Newsletters'
+  /api/v1/newsletters/{newsletterId}:
+    $ref: './v1/paths/newsletter.yamll#/Newsletter'
+
+  /api/v1/emails/{emailId}:
+    $ref: './v1/paths/email.yamll#/Email'
+  /api/v1/newsletters/{newsletterId}/emails:
+    $ref: './v1/paths/email.yamll#/Emails'
+
+  /api/v1/newsletters/{newsletterId}/subscribe:
+    $ref: './v1/paths/subscription.yamll#/Subscribe'
+  /api/v1/newsletters/{newsletterId}/unsubscribe:
+    $ref: './v1/paths/subscription.yamll#/Unubscribe'
+  /api/v1/newsletters/{newsletterId}/subscriptions:
+    $ref: './v1/paths/subscription.yamll#/NewsletterSubscriptions'
+  /api/v1/subscriptions:
+    $ref: './v1/paths/author.yamll#/Subscriptions'
+
   /healthz:
     $ref: './v1/paths/maintenance.yaml#/Healthz'
   /api/openapi.yaml:

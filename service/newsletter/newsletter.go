@@ -30,17 +30,13 @@ type Service struct {
 }
 
 // NewService returns new instance of a newsletter service.
-func NewService(newsletterFactory domnewsletter.Factory, newsletterRepository domnewsletter.Repository, sessionCreator SessionService) (*Service, error) {
+func NewService(newsletterFactory domnewsletter.Factory, newsletterRepository domnewsletter.Repository) (*Service, error) {
 	if newsletterRepository == nil {
 		return nil, errors.New("invalid newsletter repository")
-	}
-	if sessionCreator == nil {
-		return nil, errors.New("invalid session service")
 	}
 	return &Service{
 		newsletterFactory:    newsletterFactory,
 		newsletterRepository: newsletterRepository,
-		sessionService:       sessionCreator,
 	}, nil
 }
 
