@@ -6,6 +6,14 @@ Subscribe:
     operationId: subscribeToNewsletter
     security:
       - bearerAuth: []
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: List of users
@@ -14,7 +22,7 @@ Subscribe:
             schema:
               type: array
               items:
-                $ref: '../schemas/user.yaml#/User'
+                $ref: '../schemas/author.yaml#/Author'
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
@@ -24,9 +32,17 @@ Unsubscribe:
     description: Unsubscribe from newsletter
     tags:
       - subscription
-    operationId: umsubscribeFromNewsletter
+    operationId: unsubscribeFromNewsletter
     security:
       - bearerAuth: []
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: List of users
@@ -35,7 +51,7 @@ Unsubscribe:
             schema:
               type: array
               items:
-                $ref: '../schemas/user.yaml#/User'
+                $ref: '../schemas/author.yaml#/Author'
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
@@ -45,19 +61,45 @@ NewsletterSubscriptions:
     description: Newsletter's subscriptions
     tags:
       - subscription
-    operationId: getSubscriptions
-    requestBody:
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '../schemas/user.yaml#/CreateUserInput'
+    operationId: newsletterSubscriptions
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       "201":
         description: Successfully created user
         content:
           application/json; charset=utf-8:
             schema:
-              $ref: '../schemas/user.yaml#/CreateUserResp'
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
+      "400":
+        $ref: '../schemas/common.yaml#/BadRequestError'
+      "409":
+        description: A user with the same email already exists
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "422":
+        $ref: '../schemas/common.yaml#/InvalidBodyError'
+SubscriptionsByEmail:
+  get:
+    description: All newsletter subscriptions by Email
+    tags:
+      - subscription
+    operationId: subscriptionsByEmail
+    responses:
+      "201":
+        description: Successfully created user
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":

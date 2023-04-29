@@ -19,7 +19,7 @@ Role:
   enum:
     - user
     - admin
-User:
+Author:
   type: object
   description: User object
   properties:
@@ -28,40 +28,38 @@ User:
     referrerId:
       $ref: './common.yaml#/ID'
     name:
-      $ref: './user.yaml#/Name'
+      $ref: './author.yaml#/Name'
     email:
-      $ref: './user.yaml#/Email'
+      $ref: './author.yaml#/Email'
     role:
-      $ref: './user.yaml#/Role'
+      $ref: './author.yaml#/Role'
   required: [id, name, email, role]
-CreateUserInput:
+CreateAuthorInput:
   type: object
   description: User object for creating a user
   properties:
     name:
-      $ref: './user.yaml#/Name'
+      $ref: './author.yaml#/Name'
     email:
-      $ref: './user.yaml#/Email'
+      $ref: './author.yaml#/Email'
     password:
-      $ref: './user.yaml#/Password'
+      $ref: './author.yaml#/Password'
     referrerId:
       $ref: './common.yaml#/ID'
   required: [name, email, password]
-CreateUserResp:
+CreateAuthorResp:
   type: object
   description: Session object
   properties:
     user:
-      $ref: './user.yaml#/User'
-    session:
-      $ref: './session.yaml#/Session'
+      $ref: './author.yaml#/Author'
   required: [user, session]
-ChangeUserPasswordInput:
+ChangeAuthorPasswordInput:
   type: object
   description: Old and new password
   properties:
     oldPassword:
-      $ref: './user.yaml#/Password'
+      $ref: './author.yaml#/Password'
     newPassword:
-      $ref: './user.yaml#/Password'
+      $ref: './author.yaml#/Password'
   required: [oldPassword, newPassword]

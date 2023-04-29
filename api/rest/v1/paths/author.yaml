@@ -3,7 +3,7 @@ Authors:
     description: Returns the list of all authors
     tags:
       - author
-    operationId: getAuthors
+    operationId: listOfAllAuthors
     security:
       - bearerAuth: []
     responses:
@@ -27,6 +27,14 @@ Author:
     operationId: getAuthor
     security:
       - bearerAuth: [ ]
+    parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: Author
@@ -44,9 +52,17 @@ Author:
     description: Delete the author
     tags:
       - author
-    operationId: getAuthor
+    operationId: deleteAuthor
     security:
       - bearerAuth: [ ]
+    parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: Author
@@ -64,9 +80,17 @@ Author:
     description: Update author data
     tags:
       - author
-    operationId: getAuthor
+    operationId: updateAuthor
     security:
       - bearerAuth: [ ]
+    parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: Author
@@ -85,7 +109,7 @@ AuthorSignIn:
     description: Author sign-in
     tags:
       - author
-    operationId: getAuthor
+    operationId: authorSignIn
     security:
       - bearerAuth: [ ]
     responses:
@@ -106,7 +130,7 @@ AuthorSignUp:
     description: Author sign-up
     tags:
       - author
-    operationId: getAuthor
+    operationId: authorSignUp
     security:
       - bearerAuth: [ ]
     responses:
@@ -124,10 +148,10 @@ AuthorSignUp:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 ChangeAuthorPassword:
   post:
-    description: Change author password
+    description: Change author's password
     tags:
       - author
-    operationId: getAuthor
+    operationId: changeAuthorsPassword
     security:
       - bearerAuth: [ ]
     responses:
@@ -145,10 +169,10 @@ ChangeAuthorPassword:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 RefreshToken:
   post:
-    description: Change author password
+    description: Refresh token
     tags:
       - author
-    operationId: getAuthor
+    operationId: refreshToken
     security:
       - bearerAuth: [ ]
     responses:

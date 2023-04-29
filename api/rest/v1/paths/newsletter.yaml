@@ -3,9 +3,17 @@ Newsletters:
     description: The list of author's newsletters
     tags:
       - newsletter
-    operationId: getNewsletters
+    operationId: authorsNewsletters
     security:
       - bearerAuth: []
+    parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: List of users
@@ -14,18 +22,26 @@ Newsletters:
             schema:
               type: array
               items:
-                $ref: '../schemas/user.yaml#/User'
+                $ref: '../schemas/author.yaml#/Author'
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
   post:
-    description: TCreates a new newsletter. Request requires access token in Bearer format.
+    description: Creates a new newsletter.
     tags:
       - newsletter
     operationId: createNewsletter
     security:
       - bearerAuth: [ ]
+    parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       200:
         description: List of users
@@ -34,7 +50,7 @@ Newsletters:
             schema:
               type: array
               items:
-                $ref: '../schemas/user.yaml#/User'
+                $ref: '../schemas/author.yaml#/Author'
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
@@ -45,18 +61,21 @@ Newsletter:
     tags:
       - newsletter
     operationId: deleteNewsletter
-    requestBody:
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '../schemas/user.yaml#/CreateUserInput'
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       "201":
         description: Successfully created user
         content:
           application/json; charset=utf-8:
             schema:
-              $ref: '../schemas/user.yaml#/CreateUserResp'
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
@@ -71,19 +90,22 @@ Newsletter:
     description: Get newsletter by ID
     tags:
       - newsletter
-    operationId: deleteNewsletter
-    requestBody:
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '../schemas/user.yaml#/CreateUserInput'
+    operationId: getNewsletter
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     responses:
       "201":
         description: Successfully created user
         content:
           application/json; charset=utf-8:
             schema:
-              $ref: '../schemas/user.yaml#/CreateUserResp'
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
@@ -99,18 +121,26 @@ Newsletter:
     tags:
       - newsletter
     operationId: updateNewsletter
+    parameters:
+      - name: newsletterId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
     requestBody:
       content:
         application/json; charset=utf-8:
           schema:
-            $ref: '../schemas/user.yaml#/CreateUserInput'
+            $ref: '../schemas/author.yaml#/CreateAuthorInput'
     responses:
       "201":
         description: Successfully created user
         content:
           application/json; charset=utf-8:
             schema:
-              $ref: '../schemas/user.yaml#/CreateUserResp'
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":

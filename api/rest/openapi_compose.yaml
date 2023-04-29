@@ -4,39 +4,37 @@ info:
   description: This is testing Go project.
   version: 0.0.0
 servers:
-  - url: <no url>
+  - url: https://localhost:8080
     description: Main production server
 
 tags:
-  - name: authors
+  - name: author
     description: Authors API
-  - name: newsletters
+  - name: newsletter
     description: Newsletters API
-  - name: emails
+  - name: email
     description: Emails API
-  - name: subscriptions
+  - name: subscription
     description: Subscriptions API
-  - name: maintenance
-    description: Maintenance API
 
 paths:
   /api/v1/authors:
-    $ref: './v1/paths/author.yamll#/Authors'
+    $ref: './v1/paths/author.yaml#/Authors'
   /api/v1/authors/{authorId}:
-    $ref: './v1/paths/author.yamll#/Author'
+    $ref: './v1/paths/author.yaml#/Author'
   /api/v1/authors/sign-in:
-    $ref: './v1/paths/author.yamll#/AuthorSignIn'
+    $ref: './v1/paths/author.yaml#/AuthorSignIn'
   /api/v1/authors/sign-up:
-    $ref: './v1/paths/author.yamll#/AuthorSignUp'
+    $ref: './v1/paths/author.yaml#/AuthorSignUp'
   /api/v1/authors/change-password:
-    $ref: './v1/paths/author.yamll#/ChangeAuthorPassword'
+    $ref: './v1/paths/author.yaml#/ChangeAuthorPassword'
   /api/v1/authors/refresh-token:
-    $ref: './v1/paths/author.yamll#/RefreshToken'
+    $ref: './v1/paths/author.yaml#/RefreshToken'
 
   /api/v1/authors/{authorId}/newsletters:
-    $ref: './v1/paths/newsletter.yamll#/Newsletters'
+    $ref: './v1/paths/newsletter.yaml#/Newsletters'
   /api/v1/newsletters/{newsletterId}:
-    $ref: './v1/paths/newsletter.yamll#/Newsletter'
+    $ref: './v1/paths/newsletter.yaml#/Newsletter'
 
   /api/v1/emails/{emailId}:
     $ref: './v1/paths/email.yaml#/Email'
@@ -46,16 +44,11 @@ paths:
   /api/v1/newsletters/{newsletterId}/subscribe:
     $ref: './v1/paths/subscription.yaml#/Subscribe'
   /api/v1/newsletters/{newsletterId}/unsubscribe:
-    $ref: './v1/paths/subscription.yaml#/Unubscribe'
+    $ref: './v1/paths/subscription.yaml#/Unsubscribe'
   /api/v1/newsletters/{newsletterId}/subscriptions:
     $ref: './v1/paths/subscription.yaml#/NewsletterSubscriptions'
   /api/v1/subscriptions:
-    $ref: './v1/paths/subscription.yaml#/Subscriptions'
-
-  /healthz:
-    $ref: './v1/paths/maintenance.yaml#/Healthz'
-  /api/openapi.yaml:
-    $ref: './v1/paths/maintenance.yaml#/OpenAPI'
+    $ref: './v1/paths/subscription.yaml#/SubscriptionsByEmail'
 
 components:
   securitySchemes:
