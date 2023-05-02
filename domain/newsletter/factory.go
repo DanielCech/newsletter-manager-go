@@ -2,10 +2,6 @@ package newsletter
 
 import (
 	"errors"
-	"time"
-
-	"newsletter-manager-go/types"
-	"newsletter-manager-go/types/id"
 	"newsletter-manager-go/util/timesource"
 )
 
@@ -31,59 +27,62 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 	}, nil
 }
 
-// NewNewsletter returns new instance of Newsletter.
-func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput, role Role) (*Newsletter, error) {
-	passwordHash, err := f.hasher.HashPassword([]byte(createNewsletterInput.Password))
-	if err != nil {
-		return nil, err
-	}
-
-	now := f.timeSource.Now()
-	newsletter := &Newsletter{
-		hasher:       f.hasher,
-		timeSource:   f.timeSource,
-		ID:           id.NewNewsletter(),
-		ReferrerID:   createNewsletterInput.ReferrerID,
-		Name:         createNewsletterInput.Name,
-		Email:        createNewsletterInput.Email,
-		PasswordHash: passwordHash,
-		Role:         role,
-		CreatedAt:    now,
-		UpdatedAt:    now,
-	}
-	if err = newsletter.Valid(); err != nil {
-		return nil, err
-	}
-
-	return newsletter, nil
-}
+//// NewNewsletter returns new instance of Newsletter.
+//func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput, role Role) (*Newsletter, error) {
+//	//passwordHash, err := f.hasher.HashPassword([]byte(createNewsletterInput.Password))
+//	//if err != nil {
+//	//	return nil, err
+//	//}
+//	//
+//	//now := f.timeSource.Now()
+//	//newsletter := &Newsletter{
+//	//	hasher:       f.hasher,
+//	//	timeSource:   f.timeSource,
+//	//	ID:           id.NewNewsletter(),
+//	//	ReferrerID:   createNewsletterInput.ReferrerID,
+//	//	Name:         createNewsletterInput.Name,
+//	//	Email:        createNewsletterInput.Email,
+//	//	PasswordHash: passwordHash,
+//	//	Role:         role,
+//	//	CreatedAt:    now,
+//	//	UpdatedAt:    now,
+//	//}
+//	//if err = newsletter.Valid(); err != nil {
+//	//	return nil, err
+//	//}
+//	//
+//	//return newsletter, nil
+//
+//	// TODO
+//	return nil, nil
+//}
 
 // NewNewsletterFromFields returns new instance of Newsletter based on existing fields.
 // This can be useful for repositories when converting results from repository to domain models based on consistent data.
 // There is no validity check, it is responsibility of caller to ensure all fields are correct.
-func (f Factory) NewNewsletterFromFields(
-	id id.Newsletter,
-	referrerID *id.Newsletter,
-	name string,
-	email string,
-	passwordHash []byte,
-	role string,
-	createdAt time.Time,
-	updatedAt time.Time,
-) *Newsletter {
-	return &Newsletter{
-		hasher:       f.hasher,
-		timeSource:   f.timeSource,
-		ID:           id,
-		ReferrerID:   referrerID,
-		Name:         name,
-		Email:        types.Email(email),
-		PasswordHash: passwordHash,
-		Role:         Role(role),
-		CreatedAt:    createdAt,
-		UpdatedAt:    updatedAt,
-	}
-}
+//func (f Factory) NewNewsletterFromFields(
+//	id id.Newsletter,
+//	referrerID *id.Newsletter,
+//	name string,
+//	email string,
+//	passwordHash []byte,
+//	role string,
+//	createdAt time.Time,
+//	updatedAt time.Time,
+//) *Newsletter {
+//	return &Newsletter{
+//		hasher:       f.hasher,
+//		timeSource:   f.timeSource,
+//		ID:           id,
+//		ReferrerID:   referrerID,
+//		Name:         name,
+//		Email:        types.Email(email),
+//		PasswordHash: passwordHash,
+//		Role:         Role(role),
+//		CreatedAt:    createdAt,
+//		UpdatedAt:    updatedAt,
+//	}
+//}
 
 func newFactoryValidate(timesource timesource.TimeSource) error {
 	if timesource == nil {

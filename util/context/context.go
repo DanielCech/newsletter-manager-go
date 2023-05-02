@@ -3,7 +3,6 @@ package context
 import (
 	"context"
 
-	domauthor "newsletter-manager-go/domain/author"
 	"newsletter-manager-go/types/id"
 )
 
@@ -28,15 +27,4 @@ func WithAuthorID(ctx context.Context, AuthorID id.Author) context.Context {
 func AuthorIDFromCtx(ctx context.Context) (id.Author, bool) {
 	AuthorID, ok := ctx.Value(contextKey.AuthorID).(id.Author)
 	return AuthorID, ok
-}
-
-// WithUserRole passes user role to the context.
-func WithUserRole(ctx context.Context, role domauthor.Role) context.Context {
-	return context.WithValue(ctx, contextKey.userRole, role)
-}
-
-// UserRoleFromCtx gets user role from the context.
-func UserRoleFromCtx(ctx context.Context) (domauthor.Role, bool) {
-	userRole, ok := ctx.Value(contextKey.userRole).(domauthor.Role)
-	return userRole, ok
 }

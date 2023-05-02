@@ -29,7 +29,6 @@ type Controller struct {
 
 	authorService     httpv1.AuthorService
 	newsletterService httpv1.NewsletterService
-	tokenParser       middleware.TokenParser
 	logger            *zap.Logger
 }
 
@@ -61,9 +60,9 @@ func (c *Controller) initRouter() {
 	r.Use(httpx.RecoverMiddleware(util.NewServerLogger("httpx.RecoverMiddleware")))
 	r.Use(middleware.LimitBodySize(c.logger, middleware.DefaultByteCountLimit))
 
-	authenticate := middleware.Authenticate(c.logger, c.tokenParser)
+	authenticate := middleware.Authenticate(c.logger)
 
-	v1Handler := httpv1.NewHandler(c.authorService, c.newsletterService, c.tokenParser, c.logger)
+	v1Handler := httpv1.NewHandler(c.authorService, c.newsletterService, c.logger)
 
 	r.Route("/api", func(r chi.Router) {
 		r.With(authenticate).Get("/openapi.yaml", c.OpenAPI)

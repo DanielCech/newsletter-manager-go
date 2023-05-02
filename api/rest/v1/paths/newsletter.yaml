@@ -61,6 +61,8 @@ Newsletter:
     tags:
       - newsletter
     operationId: deleteNewsletter
+    security:
+      - bearerAuth: [ ]
     parameters:
       - name: newsletterId
         in: path
@@ -121,6 +123,8 @@ Newsletter:
     tags:
       - newsletter
     operationId: updateNewsletter
+    security:
+      - bearerAuth: [ ]
     parameters:
       - name: newsletterId
         in: path

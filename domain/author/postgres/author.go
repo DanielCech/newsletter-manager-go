@@ -35,11 +35,9 @@ func (r *Repository) Create(ctx context.Context, author *domauthor.Author) error
 	return sql.WithConnection(ctx, r.dataSource, func(dctx sql.DataContext) error {
 		err := sql.Exec(dctx, query.Create, pgx.NamedArgs{
 			"id":            author.ID,
-			"referrer_id":   author.ReferrerID,
 			"name":          author.Name,
 			"email":         author.Email,
 			"password_hash": author.PasswordHash,
-			"role":          author.Role,
 			"created_at":    author.CreatedAt,
 			"updated_at":    author.UpdatedAt,
 		})
@@ -122,11 +120,9 @@ func (r *Repository) Update(ctx context.Context, authorID id.Author, updateFn do
 
 		return sql.ExecOne(dctx, query.Update, pgx.NamedArgs{
 			"id":            newAuthor.ID,
-			"referrer_id":   newAuthor.ReferrerID,
 			"name":          newAuthor.Name,
 			"email":         newAuthor.Email,
 			"password_hash": newAuthor.PasswordHash,
-			"role":          newAuthor.Role,
 			"created_at":    newAuthor.CreatedAt,
 			"updated_at":    newAuthor.UpdatedAt,
 		})

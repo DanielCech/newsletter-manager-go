@@ -13,8 +13,18 @@ type Author struct {
 	Email types.Email `json:"email"`
 }
 
+type FullAuthor struct {
+	ID                     int    `json:"author_id"`
+	Name                   string `json:"name"`
+	Email                  string `json:"email"`
+	AccessToken            string `json:"access_token,omitempty"`
+	AccessTokenExpiration  string `json:"access_token_expiration,omitempty"`
+	RefreshToken           string `json:"refresh_token,omitempty"`
+	RefreshTokenExpiration string `json:"refresh_token_expiration,omitempty"`
+}
+
 // FromAuthor converts domain object to api object.
-func FromAuthor(author *domauthor.Author) Author {
+func FromDomainAuthor(author *domauthor.Author) Author {
 	return Author{
 		ID:    author.ID,
 		Name:  author.Name,
@@ -22,35 +32,34 @@ func FromAuthor(author *domauthor.Author) Author {
 	}
 }
 
-// FromAuthors converts domain object to api object.
-func FromAuthors(dauthors []domauthor.Author) []Author {
-	authors := make([]Author, 0, len(dauthors))
-	for _, u := range dauthors {
-		authors = append(authors, Author{
-			ID:    u.ID,
-			Name:  u.Name,
-			Email: u.Email,
-		})
-	}
-	return authors
+//// FromAuthors converts domain object to api object.
+//func FromAuthors(dauthors []domauthor.Author) []Author {
+//	authors := make([]Author, 0, len(dauthors))
+//	for _, u := range dauthors {
+//		authors = append(authors, Author{
+//			ID:    u.ID,
+//			Name:  u.Name,
+//			Email: u.Email,
+//		})
+//	}
+//	return authors
+//}
+
+type AuthorSignUpInput struct {
+	Name     string         `json:"name" validate:"required"`
+	Email    types.Email    `json:"email"`
+	Password types.Password `json:"password"`
 }
 
-// CreateAuthorInput represents JSON body needed for creating a new author.
-type CreateAuthorInput struct {
-	Name       string         `json:"name" validate:"required"`
-	Email      types.Email    `json:"email"`
-	Password   types.Password `json:"password"`
-	ReferrerID *id.Author     `json:"referrerId"`
+type AuthorSignInInput struct {
+	Email    types.Email    `json:"email"`
+	Password types.Password `json:"password"`
 }
 
-// CreateAuthorResp represents JSON response body of creating a new author.
-type CreateAuthorResp struct {
-	Author  Author  `json:"author"`
-	Session Session `json:"session"`
+type RefreshTokenInput struct {
+	RefreshToken string `json:"refresh_token"`
 }
 
-// ChangeAuthorPasswordInput represents JSON body needed for changing the author password.
-type ChangeAuthorPasswordInput struct {
-	OldPassword types.Password `json:"oldPassword"`
-	NewPassword types.Password `json:"newPassword"`
+type AuthorIDInput struct {
+	AuthorID id.Author `json:"authorId"`
 }

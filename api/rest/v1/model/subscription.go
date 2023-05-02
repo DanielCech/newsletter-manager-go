@@ -1,50 +1,45 @@
 package model
 
 import (
-	domnewsletter "newsletter-manager-go/domain/newsletter"
 	"newsletter-manager-go/types"
-	"newsletter-manager-go/types/id"
 )
 
-// Subscription consists of fields which describe an subscription.
 type Subscription struct {
-	ID    id.Subscription `json:"id"`
-	Name  string          `json:"name"`
-	Email types.Email     `json:"email"`
+	Email        string `json:"email"`
+	NewsletterID int    `json:"newsletterId"`
 }
 
-// FromSubscription converts domain object to api object.
-func FromSubscription(subscription *domnewsletter.Subscription) Subscription {
-	return Subscription{
-		ID:    subscription.ID,
-		Name:  subscription.Name,
-		Email: subscription.Email,
-	}
+type FullSubscription struct {
+	Email        string `json:"email"`
+	NewsletterID int    `json:"newsletterId"`
+	Token        string `json:"token"`
 }
 
-// FromSubscriptions converts domain object to api object.
-func FromSubscriptions(dsubscriptions []domnewsletter.Subscription) []Subscription {
-	subscriptions := make([]Subscription, 0, len(dsubscriptions))
-	for _, u := range dsubscriptions {
-		subscriptions = append(subscriptions, Subscription{
-			ID:    u.ID,
-			Name:  u.Name,
-			Email: u.Email,
-		})
-	}
-	return subscriptions
-}
+//// FromSubscription converts domain object to api object.
+//func FromDomainSubscription(subscription *domnewsletter.Subscription) Subscription {
+//	return Subscription{
+//		ID:    subscription.ID,
+//		Name:  subscription.Name,
+//		Email: subscription.Email,
+//	}
+//}
+//
+//// FromSubscriptions converts domain object to api object.
+//func FromDomainSubscriptions(dsubscriptions []domnewsletter.Subscription) []Subscription {
+//	subscriptions := make([]Subscription, 0, len(dsubscriptions))
+//	for _, u := range dsubscriptions {
+//		subscriptions = append(subscriptions, Subscription{
+//			ID:    u.ID,
+//			Name:  u.Name,
+//			Email: u.Email,
+//		})
+//	}
+//	return subscriptions
+//}
 
 // CreateSubscriptionInput represents JSON body needed for creating a new subscription.
 type CreateSubscriptionInput struct {
-	Name       string           `json:"name" validate:"required"`
-	Email      types.Email      `json:"email"`
-	Password   types.Password   `json:"password"`
-	ReferrerID *id.Subscription `json:"referrerId"`
-}
-
-// CreateSubscriptionResp represents JSON response body of creating a new subscription.
-type CreateSubscriptionResp struct {
-	Subscription Subscription `json:"subscription"`
-	Session      Session      `json:"session"`
+	Name     string         `json:"name" validate:"required"`
+	Email    types.Email    `json:"email"`
+	Password types.Password `json:"password"`
 }

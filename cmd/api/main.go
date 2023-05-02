@@ -169,17 +169,9 @@ func main() {
 		logger.Fatal("new newsletter service", zap.Error(err))
 	}
 
-	//var tokenParser middleware.TokenParser
-	//if integrationTests {
-	//	tokenParser = &mockTokenParser
-	//} else {
-	//	tokenParser = firebaseClient
-	//}
-
 	controller, err := httpapi.NewController(
 		authorService,
 		newsletterService,
-		tokenParser,
 		logger,
 	)
 	if err != nil {

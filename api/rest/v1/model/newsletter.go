@@ -2,49 +2,39 @@ package model
 
 import (
 	domnewsletter "newsletter-manager-go/domain/newsletter"
-	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
 )
 
 // Newsletter consists of fields which describe an newsletter.
 type Newsletter struct {
-	ID    id.Newsletter `json:"id"`
-	Name  string        `json:"name"`
-	Email types.Email   `json:"email"`
+	ID          id.Newsletter `json:"id"`
+	AuthorID    id.Author     `json:"authorId"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+}
+
+// Newsletter consists of fields which describe an newsletter.
+type CreateNewsletterInput struct {
+	AuthorID    id.Author `json:"authorId"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+}
+
+type GetNewsletterInput struct {
+	AuthorID   id.Author
+	Newsletter id.Newsletter
+}
+
+type NewsletterIDInput struct {
+	NewsletterID id.Newsletter `json:"newsletterId"`
 }
 
 // FromNewsletter converts domain object to api object.
-func FromNewsletter(newsletter *domnewsletter.Newsletter) Newsletter {
+func FromDomainNewsletter(newsletter *domnewsletter.Newsletter) Newsletter {
 	return Newsletter{
-		ID:    newsletter.ID,
-		Name:  newsletter.Name,
-		Email: newsletter.Email,
+		ID:          newsletter.ID,
+		AuthorID:    newsletter.AuthorID,
+		Name:        newsletter.Name,
+		Description: newsletter.Description,
 	}
-}
-
-// FromNewsletters converts domain object to api object.
-func FromNewsletters(dnewsletters []domnewsletter.Newsletter) []Newsletter {
-	newsletters := make([]Newsletter, 0, len(dnewsletters))
-	for _, u := range dnewsletters {
-		newsletters = append(newsletters, Newsletter{
-			ID:    u.ID,
-			Name:  u.Name,
-			Email: u.Email,
-		})
-	}
-	return newsletters
-}
-
-// CreateNewsletterInput represents JSON body needed for creating a new newsletter.
-type CreateNewsletterInput struct {
-	Name       string         `json:"name" validate:"required"`
-	Email      types.Email    `json:"email"`
-	Password   types.Password `json:"password"`
-	ReferrerID *id.Newsletter `json:"referrerId"`
-}
-
-// CreateNewsletterResp represents JSON response body of creating a new newsletter.
-type CreateNewsletterResp struct {
-	Newsletter Newsletter `json:"newsletter"`
-	Session    Session    `json:"session"`
 }

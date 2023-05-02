@@ -1,13 +1,13 @@
 package newsletter
 
-import (
-	"newsletter-manager-go/types"
-	"newsletter-manager-go/types/id"
-)
-
 // Subscription consists of fields which describe an subscription.
 type Subscription struct {
-	ID    id.Subscription `json:"id"`
-	Name  string          `json:"name"`
-	Email types.Email     `json:"email"`
+	Email        string `json:"email"`
+	NewsletterID int    `json:"newsletterId"`
+}
+
+type FullSubscription struct {
+	Email        string `json:"email"`
+	NewsletterID int    `json:"newsletterId"`
+	Token        string `json:"token"`
 }

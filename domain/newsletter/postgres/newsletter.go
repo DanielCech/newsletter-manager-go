@@ -34,14 +34,10 @@ func NewRepository(dataSource sql.DataSource, newsletterFactory domnewsletter.Fa
 func (r *Repository) Create(ctx context.Context, newsletter *domnewsletter.Newsletter) error {
 	return sql.WithConnection(ctx, r.dataSource, func(dctx sql.DataContext) error {
 		err := sql.Exec(dctx, query.Create, pgx.NamedArgs{
-			"id":            newsletter.ID,
-			"referrer_id":   newsletter.ReferrerID,
-			"name":          newsletter.Name,
-			"email":         newsletter.Email,
-			"password_hash": newsletter.PasswordHash,
-			"role":          newsletter.Role,
-			"created_at":    newsletter.CreatedAt,
-			"updated_at":    newsletter.UpdatedAt,
+			"id":         newsletter.ID,
+			"name":       newsletter.Name,
+			"created_at": newsletter.CreatedAt,
+			"updated_at": newsletter.UpdatedAt,
 		})
 		if err != nil {
 			//if sql.IsUnique(err, query.ConstraintUniqueNewsletterEmail) {
@@ -73,7 +69,7 @@ func (r *Repository) read(dctx sql.DataContext, newsletterID id.Newsletter) (*do
 		}
 		return nil, err
 	}
-	return newsletter.ToNewsletter(r.newsletterFactory), nil
+	return newsletter.ToDomainNewsletter(r.newsletterFactory), nil
 }
 
 // ReadByEmail reads the newsletter by email from the repository.
@@ -88,7 +84,7 @@ func (r *Repository) ReadByEmail(ctx context.Context, email types.Email) (*domne
 			}
 			return nil, err
 		}
-		return newsletter.ToNewsletter(r.newsletterFactory), nil
+		return newsletter.ToDomainNewsletter(r.newsletterFactory), nil
 	})
 }
 
@@ -101,7 +97,7 @@ func (r *Repository) List(ctx context.Context) ([]domnewsletter.Newsletter, erro
 		}
 		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
 		for _, u := range dbNewsletters {
-			newsletters = append(newsletters, *u.ToNewsletter(r.newsletterFactory))
+			newsletters = append(newsletters, *u.ToDomainNewsletter(r.newsletterFactory))
 		}
 		return newsletters, nil
 	})
@@ -121,14 +117,10 @@ func (r *Repository) Update(ctx context.Context, newsletterID id.Newsletter, upd
 		}
 
 		return sql.ExecOne(dctx, query.Update, pgx.NamedArgs{
-			"id":            newNewsletter.ID,
-			"referrer_id":   newNewsletter.ReferrerID,
-			"name":          newNewsletter.Name,
-			"email":         newNewsletter.Email,
-			"password_hash": newNewsletter.PasswordHash,
-			"role":          newNewsletter.Role,
-			"created_at":    newNewsletter.CreatedAt,
-			"updated_at":    newNewsletter.UpdatedAt,
+			"id":         newNewsletter.ID,
+			"name":       newNewsletter.Name,
+			"created_at": newNewsletter.CreatedAt,
+			"updated_at": newNewsletter.UpdatedAt,
 		})
 	})
 }

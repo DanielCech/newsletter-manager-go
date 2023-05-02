@@ -430,6 +430,8 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
     patch:
       tags:
       - newsletter
@@ -473,6 +475,8 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
   /api/v1/emails/{emailId}:
     get:
       tags:
@@ -744,14 +748,10 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/ID'
-        referrerId:
-          $ref: '#/components/schemas/ID'
         name:
           $ref: '#/components/schemas/Name'
         email:
           $ref: '#/components/schemas/Email'
-        role:
-          $ref: '#/components/schemas/Role'
       description: User object
     APIError:
       required:
@@ -806,8 +806,6 @@ components:
           $ref: '#/components/schemas/Email'
         password:
           $ref: '#/components/schemas/Password'
-        referrerId:
-          $ref: '#/components/schemas/ID'
       description: User object for creating a user
     ID:
       type: string
