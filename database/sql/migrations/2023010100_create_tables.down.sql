@@ -1,7 +1,7 @@
 BEGIN;
 
-DROP TABLE refresh_token;
-DROP TABLE "user";
-DROP TYPE  user_role;
+DROP TABLE author;
+DROP TABLE newsletter;
+DROP TABLE email;
 
 COMMIT;
