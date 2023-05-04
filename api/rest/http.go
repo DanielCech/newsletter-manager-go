@@ -28,22 +28,28 @@ type Controller struct {
 	*chi.Mux
 
 	authorService     httpv1.AuthorService
+	sessionService    httpv1.SessionService
 	newsletterService httpv1.NewsletterService
+	tokenParser       middleware.TokenParser
 	logger            *zap.Logger
 }
 
 // NewController returns new instance of a HTTP REST controller.
 func NewController(
 	authorService httpv1.AuthorService,
+	sessionService httpv1.SessionService,
 	newsletterService httpv1.NewsletterService,
+	tokenParser middleware.TokenParser,
 	logger *zap.Logger,
 ) (*Controller, error) {
-	if err := newControllerValidate(authorService, newsletterService, logger); err != nil {
+	if err := newControllerValidate(authorService, sessionService, newsletterService, tokenParser, logger); err != nil {
 		return nil, err
 	}
 	controller := &Controller{
-		authorService: authorService,
-		logger:        logger,
+		authorService:  authorService,
+		sessionService: sessionService,
+		tokenParser:    tokenParser,
+		logger:         logger,
 	}
 	controller.initRouter()
 	return controller, nil
@@ -60,9 +66,9 @@ func (c *Controller) initRouter() {
 	r.Use(httpx.RecoverMiddleware(util.NewServerLogger("httpx.RecoverMiddleware")))
 	r.Use(middleware.LimitBodySize(c.logger, middleware.DefaultByteCountLimit))
 
-	authenticate := middleware.Authenticate(c.logger)
+	authenticate := middleware.Authenticate(c.logger, c.tokenParser)
 
-	v1Handler := httpv1.NewHandler(c.authorService, c.newsletterService, c.logger)
+	v1Handler := httpv1.NewHandler(c.authorService, c.sessionService, c.newsletterService, c.tokenParser, c.logger)
 
 	r.Route("/api", func(r chi.Router) {
 		r.With(authenticate).Get("/openapi.yaml", c.OpenAPI)
@@ -100,14 +106,22 @@ func (c *Controller) OpenAPI(w http.ResponseWriter, r *http.Request) {
 
 func newControllerValidate(
 	authorService httpv1.AuthorService,
+	sessionService httpv1.SessionService,
 	newsletterService httpv1.NewsletterService,
+	tokenParser middleware.TokenParser,
 	logger *zap.Logger,
 ) error {
 	if authorService == nil {
 		return errors.New("invalid user service")
 	}
+	if sessionService == nil {
+		return errors.New("invalid session service")
+	}
 	if newsletterService == nil {
 		return errors.New("invalid newsletter service")
+	}
+	if tokenParser == nil {
+		return errors.New("invalid token parser")
 	}
 	if logger == nil {
 		return errors.New("invalid logger")

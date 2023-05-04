@@ -13,6 +13,9 @@ import (
 	httpx "go.strv.io/net/http"
 	"go.uber.org/zap"
 	"io/fs"
+	domsession "newsletter-manager-go/domain/session"
+	pgsession "newsletter-manager-go/domain/session/postgres"
+	svcsession "newsletter-manager-go/service/session"
 
 	httpapi "newsletter-manager-go/api/rest"
 	"newsletter-manager-go/database/sql"
@@ -24,6 +27,8 @@ import (
 	svcnewsletter "newsletter-manager-go/service/newsletter"
 	"newsletter-manager-go/util"
 	"newsletter-manager-go/util/timesource"
+
+	timex "go.strv.io/time"
 )
 
 var (
@@ -38,8 +43,14 @@ const (
 )
 
 type config struct {
-	Port     uint            `json:"port" yaml:"port" env:"PORT" validate:"gt=0"`
-	Database sql.Config      `json:"database" yaml:"database" env:",dive"`
+	Port       uint       `json:"port" yaml:"port" env:"PORT" validate:"gt=0"`
+	Database   sql.Config `json:"database" yaml:"database" env:",dive"`
+	HashPepper string     `json:"hash_pepper" yaml:"hash_pepper" env:"HASH_PEPPER" validate:"gte=64"`
+	AuthSecret string     `json:"auth_secret" yaml:"auth_secret" env:"AUTH_SECRET" validate:"gte=64"`
+	Session    struct {
+		AccessTokenExpiration  timex.Duration `json:"access_token_expiration" yaml:"access_token_expiration" env:"SESSION_ACCESS_TOKEN_EXPIRATION" validate:"required"`
+		RefreshTokenExpiration timex.Duration `json:"refresh_token_expiration" yaml:"refresh_token_expiration" env:"SESSION_REFRESH_TOKEN_EXPIRATION" validate:"required"`
+	} `json:"session" yaml:"session" env:",dive"`
 	LogLevel zap.AtomicLevel `json:"log_level" yaml:"log_level" env:"LOG_LEVEL"`
 }
 
@@ -95,6 +106,25 @@ func getConnString() string {
 	}
 
 	return connString
+}
+
+func setupSessionServiceDeps(database sql.Database, cfg config) (domsession.Factory, domsession.Repository, error) {
+	sessionFactory, err := domsession.NewFactory(
+		[]byte(cfg.AuthSecret),
+		timesource.DefaultTimeSource{},
+		cfg.Session.AccessTokenExpiration.Duration(),
+		cfg.Session.RefreshTokenExpiration.Duration(),
+	)
+	if err != nil {
+		return domsession.Factory{}, nil, fmt.Errorf("new session factory: %w", err)
+	}
+
+	sessionRepository, err := pgsession.NewRepository(database, sessionFactory)
+	if err != nil {
+		return domsession.Factory{}, nil, fmt.Errorf("new session repository: %w", err)
+	}
+
+	return sessionFactory, sessionRepository, nil
 }
 
 func main() {
@@ -169,9 +199,26 @@ func main() {
 		logger.Fatal("new newsletter service", zap.Error(err))
 	}
 
+	sessionService := new(svcsession.Service)
+	sessionFactory, sessionRepository, err := setupSessionServiceDeps(database, cfg)
+	if err != nil {
+		logger.Fatal("setup session service dependencies: %w", zap.Error(err))
+	}
+	sessionServiceTmp, err := svcsession.NewService(
+		sessionFactory,
+		sessionRepository,
+		authorService,
+	)
+	if err != nil {
+		logger.Fatal("new session service: %w", zap.Error(err))
+	}
+	*sessionService = *sessionServiceTmp
+
 	controller, err := httpapi.NewController(
 		authorService,
+		sessionService,
 		newsletterService,
+		sessionFactory,
 		logger,
 	)
 	if err != nil {

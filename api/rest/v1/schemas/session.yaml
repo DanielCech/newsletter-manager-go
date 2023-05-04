@@ -1,0 +1,54 @@
+AccessToken:
+  type: string
+  description: Signed access token
+  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTcxMTIzNzQsInVzZXJfaWQiOiI1MCJ9.__yasD49ywo4mpUQ7h-7mEUO7y3AOSSELhyfAToVfkI
+RefreshToken:
+  type: string
+  description: Refresh token string
+  format: uuid
+  example: 1ef1f299-1e4a-4c65-b5f7-220c3b00391b
+CreateSessionInput:
+  type: object
+  description: Session object for creating a stateless session
+  properties:
+    email:
+      $ref: './user.yaml#/Email'
+    password:
+      $ref: './user.yaml#/Password'
+  required: [email, password]
+CreateSessionResp:
+  type: object
+  description: Session object
+  properties:
+    user:
+      $ref: './user.yaml#/User'
+    session:
+      $ref: './session.yaml#/Session'
+  required: [user, session]
+RefreshSessionInput:
+  type: object
+  description: Object for refreshing session
+  properties:
+    refreshToken:
+      $ref: './session.yaml#/RefreshToken'
+  required: [refreshToken]
+DestroySessionInput:
+  type: object
+  description: Object for destroying session
+  properties:
+    refreshToken:
+      $ref: './session.yaml#/RefreshToken'
+  required: [refreshToken]
+Session:
+  type: object
+  description: Session object
+  properties:
+    accessToken:
+      $ref: './session.yaml#/AccessToken'
+    accessTokenExpiresAt:
+      $ref: './common.yaml#/DateTime'
+    refreshToken:
+      $ref: './session.yaml#/RefreshToken'
+    refreshTokenExpiresAt:
+      $ref: './common.yaml#/DateTime'
+  required: [accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt]

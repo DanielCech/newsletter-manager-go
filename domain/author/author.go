@@ -46,25 +46,25 @@ func (u *Author) Valid() error {
 	return nil
 }
 
-//// MatchPassword compares author password hash with the given password.
-//func (u *Author) MatchPassword(password types.Password) bool {
-//	return u.hasher.CompareHashAndPassword(u.PasswordHash, []byte(password))
-//}
-//
-//// ChangePassword checks whether the author password hash corresponds with the old password.
-//// If it does, author password hash is updated based on the new password.
-//func (u *Author) ChangePassword(oldPassword, newPassword types.Password) error {
-//	if !u.MatchPassword(oldPassword) {
-//		return ErrInvalidAuthorPassword
-//	}
-//	newPasswordHash, err := u.hasher.HashPassword([]byte(newPassword))
-//	if err != nil {
-//		return err
-//	}
-//	u.PasswordHash = newPasswordHash
-//	u.UpdatedAt = u.timeSource.Now()
-//	return nil
-//}
+// MatchPassword compares author password hash with the given password.
+func (u *Author) MatchPassword(password types.Password) bool {
+	return u.hasher.CompareHashAndPassword(u.PasswordHash, []byte(password))
+}
+
+// ChangePassword checks whether the author password hash corresponds with the old password.
+// If it does, author password hash is updated based on the new password.
+func (u *Author) ChangePassword(oldPassword, newPassword types.Password) error {
+	if !u.MatchPassword(oldPassword) {
+		return ErrInvalidAuthorPassword
+	}
+	newPasswordHash, err := u.hasher.HashPassword([]byte(newPassword))
+	if err != nil {
+		return err
+	}
+	u.PasswordHash = newPasswordHash
+	u.UpdatedAt = u.timeSource.Now()
+	return nil
+}
 
 // CreateAuthorInput consists of fields required for creation of a new author.
 type CreateAuthorInput struct {

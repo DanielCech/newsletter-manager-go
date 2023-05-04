@@ -1,4 +1,4 @@
-# UserUpdateResp
+# AuthorUpdateResp
 
 ## Properties
 Name | Type | Description | Notes

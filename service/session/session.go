@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
+	domauthor "newsletter-manager-go/domain/author"
 	domsession "newsletter-manager-go/domain/session"
-	domauthor "newsletter-manager-go/domain/user"
 	"newsletter-manager-go/types"
 	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/types/id"
@@ -53,7 +53,7 @@ func (s *Service) Create(ctx context.Context, email types.Email, password types.
 	if err != nil {
 		return nil, nil, fmt.Errorf("reading user by credentials: %w", err)
 	}
-	session, err := s.create(ctx, user.ID, user.Role)
+	session, err := s.create(ctx, user.ID)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -63,11 +63,11 @@ func (s *Service) Create(ctx context.Context, email types.Email, password types.
 // CreateForUser creates a new session and creates refresh token in the repository.
 // Returns a newly created session.
 func (s *Service) CreateForUser(ctx context.Context, user *domauthor.Author) (*domsession.Session, error) {
-	return s.create(ctx, user.ID, user.Role)
+	return s.create(ctx, user.ID)
 }
 
-func (s *Service) create(ctx context.Context, AuthorID id.Author, userRole domauthor.Role) (*domsession.Session, error) {
-	claims, err := domsession.NewClaims(AuthorID, userRole)
+func (s *Service) create(ctx context.Context, AuthorID id.Author) (*domsession.Session, error) {
+	claims, err := domsession.NewClaims(AuthorID)
 	if err != nil {
 		return nil, fmt.Errorf("new claims: %w", err)
 	}
@@ -94,9 +94,9 @@ func (s *Service) Destroy(ctx context.Context, refreshTokenID id.RefreshToken) e
 
 // DestroyForUser destroys all sessions by deleting refresh tokens from the repository by user id.
 func (s *Service) DestroyForUser(ctx context.Context, AuthorID id.Author) error {
-	if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
-		return fmt.Errorf("deleting refresh tokens by user id: %w", err)
-	}
+	//if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
+	//	return fmt.Errorf("deleting refresh tokens by user id: %w", err)
+	//}
 	return nil
 }
 
@@ -107,11 +107,11 @@ func (s *Service) Refresh(ctx context.Context, refreshTokenID id.RefreshToken) (
 		if oldRefreshToken.IsExpired() {
 			return nil, domsession.ErrRefreshTokenExpired
 		}
-		user, err := s.authorService.Read(ctx, oldRefreshToken.AuthorID)
+		author, err := s.authorService.Read(ctx, oldRefreshToken.AuthorID)
 		if err != nil {
 			return nil, fmt.Errorf("reading user: %w", err)
 		}
-		claims, err := domsession.NewClaims(user.ID, user.Role)
+		claims, err := domsession.NewClaims(author.ID)
 		if err != nil {
 			return nil, fmt.Errorf("new custom claims: %w", err)
 		}

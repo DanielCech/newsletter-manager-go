@@ -1,0 +1,92 @@
+NativeSessions:
+  post:
+    description: Create new stateless session
+    tags:
+      - v1/sessions
+    operationId: createSession
+    requestBody:
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../schemas/session.yaml#/CreateSessionInput'
+    responses:
+      "201":
+        description: Successfully created session
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/session.yaml#/CreateSessionResp'
+      "400":
+        $ref: '../schemas/common.yaml#/BadRequestError'
+      "401":
+        description: Invalid credentials
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "422":
+        $ref: '../schemas/common.yaml#/InvalidBodyError'
+RefreshSessions:
+  post:
+    description: Refresh stateless session
+    tags:
+      - v1/sessions
+    operationId: refreshSession
+    requestBody:
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../schemas/session.yaml#/RefreshSessionInput'
+    responses:
+      "201":
+        description: Successfully created session
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/session.yaml#/Session'
+      "400":
+        $ref: '../schemas/common.yaml#/BadRequestError'
+      "401":
+        description: Refresh token is not valid or is expired
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "404":
+        description: Refresh token is valid but the session was already destroyed
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "422":
+        $ref: '../schemas/common.yaml#/InvalidBodyError'
+DestroySessions:
+  post:
+    description: Destroy stateless session
+    tags:
+      - v1/sessions
+    operationId: destroySession
+    requestBody:
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '../schemas/session.yaml#/DestroySessionInput'
+    responses:
+      "204":
+        description: Session successfully destroyed
+      "400":
+        $ref: '../schemas/common.yaml#/BadRequestError'
+      "401":
+        description: Refresh token is not valid or is expired
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "404":
+        description: Refresh token is valid but the session was already destroyed
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '../schemas/common.yaml#/APIError'
+      "422":
+        $ref: '../schemas/common.yaml#/InvalidBodyError'

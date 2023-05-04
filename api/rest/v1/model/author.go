@@ -4,6 +4,7 @@ import (
 	domauthor "newsletter-manager-go/domain/author"
 	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
+	"time"
 )
 
 // Author consists of fields which describe an author.
@@ -32,18 +33,23 @@ func FromDomainAuthor(author *domauthor.Author) Author {
 	}
 }
 
-//// FromAuthors converts domain object to api object.
-//func FromAuthors(dauthors []domauthor.Author) []Author {
-//	authors := make([]Author, 0, len(dauthors))
-//	for _, u := range dauthors {
-//		authors = append(authors, Author{
-//			ID:    u.ID,
-//			Name:  u.Name,
-//			Email: u.Email,
-//		})
+// // FromAuthors converts domain object to api object.
+//
+//	func FromAuthors(dauthors []domauthor.Author) []Author {
+//		authors := make([]Author, 0, len(dauthors))
+//		for _, u := range dauthors {
+//			authors = append(authors, Author{
+//				ID:    u.ID,
+//				Name:  u.Name,
+//				Email: u.Email,
+//			})
+//		}
+//		return authors
 //	}
-//	return authors
-//}
+type CreateAuthorResponse struct {
+	Author  *Author `json:"user"`
+	Session Session `json:"session"`
+}
 
 type AuthorSignUpInput struct {
 	Name     string         `json:"name" validate:"required"`
@@ -62,4 +68,11 @@ type RefreshTokenInput struct {
 
 type AuthorIDInput struct {
 	AuthorID id.Author `json:"authorId"`
+}
+
+type RefreshSessionResponse struct {
+	AccessToken           string    `json:"accessToken"`
+	AccessTokenExpiresAt  time.Time `json:"accessTokenExpiresAt"`
+	RefreshToken          string    `json:"refreshToken"`
+	RefreshTokenExpiresAt time.Time `json:"refreshTokenExpiresAt"`
 }

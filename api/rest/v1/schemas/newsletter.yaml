@@ -34,7 +34,7 @@ User:
     role:
       $ref: './author.yaml#/Role'
   required: [id, name, email, role]
-CreateUserInput:
+CreateAuthorInput:
   type: object
   description: User object for creating a user
   properties:
@@ -47,7 +47,7 @@ CreateUserInput:
     referrerId:
       $ref: './common.yaml#/ID'
   required: [name, email, password]
-CreateUserResp:
+CreateAuthorResp:
   type: object
   description: Session object
   properties:
