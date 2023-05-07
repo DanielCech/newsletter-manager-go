@@ -46,8 +46,8 @@ func FromDomainAuthor(author *domauthor.Author) Author {
 //		}
 //		return authors
 //	}
-type CreateAuthorResponse struct {
-	Author  *Author `json:"user"`
+type CreateAuthorResp struct {
+	Author  *Author `json:"author"`
 	Session Session `json:"session"`
 }
 

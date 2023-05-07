@@ -14,13 +14,13 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-// authorService represents object which is capable of reading user in several ways.
+// authorService represents object which is capable of reading author in several ways.
 type authorService interface {
 	Read(ctx context.Context, AuthorID id.Author) (*domauthor.Author, error)
 	ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domauthor.Author, error)
 }
 
-// Service consists of session factory and repository and user reader.
+// Service consists of session factory and repository and author reader.
 type Service struct {
 	sessionFactory    domsession.Factory
 	sessionRepository domsession.Repository
@@ -37,7 +37,7 @@ func NewService(
 		return nil, errors.New("invalid session repository")
 	}
 	if authorService == nil {
-		return nil, errors.New("invalid user service")
+		return nil, errors.New("invalid author service")
 	}
 	return &Service{
 		sessionFactory:    sessionFactory,
@@ -47,23 +47,23 @@ func NewService(
 }
 
 // Create creates a new session and creates refresh token in the repository.
-// Returns a newly created session along with user who is the session owner.
+// Returns a newly created session along with author who is the session owner.
 func (s *Service) Create(ctx context.Context, email types.Email, password types.Password) (*domsession.Session, *domauthor.Author, error) {
-	user, err := s.authorService.ReadByCredentials(ctx, email, password)
+	author, err := s.authorService.ReadByCredentials(ctx, email, password)
 	if err != nil {
-		return nil, nil, fmt.Errorf("reading user by credentials: %w", err)
+		return nil, nil, fmt.Errorf("reading author by credentials: %w", err)
 	}
-	session, err := s.create(ctx, user.ID)
+	session, err := s.create(ctx, author.ID)
 	if err != nil {
 		return nil, nil, err
 	}
-	return session, user, nil
+	return session, author, nil
 }
 
-// CreateForUser creates a new session and creates refresh token in the repository.
+// CreateForAuthor creates a new session and creates refresh token in the repository.
 // Returns a newly created session.
-func (s *Service) CreateForUser(ctx context.Context, user *domauthor.Author) (*domsession.Session, error) {
-	return s.create(ctx, user.ID)
+func (s *Service) CreateForAuthor(ctx context.Context, author *domauthor.Author) (*domsession.Session, error) {
+	return s.create(ctx, author.ID)
 }
 
 func (s *Service) create(ctx context.Context, AuthorID id.Author) (*domsession.Session, error) {
@@ -92,15 +92,15 @@ func (s *Service) Destroy(ctx context.Context, refreshTokenID id.RefreshToken) e
 	return nil
 }
 
-// DestroyForUser destroys all sessions by deleting refresh tokens from the repository by user id.
-func (s *Service) DestroyForUser(ctx context.Context, AuthorID id.Author) error {
+// DestroyForAuthor destroys all sessions by deleting refresh tokens from the repository by author id.
+func (s *Service) DestroyForAuthor(ctx context.Context, AuthorID id.Author) error {
 	//if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
-	//	return fmt.Errorf("deleting refresh tokens by user id: %w", err)
+	//	return fmt.Errorf("deleting refresh tokens by author id: %w", err)
 	//}
 	return nil
 }
 
-// Refresh reads user which is the token owner and creates a new session.
+// Refresh reads author which is the token owner and creates a new session.
 // Token is then refreshed in the repository.
 func (s *Service) Refresh(ctx context.Context, refreshTokenID id.RefreshToken) (session *domsession.Session, err error) {
 	err = s.sessionRepository.Refresh(ctx, refreshTokenID, func(oldRefreshToken *domsession.RefreshToken) (*domsession.RefreshToken, error) {
@@ -109,7 +109,7 @@ func (s *Service) Refresh(ctx context.Context, refreshTokenID id.RefreshToken) (
 		}
 		author, err := s.authorService.Read(ctx, oldRefreshToken.AuthorID)
 		if err != nil {
-			return nil, fmt.Errorf("reading user: %w", err)
+			return nil, fmt.Errorf("reading author: %w", err)
 		}
 		claims, err := domsession.NewClaims(author.ID)
 		if err != nil {

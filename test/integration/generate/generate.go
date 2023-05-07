@@ -2,8 +2,8 @@ package main
 
 import (
 	_ "embed"
-	"event-facematch-backend/test/integration/testlog"
 	"io/fs"
+	"newsletter-manager-go/test/integration/testlog"
 	"os"
 	"strings"
 )

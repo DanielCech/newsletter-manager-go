@@ -12,16 +12,16 @@ CreateSessionInput:
   description: Session object for creating a stateless session
   properties:
     email:
-      $ref: './user.yaml#/Email'
+      $ref: './author.yaml#/Email'
     password:
-      $ref: './user.yaml#/Password'
+      $ref: './author.yaml#/Password'
   required: [email, password]
 CreateSessionResp:
   type: object
   description: Session object
   properties:
     user:
-      $ref: './user.yaml#/User'
+      $ref: './author.yaml#/Author'
     session:
       $ref: './session.yaml#/Session'
   required: [user, session]

@@ -22,13 +22,39 @@ type Factory struct {
 }
 
 // NewFactory returns new instance of author Factory.
-func NewFactory(timesource timesource.TimeSource) (Factory, error) {
-	if err := newFactoryValidate(timesource); err != nil {
+func NewFactory(hasher Hasher, timesource timesource.TimeSource) (Factory, error) {
+	if err := newFactoryValidate(hasher, timesource); err != nil {
 		return Factory{}, err
 	}
 	return Factory{
+		hasher:     hasher,
 		timeSource: timesource,
 	}, nil
+}
+
+// NewAuthor returns new instance of Author.
+func (f Factory) NewAuthor(createAuthorInput CreateAuthorInput) (*Author, error) {
+	passwordHash, err := f.hasher.HashPassword([]byte(createAuthorInput.Password))
+	if err != nil {
+		return nil, err
+	}
+
+	now := f.timeSource.Now()
+	author := &Author{
+		hasher:       f.hasher,
+		timeSource:   f.timeSource,
+		ID:           id.NewAuthor(),
+		Name:         createAuthorInput.Name,
+		Email:        createAuthorInput.Email,
+		PasswordHash: passwordHash,
+		CreatedAt:    now,
+		UpdatedAt:    now,
+	}
+	if err = author.Valid(); err != nil {
+		return nil, err
+	}
+
+	return author, nil
 }
 
 // NewAuthorFromFields returns new instance of Author based on existing fields.
@@ -54,7 +80,10 @@ func (f Factory) NewAuthorFromFields(
 	}
 }
 
-func newFactoryValidate(timesource timesource.TimeSource) error {
+func newFactoryValidate(hasher Hasher, timesource timesource.TimeSource) error {
+	if hasher == nil {
+		return errors.New("invalid hasher")
+	}
 	if timesource == nil {
 		return errors.New("invalid time source")
 	}

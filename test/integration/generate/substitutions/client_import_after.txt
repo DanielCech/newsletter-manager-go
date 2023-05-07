@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
-	"event-facematch-backend/test/integration/testlog"
+	"newsletter-manager-go/test/integration/testlog"
 	"fmt"
 	"io"
 	"mime/multipart"

@@ -3,10 +3,11 @@ package common
 import (
 	"context"
 	_ "embed"
-	"event-facematch-backend/database/sql"
-	"event-facematch-backend/test/integration/testlog"
-	"github.com/golang-migrate/migrate/v4"
 	"log"
+	"newsletter-manager-go/database/sql"
+	"newsletter-manager-go/test/integration/testlog"
+
+	"github.com/golang-migrate/migrate/v4"
 
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"

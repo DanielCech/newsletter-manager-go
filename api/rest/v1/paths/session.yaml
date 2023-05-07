@@ -2,7 +2,7 @@ NativeSessions:
   post:
     description: Create new stateless session
     tags:
-      - v1/sessions
+      - session
     operationId: createSession
     requestBody:
       content:
@@ -30,7 +30,7 @@ RefreshSessions:
   post:
     description: Refresh stateless session
     tags:
-      - v1/sessions
+      - session
     operationId: refreshSession
     requestBody:
       content:
@@ -64,7 +64,7 @@ DestroySessions:
   post:
     description: Destroy stateless session
     tags:
-      - v1/sessions
+      - session
     operationId: destroySession
     requestBody:
       content:

@@ -8,7 +8,7 @@ import (
 )
 
 // CreateSession creates new stateless session.
-func (h *Handler) CreateSession(_ http.ResponseWriter, r *http.Request, input model.CreateSessionInput) (*model.CreateAuthorResponse, error) {
+func (h *Handler) CreateSession(_ http.ResponseWriter, r *http.Request, input model.CreateSessionInput) (*model.CreateAuthorResp, error) {
 	dsession, dauthor, err := h.sessionService.Create(r.Context(), input.Email, input.Password)
 	if err != nil {
 		return nil, fmt.Errorf("creating session: %w", err)
@@ -17,7 +17,7 @@ func (h *Handler) CreateSession(_ http.ResponseWriter, r *http.Request, input mo
 	author := model.FromDomainAuthor(dauthor)
 	session := model.FromDomainSession(dsession)
 
-	createSessionResp := model.CreateAuthorResponse{
+	createSessionResp := model.CreateAuthorResp{
 		Author:  &author,
 		Session: session,
 	}

@@ -1,6 +1,6 @@
 SELECT
     rt.id,
-    rt.user_id,
+    rt.author_id,
     rt.expires_at,
     rt.created_at
 FROM

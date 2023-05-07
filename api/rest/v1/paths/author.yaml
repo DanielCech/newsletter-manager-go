@@ -131,6 +131,11 @@ AuthorSignUp:
     tags:
       - author
     operationId: authorSignUp
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/author.yaml#/CreateAuthorInput'
     security:
       - bearerAuth: [ ]
     responses:
@@ -139,9 +144,7 @@ AuthorSignUp:
         content:
           application/json; charset=utf-8:
             schema:
-              type: array
-              items:
-                $ref: '../schemas/author.yaml#/Author'
+              $ref: '../schemas/author.yaml#/CreateAuthorResp'
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":

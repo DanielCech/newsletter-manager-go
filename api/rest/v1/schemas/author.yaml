@@ -1,27 +1,21 @@
 Email:
   type: string
-  description: User email
+  description: Author email
   format: email
   example: example@email.com
 Name:
   type: string
-  description: User name
+  description: Author name
   example: John Snow
 Password:
   type: string
-  description: User password with at least 8 characters, one upper case letter, one lower case letter and one number
+  description: Author password with at least 8 characters, one upper case letter, one lower case letter and one number
   minLength: 8
   format: password
   example: Topsecret1
-Role:
-  type: string
-  description: User role
-  enum:
-    - user
-    - admin
 Author:
   type: object
-  description: User object
+  description: Author object
   properties:
     id:
       $ref: './common.yaml#/ID'
@@ -29,12 +23,10 @@ Author:
       $ref: './author.yaml#/Name'
     email:
       $ref: './author.yaml#/Email'
-    role:
-      $ref: './author.yaml#/Role'
   required: [id, name, email, role]
 CreateAuthorInput:
   type: object
-  description: User object for creating a user
+  description: Author object for creating a user
   properties:
     name:
       $ref: './author.yaml#/Name'
@@ -47,9 +39,11 @@ CreateAuthorResp:
   type: object
   description: Session object
   properties:
-    user:
+    author:
       $ref: './author.yaml#/Author'
-  required: [user, session]
+    session:
+      $ref: './session.yaml#/Session'
+  required: [author, session]
 ChangeAuthorPasswordInput:
   type: object
   description: Old and new password

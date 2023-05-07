@@ -29,6 +29,7 @@ import (
 	"newsletter-manager-go/util/timesource"
 
 	timex "go.strv.io/time"
+	"newsletter-manager-go/crypto"
 )
 
 var (
@@ -45,8 +46,8 @@ const (
 type config struct {
 	Port       uint       `json:"port" yaml:"port" env:"PORT" validate:"gt=0"`
 	Database   sql.Config `json:"database" yaml:"database" env:",dive"`
-	HashPepper string     `json:"hash_pepper" yaml:"hash_pepper" env:"HASH_PEPPER" validate:"gte=64"`
-	AuthSecret string     `json:"auth_secret" yaml:"auth_secret" env:"AUTH_SECRET" validate:"gte=64"`
+	HashPepper *string    `json:"hash_pepper" yaml:"hash_pepper" env:"HASH_PEPPER"` // validate:"gte=64"`
+	AuthSecret *string    `json:"auth_secret" yaml:"auth_secret" env:"AUTH_SECRET"` // validate:"gte=64"`
 	Session    struct {
 		AccessTokenExpiration  timex.Duration `json:"access_token_expiration" yaml:"access_token_expiration" env:"SESSION_ACCESS_TOKEN_EXPIRATION" validate:"required"`
 		RefreshTokenExpiration timex.Duration `json:"refresh_token_expiration" yaml:"refresh_token_expiration" env:"SESSION_REFRESH_TOKEN_EXPIRATION" validate:"required"`
@@ -98,7 +99,7 @@ func parseConfig(path string) (cfg config, err error) {
 }
 
 func getConnString() string {
-	connString := "postgres://postgres:matchtheface123@localhost:5433/event-facematch?sslmode=disable"
+	connString := "postgres://postgres:matchtheface123@localhost:5433/newsletter-manager?sslmode=disable"
 
 	if integrationTests {
 		// Integration tests need modified connection string without caching and with the special exec mode. This mode is slower than usual but it works well with the frequent DB schema changes
@@ -108,9 +109,26 @@ func getConnString() string {
 	return connString
 }
 
+func setupAuthorServiceDeps(database sql.Database, cfg config) (domauthor.Factory, domauthor.Repository, error) {
+	authorFactory, err := domauthor.NewFactory(
+		crypto.NewDefaultBcryptHasher([]byte(*cfg.HashPepper)),
+		timesource.DefaultTimeSource{},
+	)
+	if err != nil {
+		return domauthor.Factory{}, nil, fmt.Errorf("new author factory: %w", err)
+	}
+
+	authorRepository, err := pgauthor.NewRepository(database, authorFactory)
+	if err != nil {
+		return domauthor.Factory{}, nil, fmt.Errorf("new author repository: %w", err)
+	}
+
+	return authorFactory, authorRepository, nil
+}
+
 func setupSessionServiceDeps(database sql.Database, cfg config) (domsession.Factory, domsession.Repository, error) {
 	sessionFactory, err := domsession.NewFactory(
-		[]byte(cfg.AuthSecret),
+		[]byte(*cfg.AuthSecret),
 		timesource.DefaultTimeSource{},
 		cfg.Session.AccessTokenExpiration.Duration(),
 		cfg.Session.RefreshTokenExpiration.Duration(),
@@ -159,25 +177,23 @@ func main() {
 		logger.Fatal("opening database", zap.Error(err))
 	}
 
-	authorFactory, err := domauthor.NewFactory(
-		timesource.DefaultTimeSource{},
-	)
+	authorService := new(svcauthor.Service)
+	sessionService := new(svcsession.Service)
+
+	authorFactory, authorRepository, err := setupAuthorServiceDeps(database, cfg)
 	if err != nil {
 		logger.Fatal("new author factory", zap.Error(err))
 	}
 
-	authorRepository, err := pgauthor.NewRepository(database, authorFactory)
-	if err != nil {
-		logger.Fatal("new author repository", zap.Error(err))
-	}
-
-	authorService, err := svcauthor.NewService(
+	authorServiceTmp, err := svcauthor.NewService(
 		authorFactory,
 		authorRepository,
+		sessionService,
 	)
 	if err != nil {
 		logger.Fatal("new author service", zap.Error(err))
 	}
+	*authorService = *authorServiceTmp
 
 	newsletterFactory, err := domnewsletter.NewFactory(
 		timesource.DefaultTimeSource{},
@@ -199,7 +215,6 @@ func main() {
 		logger.Fatal("new newsletter service", zap.Error(err))
 	}
 
-	sessionService := new(svcsession.Service)
 	sessionFactory, sessionRepository, err := setupSessionServiceDeps(database, cfg)
 	if err != nil {
 		logger.Fatal("setup session service dependencies: %w", zap.Error(err))

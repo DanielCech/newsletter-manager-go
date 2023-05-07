@@ -54,9 +54,18 @@ func (h *Handler) initRouter() {
 		})
 	wCreated := w.WithResponseMarshaler(signature.FixedResponseCodeMarshal(http.StatusCreated))
 
-	r.Route("/users", func(r chi.Router) {
-		r.Route("/register", func(r chi.Router) {
-			// r.Post("/", signature.WrapHandler(wCreated, h.CreateAuthor))
+	r.Route("/sessions", func(r chi.Router) {
+		r.Group(func(r chi.Router) {
+			r.Use(noCacheHeaders)
+			r.Post("/native", signature.WrapHandler(wCreated, h.CreateSession))
+			r.Post("/refresh", signature.WrapHandler(wCreated, h.RefreshSession))
+		})
+		r.Post("/destroy", signature.WrapHandlerInput(w, h.DestroySession))
+	})
+
+	r.Route("/authors", func(r chi.Router) {
+		r.Route("/sign-up", func(r chi.Router) {
+			r.Post("/", signature.WrapHandler(wCreated, h.AuthorSignUp))
 		})
 		r.Group(func(r chi.Router) {
 			r.Use(authenticate)
@@ -72,18 +81,7 @@ func (h *Handler) initRouter() {
 				r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
 			})
 		})
-	})
 
-	r.Route("/sessions", func(r chi.Router) {
-		r.Group(func(r chi.Router) {
-			r.Use(noCacheHeaders)
-			r.Post("/native", signature.WrapHandler(wCreated, h.CreateSession))
-			r.Post("/refresh", signature.WrapHandler(wCreated, h.RefreshSession))
-		})
-		r.Post("/destroy", signature.WrapHandlerInput(w, h.DestroySession))
-	})
-
-	r.Route("/authors", func(r chi.Router) {
 		r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
 
 		r.Route("/{authorId}", func(r chi.Router) {

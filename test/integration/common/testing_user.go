@@ -2,7 +2,8 @@ package common
 
 import (
 	"context"
-	"event-facematch-backend/test/integration/generate/swagger"
+	"newsletter-manager-go/test/integration/generate/swagger"
+
 	"github.com/google/uuid"
 )
 

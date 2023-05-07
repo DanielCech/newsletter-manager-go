@@ -10,6 +10,8 @@ servers:
 tags:
   - name: author
     description: Authors API
+  - name: session
+    description: Sessions API
   - name: newsletter
     description: Newsletters API
   - name: email
@@ -28,8 +30,13 @@ paths:
     $ref: './v1/paths/author.yaml#/AuthorSignUp'
   /api/v1/authors/change-password:
     $ref: './v1/paths/author.yaml#/ChangeAuthorPassword'
-  /api/v1/authors/refresh-token:
-    $ref: './v1/paths/author.yaml#/RefreshToken'
+
+  /api/v1/sessions/native:
+    $ref: './v1/paths/session.yaml#/NativeSessions'
+  /api/v1/sessions/refresh:
+    $ref: './v1/paths/session.yaml#/RefreshSessions'
+  /api/v1/sessions/destroy:
+    $ref: './v1/paths/session.yaml#/DestroySessions'
 
   /api/v1/authors/{authorId}/newsletters:
     $ref: './v1/paths/newsletter.yaml#/Newsletters'

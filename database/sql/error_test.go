@@ -14,7 +14,7 @@ func Test_IsNotFound(t *testing.T) {
 }
 
 func Test_IsForeignKey(t *testing.T) {
-	constraintName := "user_id_fkey"
+	constraintName := "author_id_fkey"
 	err := &pgconn.PgError{
 		Code:           pgerrcode.ForeignKeyViolation,
 		ConstraintName: constraintName,
@@ -32,7 +32,7 @@ func Test_IsUnique(t *testing.T) {
 }
 
 func Test_violatesConstraint(t *testing.T) {
-	constraintName := "user_id_fkey"
+	constraintName := "author_id_fkey"
 	code := pgerrcode.ForeignKeyViolation
 	err := &pgconn.PgError{
 		Code:           code,

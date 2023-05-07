@@ -10,7 +10,7 @@ import (
 // refreshToken represents table refresh_token.
 type refreshToken struct {
 	ID        id.RefreshToken `db:"id"`
-	AuthorID  id.Author       `db:"user_id"`
+	AuthorID  id.Author       `db:"author_id"`
 	UserRole  string          `db:"user_role"`
 	ExpiresAt time.Time       `db:"expires_at"`
 	CreatedAt time.Time       `db:"created_at"`

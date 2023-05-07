@@ -1,10 +1,10 @@
 package flows
 
 import (
-	"event-facematch-backend/test/integration/common"
-	"event-facematch-backend/test/integration/generate/swagger"
-	"event-facematch-backend/test/integration/testlog"
-	"event-facematch-backend/test/util"
+	"newsletter-manager-go/test/integration/common"
+	"newsletter-manager-go/test/integration/generate/swagger"
+	"newsletter-manager-go/test/integration/testlog"
+	"newsletter-manager-go/test/util"
 	"time"
 )
 

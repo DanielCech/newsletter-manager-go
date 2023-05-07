@@ -1,8 +1,8 @@
 package main
 
 import (
-	"event-facematch-backend/test/integration/flows"
-	"event-facematch-backend/test/integration/generate/swagger"
+	"newsletter-manager-go/test/integration/flows"
+	"newsletter-manager-go/test/integration/generate/swagger"
 	"os"
 )
 

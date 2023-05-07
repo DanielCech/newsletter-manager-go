@@ -14,10 +14,10 @@ import (
 
 // SessionService represents object which is capable of:
 //   - Creating new session
-//   - Destroying all user's sessions
+//   - Destroying all author's sessions
 type SessionService interface {
-	CreateForUser(ctx context.Context, user *domauthor.Author) (*domsession.Session, error)
-	DestroyForUser(ctx context.Context, userID id.Author) error
+	CreateForAuthor(ctx context.Context, author *domauthor.Author) (*domsession.Session, error)
+	DestroyForAuthor(ctx context.Context, authorID id.Author) error
 }
 
 // Service consists of author factory and repository.
@@ -28,37 +28,37 @@ type Service struct {
 }
 
 // NewService returns new instance of a author service.
-func NewService(authorFactory domauthor.Factory, authorRepository domauthor.Repository) (*Service, error) {
+func NewService(authorFactory domauthor.Factory, authorRepository domauthor.Repository, sessionCreator SessionService) (*Service, error) {
 	if authorRepository == nil {
 		return nil, errors.New("invalid author repository")
 	}
 	return &Service{
 		authorFactory:    authorFactory,
 		authorRepository: authorRepository,
+		sessionService:   sessionCreator,
 	}, nil
 }
 
 // Create creates a new author and creates him in the repository.
-func (s *Service) Create(ctx context.Context, CreateAuthorInput domauthor.CreateAuthorInput) (*domauthor.Author, *domsession.Session, error) {
-	//author, err := s.authorFactory.NewAuthor(createAuthorInput, domauthor.RoleAuthor)
-	//if err != nil {
-	//	return nil, nil, fmt.Errorf("new author: %w", err)
-	//}
-	//if err = s.authorRepository.Create(ctx, author); err != nil {
-	//	if errors.Is(err, domauthor.ErrAuthorEmailAlreadyExists) {
-	//		return nil, nil, apierrors.NewAlreadyExistsError(err, "creating author").WithPublicMessage(err.Error())
-	//	}
-	//	if errors.Is(err, domauthor.ErrReferrerNotFound) {
-	//		return nil, nil, apierrors.NewBadRequestError(err, "creating author").WithPublicMessage(err.Error())
-	//	}
-	//	return nil, nil, fmt.Errorf("creating author: %w", err)
-	//}
-	//session, err := s.sessionService.CreateForAuthor(ctx, author)
-	//if err != nil {
-	//	return nil, nil, fmt.Errorf("creating session for author: %w", err)
-	//}
-	//return author, session, nil
-	return nil, nil, nil
+func (s *Service) Create(ctx context.Context, createAuthorInput domauthor.CreateAuthorInput) (*domauthor.Author, *domsession.Session, error) {
+	author, err := s.authorFactory.NewAuthor(createAuthorInput)
+	if err != nil {
+		return nil, nil, fmt.Errorf("new author: %w", err)
+	}
+	if err = s.authorRepository.Create(ctx, author); err != nil {
+		if errors.Is(err, domauthor.ErrAuthorEmailAlreadyExists) {
+			return nil, nil, apierrors.NewAlreadyExistsError(err, "creating author").WithPublicMessage(err.Error())
+		}
+		if errors.Is(err, domauthor.ErrReferrerNotFound) {
+			return nil, nil, apierrors.NewBadRequestError(err, "creating author").WithPublicMessage(err.Error())
+		}
+		return nil, nil, fmt.Errorf("creating author: %w", err)
+	}
+	session, err := s.sessionService.CreateForAuthor(ctx, author)
+	if err != nil {
+		return nil, nil, fmt.Errorf("creating session for author: %w", err)
+	}
+	return author, session, nil
 }
 
 // // Read reads an existing author from the repository.

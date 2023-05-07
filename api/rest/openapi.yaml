@@ -9,6 +9,8 @@ servers:
 tags:
 - name: author
   description: Authors API
+- name: session
+  description: Sessions API
 - name: newsletter
   description: Newsletters API
 - name: email
@@ -194,15 +196,18 @@ paths:
       - author
       description: Author sign-up
       operationId: authorSignUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthorInput'
       responses:
         "200":
           description: Author
           content:
             application/json; charset=utf-8:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/CreateAuthorResp'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -248,36 +253,122 @@ paths:
                 $ref: '#/components/schemas/APIError'
       security:
       - bearerAuth: []
-  /api/v1/authors/refresh-token:
+  /api/v1/sessions/native:
     post:
       tags:
-      - author
-      description: Refresh token
-      operationId: refreshToken
+      - session
+      description: Create new stateless session
+      operationId: createSession
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/CreateSessionInput'
       responses:
-        "200":
-          description: Author
+        "201":
+          description: Successfully created session
           content:
             application/json; charset=utf-8:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/CreateSessionResp'
+        "400":
+          description: Input body is not valid JSON
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
         "401":
-          description: Authentication token is not present or not valid
+          description: Invalid credentials
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
+        "422":
+          description: Values in input body are not valid
           content:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
+  /api/v1/sessions/refresh:
+    post:
+      tags:
+      - session
+      description: Refresh stateless session
+      operationId: refreshSession
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/RefreshSessionInput'
+      responses:
+        "201":
+          description: Successfully created session
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Session'
+        "400":
+          description: Input body is not valid JSON
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "401":
+          description: Refresh token is not valid or is expired
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "404":
+          description: Refresh token is valid but the session was already destroyed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "422":
+          description: Values in input body are not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+  /api/v1/sessions/destroy:
+    post:
+      tags:
+      - session
+      description: Destroy stateless session
+      operationId: destroySession
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/DestroySessionInput'
+      responses:
+        "204":
+          description: Session successfully destroyed
+        "400":
+          description: Input body is not valid JSON
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "401":
+          description: Refresh token is not valid or is expired
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "404":
+          description: Refresh token is valid but the session was already destroyed
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "422":
+          description: Values in input body are not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
   /api/v1/authors/{authorId}/newsletters:
     get:
       tags:
@@ -482,7 +573,7 @@ paths:
       tags:
       - email
       description: Get email by ID
-      operationId: getUsers
+      operationId: getAuthors
       parameters:
       - name: emailId
         in: path
@@ -493,7 +584,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -531,7 +622,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -568,7 +659,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -606,7 +697,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -644,7 +735,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -682,7 +773,7 @@ paths:
           format: uuid
       responses:
         "201":
-          description: Successfully created user
+          description: Successfully created author
           content:
             application/json; charset=utf-8:
               schema:
@@ -694,7 +785,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A user with the same email already exists
+          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -713,7 +804,7 @@ paths:
       operationId: subscriptionsByEmail
       responses:
         "201":
-          description: Successfully created user
+          description: Successfully created author
           content:
             application/json; charset=utf-8:
               schema:
@@ -725,7 +816,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A user with the same email already exists
+          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -752,7 +843,7 @@ components:
           $ref: '#/components/schemas/Name'
         email:
           $ref: '#/components/schemas/Email'
-      description: User object
+      description: Author object
     APIError:
       required:
       - errorCode
@@ -784,15 +875,6 @@ components:
         errorData:
           type: object
           description: Error data
-    CreateAuthorResp:
-      required:
-      - session
-      - user
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/Author'
-      description: Session object
     CreateAuthorInput:
       required:
       - email
@@ -806,7 +888,73 @@ components:
           $ref: '#/components/schemas/Email'
         password:
           $ref: '#/components/schemas/Password'
-      description: User object for creating a user
+      description: Author object for creating a user
+    CreateAuthorResp:
+      required:
+      - author
+      - session
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/Author'
+        session:
+          $ref: '#/components/schemas/Session'
+      description: Session object
+    CreateSessionInput:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          $ref: '#/components/schemas/Email'
+        password:
+          $ref: '#/components/schemas/Password'
+      description: Session object for creating a stateless session
+    CreateSessionResp:
+      required:
+      - session
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/Author'
+        session:
+          $ref: '#/components/schemas/Session'
+      description: Session object
+    RefreshSessionInput:
+      required:
+      - refreshToken
+      type: object
+      properties:
+        refreshToken:
+          $ref: '#/components/schemas/RefreshToken'
+      description: Object for refreshing session
+    Session:
+      required:
+      - accessToken
+      - accessTokenExpiresAt
+      - refreshToken
+      - refreshTokenExpiresAt
+      type: object
+      properties:
+        accessToken:
+          $ref: '#/components/schemas/AccessToken'
+        accessTokenExpiresAt:
+          $ref: '#/components/schemas/DateTime'
+        refreshToken:
+          $ref: '#/components/schemas/RefreshToken'
+        refreshTokenExpiresAt:
+          $ref: '#/components/schemas/DateTime'
+      description: Session object
+    DestroySessionInput:
+      required:
+      - refreshToken
+      type: object
+      properties:
+        refreshToken:
+          $ref: '#/components/schemas/RefreshToken'
+      description: Object for destroying session
     ID:
       type: string
       description: Universal unique identifier
@@ -814,26 +962,34 @@ components:
       example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
     Name:
       type: string
-      description: User name
+      description: Author name
       example: John Snow
     Email:
       type: string
-      description: User email
+      description: Author email
       format: email
       example: example@email.com
-    Role:
-      type: string
-      description: User role
-      enum:
-      - user
-      - admin
     Password:
       minLength: 8
       type: string
-      description: "User password with at least 8 characters, one upper case letter,\
+      description: "Author password with at least 8 characters, one upper case letter,\
         \ one lower case letter and one number"
       format: password
       example: Topsecret1
+    RefreshToken:
+      type: string
+      description: Refresh token string
+      format: uuid
+      example: 1ef1f299-1e4a-4c65-b5f7-220c3b00391b
+    AccessToken:
+      type: string
+      description: Signed access token
+      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTcxMTIzNzQsInVzZXJfaWQiOiI1MCJ9.__yasD49ywo4mpUQ7h-7mEUO7y3AOSSELhyfAToVfkI
+    DateTime:
+      type: string
+      description: Date time in format RFC3339
+      format: date-time
+      example: 2022-07-06T12:59:34Z
   responses:
     UnauthenticatedError:
       description: Authentication token is not present or not valid
