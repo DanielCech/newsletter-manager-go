@@ -28,7 +28,7 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 }
 
 //// NewNewsletter returns new instance of Newsletter.
-//func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput, role Role) (*Newsletter, error) {
+// func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput, role Role) (*Newsletter, error) {
 //	//passwordHash, err := f.hasher.HashPassword([]byte(createNewsletterInput.Password))
 //	//if err != nil {
 //	//	return nil, err
@@ -60,7 +60,7 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 // NewNewsletterFromFields returns new instance of Newsletter based on existing fields.
 // This can be useful for repositories when converting results from repository to domain models based on consistent data.
 // There is no validity check, it is responsibility of caller to ensure all fields are correct.
-//func (f Factory) NewNewsletterFromFields(
+// func (f Factory) NewNewsletterFromFields(
 //	id id.Newsletter,
 //	referrerID *id.Newsletter,
 //	name string,
@@ -69,7 +69,7 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 //	role string,
 //	createdAt time.Time,
 //	updatedAt time.Time,
-//) *Newsletter {
+// ) *Newsletter {
 //	return &Newsletter{
 //		hasher:       f.hasher,
 //		timeSource:   f.timeSource,
@@ -82,7 +82,7 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 //		CreatedAt:    createdAt,
 //		UpdatedAt:    updatedAt,
 //	}
-//}
+// }
 
 func newFactoryValidate(timesource timesource.TimeSource) error {
 	if timesource == nil {

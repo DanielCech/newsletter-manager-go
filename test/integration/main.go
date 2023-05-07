@@ -1,7 +1,6 @@
 package main
 
 import (
-	"newsletter-manager-go/test/integration/flows"
 	"newsletter-manager-go/test/integration/generate/swagger"
 	"os"
 )
@@ -28,14 +27,11 @@ func main() {
 }
 
 func runFlows(flow string, client *swagger.APIClient) {
-	// Run flows
-	if flow == "flow1" || flow == allFlows {
-		flows.Flow1(client)
-	}
-	if flow == "flow2" || flow == allFlows {
-		flows.Flow2(client)
-	}
-	if flow == "flow3" || flow == allFlows {
-		flows.Flow3(client)
+
+}
+
+func runFlow(currentFlow string, client *swagger.APIClient, flowName string, run func(client *swagger.APIClient)) {
+	if currentFlow == flowName || currentFlow == allFlows {
+		run(client)
 	}
 }

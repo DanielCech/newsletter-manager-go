@@ -3,6 +3,7 @@ package newsletter
 import (
 	"context"
 	"errors"
+
 	"github.com/jackc/pgx/v5"
 
 	"newsletter-manager-go/database/sql"
@@ -40,12 +41,7 @@ func (r *Repository) Create(ctx context.Context, newsletter *domnewsletter.Newsl
 			"updated_at": newsletter.UpdatedAt,
 		})
 		if err != nil {
-			//if sql.IsUnique(err, query.ConstraintUniqueNewsletterEmail) {
-			//	return domnewsletter.ErrNewsletterEmailAlreadyExists
-			//}
-			//if sql.IsForeignKey(err, query.ConstraintReferrerID) {
-			//	return domnewsletter.ErrReferrerNotFound
-			//}
+			// TODO
 			return err
 		}
 		return nil

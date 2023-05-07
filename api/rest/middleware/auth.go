@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"errors"
-	"go.uber.org/zap"
 	"net/http"
 	httputil "newsletter-manager-go/api/rest/util"
 	domsession "newsletter-manager-go/domain/session"
@@ -10,6 +9,8 @@ import (
 	"newsletter-manager-go/util"
 	utilctx "newsletter-manager-go/util/context"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 const (
@@ -61,36 +62,6 @@ func Authenticate(logger *zap.Logger, tokenParser TokenParser) func(http.Handler
 		return next
 	}
 }
-
-//
-//// Authorize checks if user role in context is sufficient.
-//func Authorize(logger *zap.Logger, role domauthor.Role) func(http.Handler) http.Handler {
-//	return func(next http.Handler) http.Handler {
-//		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-//			userRole, ok := utilctx.UserRoleFromCtx(r.Context())
-//			if !ok {
-//				httputil.WriteErrorResponse(
-//					r.Context(),
-//					util.WithCtx(r.Context(), logger),
-//					w,
-//					apierrors.NewUnauthorizedError(ErrMissingUserRole, "reading user role from ctx"),
-//				)
-//				return
-//			}
-//
-//			if !userRole.IsSufficientToRole(role) {
-//				err := apierrors.NewForbiddenError(
-//					ErrInsufficientUserRole,
-//					"checking user role",
-//				).WithPublicMessage(ErrInsufficientUserRole.Error())
-//				httputil.WriteErrorResponse(r.Context(), util.WithCtx(r.Context(), logger), w, err)
-//				return
-//			}
-//
-//			next.ServeHTTP(w, r)
-//		})
-//	}
-//}
 
 func parseBearerToken(h http.Header) string {
 	if h == nil {

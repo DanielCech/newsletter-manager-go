@@ -10,7 +10,6 @@ import (
 )
 
 func (h *Handler) AuthorSignUp(_ http.ResponseWriter, r *http.Request, input model.AuthorSignUpInput) (*model.CreateAuthorResp, error) {
-
 	createAuthorInput, err := domauthor.NewCreateAuthorInput(
 		input.Name,
 		input.Email,
@@ -45,7 +44,7 @@ func (h *Handler) RefreshToken(_ http.ResponseWriter, r *http.Request, input mod
 
 func (h *Handler) ListAuthors(_ http.ResponseWriter, r *http.Request) ([]model.Author, error) {
 	// TODO
-	//return model.FromAuthors(authors), nil
+	// return model.FromAuthors(authors), nil
 	return nil, nil
 }
 

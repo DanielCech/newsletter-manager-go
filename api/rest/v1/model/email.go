@@ -16,14 +16,14 @@ type Email struct {
 
 type CreateEmailInput struct {
 	Subject     string `json:"subject"`
-	HtmlContent string `json:"htmlContent"`
+	HTMLContent string `json:"htmlContent"`
 }
 
 type FullEmail struct {
 	ID           id.Email      `json:"id"`
 	NewsletterID id.Newsletter `json:"newsletterIdd"`
 	Subject      string        `json:"subject"`
-	HtmlContent  string        `json:"htmlContent"`
+	HTMLContent  string        `json:"htmlContent"`
 	Date         time.Time     `json:"date"`
 }
 

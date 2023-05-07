@@ -94,9 +94,9 @@ func (s *Service) Destroy(ctx context.Context, refreshTokenID id.RefreshToken) e
 
 // DestroyForAuthor destroys all sessions by deleting refresh tokens from the repository by author id.
 func (s *Service) DestroyForAuthor(ctx context.Context, AuthorID id.Author) error {
-	//if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
+	// if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
 	//	return fmt.Errorf("deleting refresh tokens by author id: %w", err)
-	//}
+	// }
 	return nil
 }
 

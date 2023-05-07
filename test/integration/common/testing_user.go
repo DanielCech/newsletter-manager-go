@@ -21,7 +21,3 @@ func NewUser() TestingUser {
 		Context:    context.WithValue(context.Background(), swagger.ContextAccessToken, firebaseID.String()),
 	}
 }
-
-func (user *TestingUser) UpdateWith(resp swagger.SignInResp) {
-	user.AuthorID = resp.User.Id
-}

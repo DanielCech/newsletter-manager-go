@@ -19,17 +19,6 @@ type newsletter struct {
 
 // ToNewsletter converts newsletter to domain model.
 func (u newsletter) ToDomainNewsletter(factory domnewsletter.Factory) *domnewsletter.Newsletter {
-	//return factory.NewNewsletterFromFields(
-	//	u.ID,
-	//	u.ReferrerID,
-	//	u.Name,
-	//	u.Email,
-	//	u.PasswordHash,
-	//	u.Role,
-	//	u.CreatedAt,
-	//	u.UpdatedAt,
-	//)
-
 	// TODO
 	return nil
 }

@@ -139,7 +139,7 @@ func Test_ParseRequestBody(t *testing.T) {
 }
 
 func Test_GetPathID(t *testing.T) {
-	AuthorID := id.NewUser()
+	AuthorID := id.NewAuthor()
 
 	type args struct {
 		request   *http.Request
@@ -202,7 +202,7 @@ func Test_GetPathID(t *testing.T) {
 }
 
 func Test_GetQueryID(t *testing.T) {
-	AuthorID := id.NewUser()
+	AuthorID := id.NewAuthor()
 
 	type args struct {
 		request   *http.Request

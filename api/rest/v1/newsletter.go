@@ -6,24 +6,6 @@ import (
 )
 
 func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input model.CreateNewsletterInput) (*model.Newsletter, error) {
-	//createNewsletterInput, err := domnewsletter.NewCreateNewsletterInput(
-	//	input.Name,
-	//	input.Email,
-	//	input.Password,
-	//)
-	//if err != nil {
-	//	return nil, apierrors.NewInvalidBodyError(err, "new create user input").WithPublicMessage(err.Error())
-	//}
-	//newsletter, session, err := h.newsletterService.Create(r.Context(), createNewsletterInput)
-	//if err != nil {
-	//	return nil, fmt.Errorf("creating user: %w", err)
-	//}
-	//createNewsletterResp := model.CreateNewsletterResp{
-	//	Newsletter: model.FromNewsletter(newsletter),
-	//	Session:    model.FromSession(session),
-	//}
-	//return &createNewsletterResp, nil
-
 	// TODO
 	return nil, nil
 }

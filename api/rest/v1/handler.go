@@ -3,11 +3,12 @@ package v1
 import (
 	"net/http"
 
+	"newsletter-manager-go/api/rest/middleware"
+	httputil "newsletter-manager-go/api/rest/util"
+
 	"github.com/go-chi/chi/v5"
 	"go.strv.io/net/http/signature"
 	"go.uber.org/zap"
-	"newsletter-manager-go/api/rest/middleware"
-	httputil "newsletter-manager-go/api/rest/util"
 )
 
 // Handler for v1 endpoints.
@@ -85,7 +86,7 @@ func (h *Handler) initRouter() {
 		r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
 
 		r.Route("/{authorId}", func(r chi.Router) {
-			//r.Use(authenticate)
+			// r.Use(authenticate)
 			r.Get("/", signature.WrapHandler(wCreated, h.GetAuthor))
 			r.Patch("/", signature.WrapHandler(wCreated, h.UpdateAuthor))
 			r.Delete("/", signature.WrapHandlerInput(wCreated, h.DeleteAuthor))

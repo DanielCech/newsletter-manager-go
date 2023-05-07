@@ -85,3 +85,6 @@ linters-settings:
       - name: unhandled-error
         severity: warning
         disabled: false
+run:
+  skip-dirs:
+    - test/integration/generate/swagger

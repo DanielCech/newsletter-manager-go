@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/prometheus/client_golang/prometheus"
 	domauthor "newsletter-manager-go/domain/author"
 	domsession "newsletter-manager-go/domain/session"
 	"newsletter-manager-go/types"
 	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/types/id"
+
+	"github.com/prometheus/client_golang/prometheus"
 )
 
 // SessionService represents object which is capable of:
@@ -121,9 +122,9 @@ func (s *Service) ChangePassword(ctx context.Context, authorID id.Author, oldPas
 		}
 		return fmt.Errorf("changing password: %w", err)
 	}
-	//if err = s.sessionService.DestroyForAuthor(ctx, authorID); err != nil {
+	// if err = s.sessionService.DestroyForAuthor(ctx, authorID); err != nil {
 	//	return fmt.Errorf("destroying sessions for author: %w", err)
-	//}
+	// }
 	return nil
 }
 

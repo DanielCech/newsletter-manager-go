@@ -24,6 +24,12 @@ test: generate lint
 lint: generate
 	golangci-lint run
 
+checks: lint fmt vet
+	@echo Govulncheck: processing... 
+	govulncheck ./...
+	@echo OSV-Scanner: processing... 
+	osv-scanner -r .
+
 init-api: CMD=""
 init-api:
 ifeq ($(CMD),rest)

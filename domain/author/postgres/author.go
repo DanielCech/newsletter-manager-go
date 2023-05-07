@@ -3,6 +3,7 @@ package author
 import (
 	"context"
 	"errors"
+
 	"github.com/jackc/pgx/v5"
 
 	"newsletter-manager-go/database/sql"
@@ -42,12 +43,12 @@ func (r *Repository) Create(ctx context.Context, author *domauthor.Author) error
 			"updated_at":    author.UpdatedAt,
 		})
 		if err != nil {
-			//if sql.IsUnique(err, query.ConstraintUniqueAuthorEmail) {
+			// if sql.IsUnique(err, query.ConstraintUniqueAuthorEmail) {
 			//	return domauthor.ErrAuthorEmailAlreadyExists
-			//}
-			//if sql.IsForeignKey(err, query.ConstraintReferrerID) {
+			// }
+			// if sql.IsForeignKey(err, query.ConstraintReferrerID) {
 			//	return domauthor.ErrReferrerNotFound
-			//}
+			// }
 			return err
 		}
 		return nil
