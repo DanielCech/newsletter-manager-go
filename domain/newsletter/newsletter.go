@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"newsletter-manager-go/types/id"
-	"newsletter-manager-go/util/timesource"
 )
 
 var (
@@ -17,7 +16,7 @@ var (
 
 // Newsletter consists of fields which describe a newsletter.
 type Newsletter struct {
-	timeSource timesource.TimeSource
+	// timeSource timesource.TimeSource
 
 	ID          id.Newsletter
 	AuthorID    id.Author

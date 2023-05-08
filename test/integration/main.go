@@ -1,6 +1,7 @@
 package main
 
 import (
+	"newsletter-manager-go/test/integration/flows"
 	"newsletter-manager-go/test/integration/generate/swagger"
 	"os"
 )
@@ -27,7 +28,7 @@ func main() {
 }
 
 func runFlows(flow string, client *swagger.APIClient) {
-
+	runFlow(flow, client, "flow1", flows.Flow1)
 }
 
 func runFlow(currentFlow string, client *swagger.APIClient, flowName string, run func(client *swagger.APIClient)) {

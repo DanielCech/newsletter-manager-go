@@ -10,6 +10,6 @@ package swagger
 
 // Session object for creating a stateless session
 type CreateSessionInput struct {
-	Email string `json:"email"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }

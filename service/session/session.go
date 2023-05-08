@@ -66,8 +66,8 @@ func (s *Service) CreateForAuthor(ctx context.Context, author *domauthor.Author)
 	return s.create(ctx, author.ID)
 }
 
-func (s *Service) create(ctx context.Context, AuthorID id.Author) (*domsession.Session, error) {
-	claims, err := domsession.NewClaims(AuthorID)
+func (s *Service) create(ctx context.Context, authorID id.Author) (*domsession.Session, error) {
+	claims, err := domsession.NewClaims(authorID)
 	if err != nil {
 		return nil, fmt.Errorf("new claims: %w", err)
 	}
@@ -93,7 +93,7 @@ func (s *Service) Destroy(ctx context.Context, refreshTokenID id.RefreshToken) e
 }
 
 // DestroyForAuthor destroys all sessions by deleting refresh tokens from the repository by author id.
-func (s *Service) DestroyForAuthor(ctx context.Context, AuthorID id.Author) error {
+func (s *Service) DestroyForAuthor(ctx context.Context, authorID id.Author) error {
 	// if err := s.sessionRepository.DeleteRefreshTokensByAuthorID(ctx, AuthorID); err != nil {
 	//	return fmt.Errorf("deleting refresh tokens by author id: %w", err)
 	// }

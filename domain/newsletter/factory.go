@@ -13,8 +13,7 @@ type Hasher interface {
 
 // Factory contains dependencies that are needed for newsletters creation.
 type Factory struct {
-	hasher     Hasher
-	timeSource timesource.TimeSource
+	// timeSource timesource.TimeSource
 }
 
 // NewFactory returns new instance of newsletter Factory.
@@ -23,7 +22,7 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 		return Factory{}, err
 	}
 	return Factory{
-		timeSource: timesource,
+		// timeSource: timesource,
 	}, nil
 }
 

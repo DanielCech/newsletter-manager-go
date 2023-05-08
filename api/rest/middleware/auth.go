@@ -59,7 +59,6 @@ func Authenticate(logger *zap.Logger, tokenParser TokenParser) func(http.Handler
 			ctx := utilctx.WithAuthorID(r.Context(), accessToken.Claims.AuthorID)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
-		return next
 	}
 }
 
