@@ -1,6 +1,6 @@
 NativeSessions:
   post:
-    description: Create new stateless session
+    description: User sign-in
     tags:
       - session
     operationId: createSession
@@ -28,7 +28,7 @@ NativeSessions:
         $ref: '../schemas/common.yaml#/InvalidBodyError'
 RefreshSessions:
   post:
-    description: Refresh stateless session
+    description: (TODO:) Refresh access token
     tags:
       - session
     operationId: refreshSession
@@ -62,7 +62,7 @@ RefreshSessions:
         $ref: '../schemas/common.yaml#/InvalidBodyError'
 DestroySessions:
   post:
-    description: Destroy stateless session
+    description: (TODO:) Logout author completely
     tags:
       - session
     operationId: destroySession

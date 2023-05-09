@@ -1,6 +1,6 @@
 Email:
   get:
-    description: Get email by ID
+    description: (TODO:) Get email by ID
     tags:
       - email
     operationId: getAuthors
@@ -29,7 +29,7 @@ Email:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 Emails:
   get:
-    description: Get newsletter's emails
+    description: (TODO:) Get newsletter's emails
     tags:
       - email
     operationId: getNewsletterEmails
@@ -57,7 +57,7 @@ Emails:
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
   post:
-    description: Create a new email
+    description: (TODO:) Create a new email
     tags:
       - email
     operationId: createEmail

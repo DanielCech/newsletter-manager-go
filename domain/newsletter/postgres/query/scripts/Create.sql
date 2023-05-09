@@ -1,6 +1,5 @@
-INSERT INTO "user" (
+INSERT INTO "author" (
     id,
-    referrer_id,
     name,
     email,
     password_hash,
@@ -9,4 +8,4 @@ INSERT INTO "user" (
     updated_at
 )
 VALUES
-    (@id, @referrer_id, @name, @email, @password_hash, @role, @created_at, @updated_at)
+    (@id, @name, @email, @password_hash, @role, @created_at, @updated_at)

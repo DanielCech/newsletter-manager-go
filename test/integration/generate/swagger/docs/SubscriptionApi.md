@@ -13,7 +13,7 @@ Method | HTTP request | Description
 > CreateAuthorResp NewsletterSubscriptions(ctx, newsletterId)
 
 
-Newsletter's subscriptions
+(TODO:) Newsletter's subscriptions
 
 ### Required Parameters
 
@@ -41,7 +41,7 @@ No authorization required
 > []Author SubscribeToNewsletter(ctx, newsletterId)
 
 
-Subscribe to newsletter
+(TODO:) Subscribe to newsletter
 
 ### Required Parameters
 
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 > CreateAuthorResp SubscriptionsByEmail(ctx, )
 
 
-All newsletter subscriptions by Email
+(TODO:) All newsletter subscriptions by Email
 
 ### Required Parameters
 This endpoint does not need any parameter.
@@ -93,7 +93,7 @@ No authorization required
 > []Author UnsubscribeFromNewsletter(ctx, newsletterId)
 
 
-Unsubscribe from newsletter
+(TODO:) Unsubscribe from newsletter
 
 ### Required Parameters
 

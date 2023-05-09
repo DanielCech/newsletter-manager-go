@@ -21,9 +21,6 @@ All URIs are relative to *https://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthorApi* | [**AuthorSignIn**](docs/AuthorApi.md#authorsignin) | **Post** /api/v1/authors/sign-in | 
-*AuthorApi* | [**AuthorSignUp**](docs/AuthorApi.md#authorsignup) | **Post** /api/v1/authors/sign-up | 
-*AuthorApi* | [**ChangeAuthorsPassword**](docs/AuthorApi.md#changeauthorspassword) | **Post** /api/v1/authors/change-password | 
 *AuthorApi* | [**DeleteAuthor**](docs/AuthorApi.md#deleteauthor) | **Delete** /api/v1/authors/{authorId} | 
 *AuthorApi* | [**GetAuthor**](docs/AuthorApi.md#getauthor) | **Get** /api/v1/authors/{authorId} | 
 *AuthorApi* | [**ListOfAllAuthors**](docs/AuthorApi.md#listofallauthors) | **Get** /api/v1/authors | 
@@ -36,9 +33,11 @@ Class | Method | HTTP request | Description
 *NewsletterApi* | [**DeleteNewsletter**](docs/NewsletterApi.md#deletenewsletter) | **Delete** /api/v1/newsletters/{newsletterId} | 
 *NewsletterApi* | [**GetNewsletter**](docs/NewsletterApi.md#getnewsletter) | **Get** /api/v1/newsletters/{newsletterId} | 
 *NewsletterApi* | [**UpdateNewsletter**](docs/NewsletterApi.md#updatenewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
-*SessionApi* | [**CreateSession**](docs/SessionApi.md#createsession) | **Post** /api/v1/sessions/native | 
-*SessionApi* | [**DestroySession**](docs/SessionApi.md#destroysession) | **Post** /api/v1/sessions/destroy | 
-*SessionApi* | [**RefreshSession**](docs/SessionApi.md#refreshsession) | **Post** /api/v1/sessions/refresh | 
+*SessionApi* | [**AuthorSignUp**](docs/SessionApi.md#authorsignup) | **Post** /api/v1/authors/sign-up | 
+*SessionApi* | [**ChangeAuthorsPassword**](docs/SessionApi.md#changeauthorspassword) | **Post** /api/v1/authors/current/change-password | 
+*SessionApi* | [**CreateSession**](docs/SessionApi.md#createsession) | **Post** /api/v1/authors/sign-in | 
+*SessionApi* | [**DestroySession**](docs/SessionApi.md#destroysession) | **Post** /api/v1/authors/current/logout | 
+*SessionApi* | [**RefreshSession**](docs/SessionApi.md#refreshsession) | **Post** /api/v1/authors/current/refresh-token | 
 *SubscriptionApi* | [**NewsletterSubscriptions**](docs/SubscriptionApi.md#newslettersubscriptions) | **Get** /api/v1/newsletters/{newsletterId}/subscriptions | 
 *SubscriptionApi* | [**SubscribeToNewsletter**](docs/SubscriptionApi.md#subscribetonewsletter) | **Post** /api/v1/newsletters/{newsletterId}/subscribe | 
 *SubscriptionApi* | [**SubscriptionsByEmail**](docs/SubscriptionApi.md#subscriptionsbyemail) | **Get** /api/v1/subscriptions | 

@@ -10,7 +10,7 @@ package swagger
 
 // Author object
 type Author struct {
-	Id    string `json:"id"`
-	Name  string `json:"name"`
+	Id string `json:"id"`
+	Name string `json:"name"`
 	Email string `json:"email"`
 }

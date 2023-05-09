@@ -22,7 +22,7 @@ var wipeDatabaseSQL string
 var populateDatabaseSQL string
 
 // Modified connection string that turns the caching off - it is necessary for testing
-var connString = "postgres://postgres:matchtheface123@localhost:5433/event-facematch?sslmode=disable"
+var connString = "postgres://postgres:matchtheface123@localhost:5433/newsletter-manager?sslmode=disable"
 
 type migrateLogger struct{}
 

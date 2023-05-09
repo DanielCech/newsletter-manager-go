@@ -1,6 +1,6 @@
 Authors:
   get:
-    description: Returns the list of all authors
+    description: (TODO:) Returns the list of all authors
     tags:
       - author
     operationId: listOfAllAuthors
@@ -21,7 +21,7 @@ Authors:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 Author:
   get:
-    description: Get author by ID
+    description: (TODO:) Get author by ID
     tags:
       - author
     operationId: getAuthor
@@ -49,7 +49,7 @@ Author:
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
   delete:
-    description: Delete the author
+    description: (TODO:) Delete the author
     tags:
       - author
     operationId: deleteAuthor
@@ -77,7 +77,7 @@ Author:
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
   patch:
-    description: Update author data
+    description: (TODO:) Update author data
     tags:
       - author
     operationId: updateAuthor
@@ -104,38 +104,18 @@ Author:
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
-AuthorSignIn:
-  post:
-    description: Author sign-in
-    tags:
-      - author
-    operationId: authorSignIn
-    security:
-      - bearerAuth: [ ]
-    responses:
-      200:
-        description: Author
-        content:
-          application/json; charset=utf-8:
-            schema:
-              type: array
-              items:
-                $ref: '../schemas/author.yaml#/Author'
-      "401":
-        $ref: '../schemas/common.yaml#/UnauthenticatedError'
-      "403":
-        $ref: '../schemas/common.yaml#/ForbiddenError'
 AuthorSignUp:
   post:
     description: Author sign-up
     tags:
-      - author
+      - session
     operationId: authorSignUp
     requestBody:
       content:
         application/json:
           schema:
             $ref: '../schemas/author.yaml#/CreateAuthorInput'
+      required: true
     security:
       - bearerAuth: [ ]
     responses:
@@ -151,9 +131,9 @@ AuthorSignUp:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 ChangeAuthorPassword:
   post:
-    description: Change author's password
+    description: (TODO:) Change author's password
     tags:
-      - author
+      - session
     operationId: changeAuthorsPassword
     security:
       - bearerAuth: [ ]
@@ -172,9 +152,9 @@ ChangeAuthorPassword:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 RefreshToken:
   post:
-    description: Refresh token
+    description: (TODO:) Refresh token
     tags:
-      - author
+      - session
     operationId: refreshToken
     security:
       - bearerAuth: [ ]

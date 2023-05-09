@@ -1,6 +1,6 @@
 Subscribe:
   post:
-    description: Subscribe to newsletter
+    description: (TODO:) Subscribe to newsletter
     tags:
       - subscription
     operationId: subscribeToNewsletter
@@ -29,7 +29,7 @@ Subscribe:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 Unsubscribe:
   post:
-    description: Unsubscribe from newsletter
+    description: (TODO:) Unsubscribe from newsletter
     tags:
       - subscription
     operationId: unsubscribeFromNewsletter
@@ -58,7 +58,7 @@ Unsubscribe:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 NewsletterSubscriptions:
   get:
-    description: Newsletter's subscriptions
+    description: (TODO:) Newsletter's subscriptions
     tags:
       - subscription
     operationId: newsletterSubscriptions
@@ -89,7 +89,7 @@ NewsletterSubscriptions:
         $ref: '../schemas/common.yaml#/InvalidBodyError'
 SubscriptionsByEmail:
   get:
-    description: All newsletter subscriptions by Email
+    description: (TODO:) All newsletter subscriptions by Email
     tags:
       - subscription
     operationId: subscriptionsByEmail

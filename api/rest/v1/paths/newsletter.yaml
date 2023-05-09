@@ -1,6 +1,6 @@
 Newsletters:
   get:
-    description: The list of author's newsletters
+    description: (TODO:) The list of author's newsletters
     tags:
       - newsletter
     operationId: authorsNewsletters
@@ -28,7 +28,7 @@ Newsletters:
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
   post:
-    description: Creates a new newsletter.
+    description: (TODO:) Creates a new newsletter.
     tags:
       - newsletter
     operationId: createNewsletter
@@ -57,7 +57,7 @@ Newsletters:
         $ref: '../schemas/common.yaml#/ForbiddenError'
 Newsletter:
   delete:
-    description: Delete the newsletter
+    description: (TODO:) Delete the newsletter
     tags:
       - newsletter
     operationId: deleteNewsletter
@@ -89,7 +89,7 @@ Newsletter:
       "422":
         $ref: '../schemas/common.yaml#/InvalidBodyError'
   get:
-    description: Get newsletter by ID
+    description: (TODO:) Get newsletter by ID
     tags:
       - newsletter
     operationId: getNewsletter
@@ -119,7 +119,7 @@ Newsletter:
       "422":
         $ref: '../schemas/common.yaml#/InvalidBodyError'
   patch:
-    description: Update newsletter
+    description: (TODO:) Update newsletter
     tags:
       - newsletter
     operationId: updateNewsletter

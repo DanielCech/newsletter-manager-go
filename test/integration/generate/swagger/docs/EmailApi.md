@@ -12,7 +12,7 @@ Method | HTTP request | Description
 > []Author CreateEmail(ctx, newsletterId)
 
 
-Create a new email
+(TODO:) Create a new email
 
 ### Required Parameters
 
@@ -40,7 +40,7 @@ Name | Type | Description  | Notes
 > []Author GetAuthors(ctx, emailId)
 
 
-Get email by ID
+(TODO:) Get email by ID
 
 ### Required Parameters
 
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 > []Author GetNewsletterEmails(ctx, newsletterId)
 
 
-Get newsletter's emails
+(TODO:) Get newsletter's emails
 
 ### Required Parameters
 

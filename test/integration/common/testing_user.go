@@ -3,21 +3,21 @@ package common
 import (
 	"context"
 	"newsletter-manager-go/test/integration/generate/swagger"
-
-	"github.com/google/uuid"
 )
 
-type TestingUser struct {
-	FirebaseID uuid.UUID
-	AuthorID   string
-	Context    context.Context
+type TestingAuthor struct {
+	Context  context.Context
+	AuthorID string
+	Session  *swagger.Session
 }
 
-func NewUser() TestingUser {
-	firebaseID := uuid.New()
-
-	return TestingUser{
-		FirebaseID: firebaseID,
-		Context:    context.WithValue(context.Background(), swagger.ContextAccessToken, firebaseID.String()),
+func NewUser(email string, password string) TestingAuthor {
+	return TestingAuthor{
+		Context: context.Background(),
 	}
+}
+
+func (author *TestingAuthor) UpdateWith(resp swagger.CreateAuthorResp) {
+	author.AuthorID = resp.Author.Id
+	author.Session = resp.Session
 }

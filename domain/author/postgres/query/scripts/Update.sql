@@ -1,7 +1,6 @@
 UPDATE
-    "user"
+    "author"
 SET
-    referrer_id = @referrer_id,
     name = @name,
     email = @email,
     password_hash = @password_hash,

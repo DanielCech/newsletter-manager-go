@@ -46,7 +46,6 @@ func (h *Handler) initRouter() {
 	r := chi.NewRouter()
 
 	authenticate := middleware.Authenticate(h.logger, h.tokenParser)
-	noCacheHeaders := middleware.NoCacheHeaders()
 
 	w := signature.DefaultWrapper().
 		WithInputGetter(httputil.ParseRequestBody).
@@ -55,29 +54,29 @@ func (h *Handler) initRouter() {
 		})
 	wCreated := w.WithResponseMarshaler(signature.FixedResponseCodeMarshal(http.StatusCreated))
 
-	r.Route("/sessions", func(r chi.Router) {
-		r.Group(func(r chi.Router) {
-			r.Use(noCacheHeaders)
-			r.Post("/native", signature.WrapHandler(wCreated, h.CreateSession))
-			r.Post("/refresh", signature.WrapHandler(wCreated, h.RefreshSession))
-		})
-		r.Post("/destroy", signature.WrapHandlerInput(w, h.DestroySession))
-	})
-
 	r.Route("/authors", func(r chi.Router) {
+
 		r.Route("/sign-up", func(r chi.Router) {
 			r.Post("/", signature.WrapHandler(wCreated, h.AuthorSignUp))
 		})
+		r.Route("/sign-in", func(r chi.Router) {
+			r.Post("/", signature.WrapHandler(wCreated, h.CreateSession))
+		})
+
+		r.Route("/current", func(r chi.Router) {
+			r.Route("/refresh-token", func(r chi.Router) {
+				r.Post("/", signature.WrapHandler(wCreated, h.RefreshSession))
+			})
+			r.Route("/logout", func(r chi.Router) {
+				r.Use(authenticate)
+				r.Post("/", signature.WrapHandlerInput(w, h.DestroySession))
+			})
+
+			r.Get("/", signature.WrapHandlerResponse(w, h.ReadLoggedAuthor))
+		})
+
 		r.Group(func(r chi.Router) {
 			r.Use(authenticate)
-			r.Group(func(r chi.Router) {
-				r.Route("/me", func(r chi.Router) {
-					// r.Get("/", signature.WrapHandlerResponse(w, h.ReadLoggedAuthor))
-				})
-				r.Route("/change-password", func(r chi.Router) {
-					// r.Patch("/", signature.WrapHandlerInput(w, h.ChangeAuthorPassword))
-				})
-			})
 			r.Group(func(r chi.Router) {
 				r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
 			})
@@ -94,8 +93,6 @@ func (h *Handler) initRouter() {
 			r.Post("/newsletters", signature.WrapHandler(wCreated, h.CreateNewsletter))
 		})
 
-		r.Post("/sign-in", signature.WrapHandler(wCreated, h.AuthorSignIn))
-		r.Post("/sign-up", signature.WrapHandler(wCreated, h.AuthorSignUp))
 		r.Get("/subscriptions", signature.WrapHandler(wCreated, h.AuthorSubscriptions))
 
 		// TODO: maybe handled by Update
@@ -116,6 +113,7 @@ func (h *Handler) initRouter() {
 				r.Get("/", signature.WrapHandler(w, h.ListNewsletterEmails))
 				r.Post("/", signature.WrapHandler(w, h.CreateNewsletterEmail))
 			})
+
 			r.Post("/subscribe", signature.WrapHandlerResponse(w, h.SubscribeToNewsletter))
 			r.Post("/unsubscribe", signature.WrapHandlerResponse(w, h.UnsubscribeFromNewsletter))
 		})

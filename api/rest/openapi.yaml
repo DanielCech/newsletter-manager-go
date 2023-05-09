@@ -7,10 +7,10 @@ servers:
 - url: https://localhost:8080
   description: Main production server
 tags:
-- name: author
-  description: Authors API
 - name: session
   description: Sessions API
+- name: author
+  description: Authors API
 - name: newsletter
   description: Newsletters API
 - name: email
@@ -18,246 +18,11 @@ tags:
 - name: subscription
   description: Subscriptions API
 paths:
-  /api/v1/authors:
-    get:
-      tags:
-      - author
-      description: Returns the list of all authors
-      operationId: listOfAllAuthors
-      responses:
-        "200":
-          description: List of authors
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/authors/{authorId}:
-    get:
-      tags:
-      - author
-      description: Get author by ID
-      operationId: getAuthor
-      parameters:
-      - name: authorId
-        in: path
-        description: ID of the author
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-    delete:
-      tags:
-      - author
-      description: Delete the author
-      operationId: deleteAuthor
-      parameters:
-      - name: authorId
-        in: path
-        description: ID of the author
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-    patch:
-      tags:
-      - author
-      description: Update author data
-      operationId: updateAuthor
-      parameters:
-      - name: authorId
-        in: path
-        description: ID of the author
-        required: true
-        schema:
-          type: string
-          format: uuid
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
   /api/v1/authors/sign-in:
     post:
       tags:
-      - author
-      description: Author sign-in
-      operationId: authorSignIn
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/authors/sign-up:
-    post:
-      tags:
-      - author
-      description: Author sign-up
-      operationId: authorSignUp
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateAuthorInput'
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/CreateAuthorResp'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/authors/change-password:
-    post:
-      tags:
-      - author
-      description: Change author's password
-      operationId: changeAuthorsPassword
-      responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-        "401":
-          description: Authentication token is not present or not valid
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "403":
-          description: "Authentication token is present, but the user is not authorized\
-            \ to perform this operation"
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-      security:
-      - bearerAuth: []
-  /api/v1/sessions/native:
-    post:
-      tags:
       - session
-      description: Create new stateless session
+      description: User sign-in
       operationId: createSession
       requestBody:
         content:
@@ -289,11 +54,45 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
-  /api/v1/sessions/refresh:
+  /api/v1/authors/sign-up:
     post:
       tags:
       - session
-      description: Refresh stateless session
+      description: Author sign-up
+      operationId: authorSignUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAuthorInput'
+        required: true
+      responses:
+        "200":
+          description: Author
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/CreateAuthorResp'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+  /api/v1/authors/current/refresh-token:
+    post:
+      tags:
+      - session
+      description: (TODO:) Refresh access token
       operationId: refreshSession
       requestBody:
         content:
@@ -331,11 +130,11 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
-  /api/v1/sessions/destroy:
+  /api/v1/authors/current/logout:
     post:
       tags:
       - session
-      description: Destroy stateless session
+      description: (TODO:) Logout author completely
       operationId: destroySession
       requestBody:
         content:
@@ -369,11 +168,183 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
+  /api/v1/authors/current/change-password:
+    post:
+      tags:
+      - session
+      description: (TODO:) Change author's password
+      operationId: changeAuthorsPassword
+      responses:
+        "200":
+          description: Author
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+  /api/v1/authors:
+    get:
+      tags:
+      - author
+      description: (TODO:) Returns the list of all authors
+      operationId: listOfAllAuthors
+      responses:
+        "200":
+          description: List of authors
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+  /api/v1/authors/{authorId}:
+    get:
+      tags:
+      - author
+      description: (TODO:) Get author by ID
+      operationId: getAuthor
+      parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Author
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+    delete:
+      tags:
+      - author
+      description: (TODO:) Delete the author
+      operationId: deleteAuthor
+      parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Author
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+    patch:
+      tags:
+      - author
+      description: (TODO:) Update author data
+      operationId: updateAuthor
+      parameters:
+      - name: authorId
+        in: path
+        description: ID of the author
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Author
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Author'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the user is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
   /api/v1/authors/{authorId}/newsletters:
     get:
       tags:
       - newsletter
-      description: The list of author's newsletters
+      description: (TODO:) The list of author's newsletters
       operationId: authorsNewsletters
       parameters:
       - name: authorId
@@ -410,7 +381,7 @@ paths:
     post:
       tags:
       - newsletter
-      description: Creates a new newsletter.
+      description: (TODO:) Creates a new newsletter.
       operationId: createNewsletter
       parameters:
       - name: authorId
@@ -448,7 +419,7 @@ paths:
     get:
       tags:
       - newsletter
-      description: Get newsletter by ID
+      description: (TODO:) Get newsletter by ID
       operationId: getNewsletter
       parameters:
       - name: newsletterId
@@ -486,7 +457,7 @@ paths:
     delete:
       tags:
       - newsletter
-      description: Delete the newsletter
+      description: (TODO:) Delete the newsletter
       operationId: deleteNewsletter
       parameters:
       - name: newsletterId
@@ -526,7 +497,7 @@ paths:
     patch:
       tags:
       - newsletter
-      description: Update newsletter
+      description: (TODO:) Update newsletter
       operationId: updateNewsletter
       parameters:
       - name: newsletterId
@@ -572,7 +543,7 @@ paths:
     get:
       tags:
       - email
-      description: Get email by ID
+      description: (TODO:) Get email by ID
       operationId: getAuthors
       parameters:
       - name: emailId
@@ -610,7 +581,7 @@ paths:
     get:
       tags:
       - email
-      description: Get newsletter's emails
+      description: (TODO:) Get newsletter's emails
       operationId: getNewsletterEmails
       parameters:
       - name: newsletterId
@@ -647,7 +618,7 @@ paths:
     post:
       tags:
       - email
-      description: Create a new email
+      description: (TODO:) Create a new email
       operationId: createEmail
       parameters:
       - name: newsletterId
@@ -685,7 +656,7 @@ paths:
     post:
       tags:
       - subscription
-      description: Subscribe to newsletter
+      description: (TODO:) Subscribe to newsletter
       operationId: subscribeToNewsletter
       parameters:
       - name: newsletterId
@@ -723,7 +694,7 @@ paths:
     post:
       tags:
       - subscription
-      description: Unsubscribe from newsletter
+      description: (TODO:) Unsubscribe from newsletter
       operationId: unsubscribeFromNewsletter
       parameters:
       - name: newsletterId
@@ -761,7 +732,7 @@ paths:
     get:
       tags:
       - subscription
-      description: Newsletter's subscriptions
+      description: (TODO:) Newsletter's subscriptions
       operationId: newsletterSubscriptions
       parameters:
       - name: newsletterId
@@ -800,7 +771,7 @@ paths:
     get:
       tags:
       - subscription
-      description: All newsletter subscriptions by Email
+      description: (TODO:) All newsletter subscriptions by Email
       operationId: subscriptionsByEmail
       responses:
         "201":
@@ -829,21 +800,28 @@ paths:
                 $ref: '#/components/schemas/APIError'
 components:
   schemas:
-    Author:
+    CreateSessionInput:
       required:
       - email
-      - id
-      - name
-      - role
+      - password
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/ID'
-        name:
-          $ref: '#/components/schemas/Name'
         email:
           $ref: '#/components/schemas/Email'
-      description: Author object
+        password:
+          $ref: '#/components/schemas/Password'
+      description: Session object for creating a stateless session
+    CreateSessionResp:
+      required:
+      - session
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/Author'
+        session:
+          $ref: '#/components/schemas/Session'
+      description: Session object
     APIError:
       required:
       - errorCode
@@ -900,28 +878,6 @@ components:
         session:
           $ref: '#/components/schemas/Session'
       description: Session object
-    CreateSessionInput:
-      required:
-      - email
-      - password
-      type: object
-      properties:
-        email:
-          $ref: '#/components/schemas/Email'
-        password:
-          $ref: '#/components/schemas/Password'
-      description: Session object for creating a stateless session
-    CreateSessionResp:
-      required:
-      - session
-      - user
-      type: object
-      properties:
-        user:
-          $ref: '#/components/schemas/Author'
-        session:
-          $ref: '#/components/schemas/Session'
-      description: Session object
     RefreshSessionInput:
       required:
       - refreshToken
@@ -955,15 +911,21 @@ components:
         refreshToken:
           $ref: '#/components/schemas/RefreshToken'
       description: Object for destroying session
-    ID:
-      type: string
-      description: Universal unique identifier
-      format: uuid
-      example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
-    Name:
-      type: string
-      description: Author name
-      example: John Snow
+    Author:
+      required:
+      - email
+      - id
+      - name
+      - role
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        name:
+          $ref: '#/components/schemas/Name'
+        email:
+          $ref: '#/components/schemas/Email'
+      description: Author object
     Email:
       type: string
       description: Author email
@@ -976,6 +938,10 @@ components:
         \ one lower case letter and one number"
       format: password
       example: Topsecret1
+    Name:
+      type: string
+      description: Author name
+      example: John Snow
     RefreshToken:
       type: string
       description: Refresh token string
@@ -990,7 +956,24 @@ components:
       description: Date time in format RFC3339
       format: date-time
       example: 2022-07-06T12:59:34Z
+    ID:
+      type: string
+      description: Universal unique identifier
+      format: uuid
+      example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
   responses:
+    BadRequestError:
+      description: Input body is not valid JSON
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/APIError'
+    InvalidBodyError:
+      description: Values in input body are not valid
+      content:
+        application/json; charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/APIError'
     UnauthenticatedError:
       description: Authentication token is not present or not valid
       content:
@@ -1000,18 +983,6 @@ components:
     ForbiddenError:
       description: "Authentication token is present, but the user is not authorized\
         \ to perform this operation"
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
-    BadRequestError:
-      description: Input body is not valid JSON
-      content:
-        application/json; charset=utf-8:
-          schema:
-            $ref: '#/components/schemas/APIError'
-    InvalidBodyError:
-      description: Values in input body are not valid
       content:
         application/json; charset=utf-8:
           schema:

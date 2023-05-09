@@ -7,6 +7,7 @@ import (
 	apierrors "newsletter-manager-go/types/errors"
 
 	"newsletter-manager-go/api/rest/v1/model"
+	utilctx "newsletter-manager-go/util/context"
 )
 
 func (h *Handler) AuthorSignUp(_ http.ResponseWriter, r *http.Request, input model.AuthorSignUpInput) (*model.CreateAuthorResp, error) {
@@ -61,4 +62,16 @@ func (h *Handler) UpdateAuthor(_ http.ResponseWriter, r *http.Request, input mod
 func (h *Handler) DeleteAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) error {
 	// TODO
 	return nil
+}
+
+// ReadLoggedAuthor returns existing author.
+func (h *Handler) ReadLoggedAuthor(_ http.ResponseWriter, r *http.Request) (*model.Author, error) {
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+	author, err := h.authorService.Read(r.Context(), authorID)
+	if err != nil {
+		return nil, fmt.Errorf("reading logged author: %w", err)
+	}
+
+	authorResp := model.FromDomainAuthor(author)
+	return &authorResp, nil
 }

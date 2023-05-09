@@ -14,7 +14,7 @@ Method | HTTP request | Description
 > []Author AuthorsNewsletters(ctx, authorId)
 
 
-The list of author's newsletters
+(TODO:) The list of author's newsletters
 
 ### Required Parameters
 
@@ -42,7 +42,7 @@ Name | Type | Description  | Notes
 > []Author CreateNewsletter(ctx, authorId)
 
 
-Creates a new newsletter.
+(TODO:) Creates a new newsletter.
 
 ### Required Parameters
 
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 > CreateAuthorResp DeleteNewsletter(ctx, newsletterId)
 
 
-Delete the newsletter
+(TODO:) Delete the newsletter
 
 ### Required Parameters
 
@@ -98,7 +98,7 @@ Name | Type | Description  | Notes
 > CreateAuthorResp GetNewsletter(ctx, newsletterId)
 
 
-Get newsletter by ID
+(TODO:) Get newsletter by ID
 
 ### Required Parameters
 
@@ -126,7 +126,7 @@ No authorization required
 > CreateAuthorResp UpdateNewsletter(ctx, newsletterId, optional)
 
 
-Update newsletter
+(TODO:) Update newsletter
 
 ### Required Parameters
 

@@ -29,6 +29,7 @@ func main() {
 
 func runFlows(flow string, client *swagger.APIClient) {
 	runFlow(flow, client, "flow1", flows.Flow1)
+	runFlow(flow, client, "flow2", flows.Flow2)
 }
 
 func runFlow(currentFlow string, client *swagger.APIClient, flowName string, run func(client *swagger.APIClient)) {
