@@ -26,7 +26,7 @@ Author:
   required: [id, name, email, role]
 CreateAuthorInput:
   type: object
-  description: Author object for creating a user
+  description: Author object for creating a author
   properties:
     name:
       $ref: './author.yaml#/Name'

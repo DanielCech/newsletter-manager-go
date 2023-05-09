@@ -10,6 +10,6 @@ package swagger
 
 // Session object
 type CreateSessionResp struct {
-	User *Author `json:"user"`
+	Author *Author `json:"author"`
 	Session *Session `json:"session"`
 }

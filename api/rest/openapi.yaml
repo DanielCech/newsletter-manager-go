@@ -29,6 +29,7 @@ paths:
           application/json; charset=utf-8:
             schema:
               $ref: '#/components/schemas/CreateSessionInput'
+        required: true
       responses:
         "201":
           description: Successfully created session
@@ -80,7 +81,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -99,6 +100,7 @@ paths:
           application/json; charset=utf-8:
             schema:
               $ref: '#/components/schemas/RefreshSessionInput'
+        required: true
       responses:
         "201":
           description: Successfully created session
@@ -141,6 +143,7 @@ paths:
           application/json; charset=utf-8:
             schema:
               $ref: '#/components/schemas/DestroySessionInput'
+        required: true
       responses:
         "204":
           description: Session successfully destroyed
@@ -190,7 +193,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -220,7 +223,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -258,7 +261,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -295,7 +298,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -332,7 +335,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -356,7 +359,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -370,7 +373,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -393,7 +396,7 @@ paths:
           format: uuid
       responses:
         "200":
-          description: List of users
+          description: List of authors
           content:
             application/json; charset=utf-8:
               schema:
@@ -407,7 +410,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -431,7 +434,7 @@ paths:
           format: uuid
       responses:
         "201":
-          description: Successfully created user
+          description: Successfully created author
           content:
             application/json; charset=utf-8:
               schema:
@@ -443,7 +446,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A user with the same email already exists
+          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -469,7 +472,7 @@ paths:
           format: uuid
       responses:
         "201":
-          description: Successfully created user
+          description: Successfully created author
           content:
             application/json; charset=utf-8:
               schema:
@@ -481,7 +484,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A user with the same email already exists
+          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -514,7 +517,7 @@ paths:
               $ref: '#/components/schemas/CreateAuthorInput'
       responses:
         "201":
-          description: Successfully created user
+          description: Successfully created author
           content:
             application/json; charset=utf-8:
               schema:
@@ -526,7 +529,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A user with the same email already exists
+          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -569,7 +572,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -607,7 +610,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -644,7 +647,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -682,7 +685,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -720,7 +723,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "403":
-          description: "Authentication token is present, but the user is not authorized\
+          description: "Authentication token is present, but the author is not authorized\
             \ to perform this operation"
           content:
             application/json; charset=utf-8:
@@ -813,11 +816,11 @@ components:
       description: Session object for creating a stateless session
     CreateSessionResp:
       required:
+      - author
       - session
-      - user
       type: object
       properties:
-        user:
+        author:
           $ref: '#/components/schemas/Author'
         session:
           $ref: '#/components/schemas/Session'
@@ -866,7 +869,7 @@ components:
           $ref: '#/components/schemas/Email'
         password:
           $ref: '#/components/schemas/Password'
-      description: Author object for creating a user
+      description: Author object for creating a author
     CreateAuthorResp:
       required:
       - author
@@ -981,7 +984,7 @@ components:
           schema:
             $ref: '#/components/schemas/APIError'
     ForbiddenError:
-      description: "Authentication token is present, but the user is not authorized\
+      description: "Authentication token is present, but the author is not authorized\
         \ to perform this operation"
       content:
         application/json; charset=utf-8:

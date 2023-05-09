@@ -16,7 +16,7 @@ Newsletters:
           format: uuid
     responses:
       200:
-        description: List of users
+        description: List of authors
         content:
           application/json; charset=utf-8:
             schema:
@@ -44,7 +44,7 @@ Newsletters:
           format: uuid
     responses:
       200:
-        description: List of users
+        description: List of authors
         content:
           application/json; charset=utf-8:
             schema:
@@ -73,7 +73,7 @@ Newsletter:
           format: uuid
     responses:
       "201":
-        description: Successfully created user
+        description: Successfully created author
         content:
           application/json; charset=utf-8:
             schema:
@@ -81,7 +81,7 @@ Newsletter:
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
-        description: A user with the same email already exists
+        description: A author with the same email already exists
         content:
           application/json; charset=utf-8:
             schema:
@@ -103,7 +103,7 @@ Newsletter:
           format: uuid
     responses:
       "201":
-        description: Successfully created user
+        description: Successfully created author
         content:
           application/json; charset=utf-8:
             schema:
@@ -111,7 +111,7 @@ Newsletter:
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
-        description: A user with the same email already exists
+        description: A author with the same email already exists
         content:
           application/json; charset=utf-8:
             schema:
@@ -140,7 +140,7 @@ Newsletter:
             $ref: '../schemas/author.yaml#/CreateAuthorInput'
     responses:
       "201":
-        description: Successfully created user
+        description: Successfully created author
         content:
           application/json; charset=utf-8:
             schema:
@@ -148,7 +148,7 @@ Newsletter:
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
-        description: A user with the same email already exists
+        description: A author with the same email already exists
         content:
           application/json; charset=utf-8:
             schema:

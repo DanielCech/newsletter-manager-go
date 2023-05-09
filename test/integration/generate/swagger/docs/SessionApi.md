@@ -63,7 +63,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateSession**
-> CreateSessionResp CreateSession(ctx, optional)
+> CreateSessionResp CreateSession(ctx, body)
 
 
 User sign-in
@@ -73,13 +73,7 @@ User sign-in
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SessionApiCreateSessionOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SessionApiCreateSessionOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**optional.Interface of CreateSessionInput**](CreateSessionInput.md)|  | 
+  **body** | [**CreateSessionInput**](CreateSessionInput.md)|  | 
 
 ### Return type
 
@@ -97,7 +91,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DestroySession**
-> DestroySession(ctx, optional)
+> DestroySession(ctx, body)
 
 
 (TODO:) Logout author completely
@@ -107,13 +101,7 @@ No authorization required
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SessionApiDestroySessionOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SessionApiDestroySessionOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**optional.Interface of DestroySessionInput**](DestroySessionInput.md)|  | 
+  **body** | [**DestroySessionInput**](DestroySessionInput.md)|  | 
 
 ### Return type
 
@@ -131,7 +119,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **RefreshSession**
-> Session RefreshSession(ctx, optional)
+> Session RefreshSession(ctx, body)
 
 
 (TODO:) Refresh access token
@@ -141,13 +129,7 @@ No authorization required
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***SessionApiRefreshSessionOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-Optional parameters are passed through a pointer to a SessionApiRefreshSessionOpts struct
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**optional.Interface of RefreshSessionInput**](RefreshSessionInput.md)|  | 
+  **body** | [**RefreshSessionInput**](RefreshSessionInput.md)|  | 
 
 ### Return type
 

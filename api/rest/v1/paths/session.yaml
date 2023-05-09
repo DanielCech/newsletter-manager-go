@@ -9,6 +9,7 @@ NativeSessions:
         application/json; charset=utf-8:
           schema:
             $ref: '../schemas/session.yaml#/CreateSessionInput'
+      required: true
     responses:
       "201":
         description: Successfully created session
@@ -37,6 +38,7 @@ RefreshSessions:
         application/json; charset=utf-8:
           schema:
             $ref: '../schemas/session.yaml#/RefreshSessionInput'
+      required: true
     responses:
       "201":
         description: Successfully created session
@@ -71,6 +73,7 @@ DestroySessions:
         application/json; charset=utf-8:
           schema:
             $ref: '../schemas/session.yaml#/DestroySessionInput'
+      required: true
     responses:
       "204":
         description: Session successfully destroyed

@@ -46,7 +46,7 @@ UnauthenticatedError:
       schema:
         $ref: '../schemas/common.yaml#/APIError'
 ForbiddenError:
-  description: Authentication token is present, but the user is not authorized to perform this operation
+  description: Authentication token is present, but the author is not authorized to perform this operation
   content:
     application/json; charset=utf-8:
       schema:

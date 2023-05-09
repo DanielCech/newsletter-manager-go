@@ -20,11 +20,11 @@ CreateSessionResp:
   type: object
   description: Session object
   properties:
-    user:
+    author:
       $ref: './author.yaml#/Author'
     session:
       $ref: './session.yaml#/Session'
-  required: [user, session]
+  required: [author, session]
 RefreshSessionInput:
   type: object
   description: Object for refreshing session

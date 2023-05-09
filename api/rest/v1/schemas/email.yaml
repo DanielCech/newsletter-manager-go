@@ -13,12 +13,6 @@ Password:
   minLength: 8
   format: password
   example: Topsecret1
-Role:
-  type: string
-  description: Author role
-  enum:
-    - user
-    - admin
 Author:
   type: object
   description: Author object
@@ -31,12 +25,10 @@ Author:
       $ref: './author.yaml#/Name'
     email:
       $ref: './author.yaml#/Email'
-    role:
-      $ref: './author.yaml#/Role'
-  required: [id, name, email, role]
+  required: [id, name, email]
 CreateAuthorInput:
   type: object
-  description: Author object for creating a user
+  description: Author object for creating a author
   properties:
     name:
       $ref: './author.yaml#/Name'
@@ -51,9 +43,9 @@ CreateAuthorResp:
   type: object
   description: Session object
   properties:
-    user:
+    author:
       $ref: './author.yaml#/Author'
-  required: [user, session]
+  required: [author, session]
 ChangeAuthorPasswordInput:
   type: object
   description: Old and new password

@@ -11,13 +11,17 @@ type TestingAuthor struct {
 	Session  *swagger.Session
 }
 
-func NewUser(email string, password string) TestingAuthor {
+func NewUser() TestingAuthor {
 	return TestingAuthor{
 		Context: context.Background(),
 	}
 }
 
-func (author *TestingAuthor) UpdateWith(resp swagger.CreateAuthorResp) {
-	author.AuthorID = resp.Author.Id
-	author.Session = resp.Session
+func (author *TestingAuthor) UpdateWithResponse(authorID string, session *swagger.Session) {
+	author.AuthorID = authorID
+	author.Session = session
+}
+
+func (author *TestingAuthor) UpdateWithSession(session *swagger.Session) {
+	author.Session = session
 }

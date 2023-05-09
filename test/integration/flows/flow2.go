@@ -8,14 +8,14 @@ import (
 
 func Flow2(client *swagger.APIClient) {
 	var name = "flow2"
-	var description = "Initial DB setup. It can be convenient when called separately."
+	var description = "User sign up."
 
 	testlog.StartFlow(name, description)
 
 	common.WipePostgres()
 	common.MigrateUp()
 
-	user1 := common.NewUser("dummy1@test.com", "TheSecretPassword5")
+	user1 := common.NewUser()
 
 	createAuthorInput1 := swagger.CreateAuthorInput{
 		Name:     "John Doe",
@@ -23,11 +23,9 @@ func Flow2(client *swagger.APIClient) {
 		Password: "TheSecretPassword5",
 	}
 
-	//param := swagger.SessionApiAuthorSignUpOpts{Body: createAuthorInput1}
-
 	signUpResp1, _, err := client.SessionApi.AuthorSignUp(user1.Context, createAuthorInput1)
 	common.AssertNoError(err)
-	user1.UpdateWith(signUpResp1)
+	user1.UpdateWithResponse(signUpResp1.Author.Id, signUpResp1.Session)
 
 	testlog.EndFlow(name)
 }
