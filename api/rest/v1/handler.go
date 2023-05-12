@@ -95,10 +95,7 @@ func (h *Handler) initRouter() {
 
 		r.Get("/subscriptions", signature.WrapHandler(wCreated, h.AuthorSubscriptions))
 
-		// TODO: maybe handled by Update
-		// r.Post("/change-password", signature.WrapHandler(wCreated, h.ChangePassword))
-
-		r.Post("/refresh-token", signature.WrapHandler(wCreated, h.RefreshToken))
+		r.Post("/change-password", signature.WrapHandlerInput(wCreated, h.ChangeAuthorPassword))
 	})
 
 	r.Route("/newsletters", func(r chi.Router) {

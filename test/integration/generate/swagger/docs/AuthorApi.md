@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**DeleteAuthor**](AuthorApi.md#DeleteAuthor) | **Delete** /api/v1/authors/{authorId} | 
 [**GetAuthor**](AuthorApi.md#GetAuthor) | **Get** /api/v1/authors/{authorId} | 
+[**GetCurrentAuthor**](AuthorApi.md#GetCurrentAuthor) | **Get** /api/v1/authors/current | 
 [**ListOfAllAuthors**](AuthorApi.md#ListOfAllAuthors) | **Get** /api/v1/authors | 
 [**UpdateAuthor**](AuthorApi.md#UpdateAuthor) | **Patch** /api/v1/authors/{authorId} | 
 
@@ -38,7 +39,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetAuthor**
-> []Author GetAuthor(ctx, authorId)
+> Author GetAuthor(ctx, authorId)
 
 
 (TODO:) Get author by ID
@@ -52,7 +53,31 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]Author**](Author.md)
+[**Author**](Author.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetCurrentAuthor**
+> Author GetCurrentAuthor(ctx, )
+
+
+Get the current author
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Author**](Author.md)
 
 ### Authorization
 

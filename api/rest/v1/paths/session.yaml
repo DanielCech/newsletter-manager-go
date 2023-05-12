@@ -29,7 +29,7 @@ NativeSessions:
         $ref: '../schemas/common.yaml#/InvalidBodyError'
 RefreshSessions:
   post:
-    description: (TODO:) Refresh access token
+    description: Refresh access token
     tags:
       - session
     operationId: refreshSession
@@ -64,7 +64,7 @@ RefreshSessions:
         $ref: '../schemas/common.yaml#/InvalidBodyError'
 DestroySessions:
   post:
-    description: (TODO:) Logout author completely
+    description: Logout author completely
     tags:
       - session
     operationId: destroySession

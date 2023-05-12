@@ -20,6 +20,7 @@ func NewUser() TestingAuthor {
 func (author *TestingAuthor) UpdateWithResponse(authorID string, session *swagger.Session) {
 	author.AuthorID = authorID
 	author.Session = session
+	author.Context = context.WithValue(author.Context, swagger.ContextAccessToken, session.AccessToken)
 }
 
 func (author *TestingAuthor) UpdateWithSession(session *swagger.Session) {

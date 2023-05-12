@@ -54,6 +54,8 @@ type APIClient struct {
 	SessionApi *SessionApiService
 
 	SubscriptionApi *SubscriptionApiService
+
+	V1authorsApi *V1authorsApiService
 }
 
 type service struct {
@@ -77,6 +79,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.NewsletterApi = (*NewsletterApiService)(&c.common)
 	c.SessionApi = (*SessionApiService)(&c.common)
 	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
+	c.V1authorsApi = (*V1authorsApiService)(&c.common)
 
 	return c
 }

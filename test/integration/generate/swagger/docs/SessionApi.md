@@ -5,7 +5,6 @@ All URIs are relative to *https://localhost:8080*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AuthorSignUp**](SessionApi.md#AuthorSignUp) | **Post** /api/v1/authors/sign-up | 
-[**ChangeAuthorsPassword**](SessionApi.md#ChangeAuthorsPassword) | **Post** /api/v1/authors/current/change-password | 
 [**CreateSession**](SessionApi.md#CreateSession) | **Post** /api/v1/authors/sign-in | 
 [**DestroySession**](SessionApi.md#DestroySession) | **Post** /api/v1/authors/current/logout | 
 [**RefreshSession**](SessionApi.md#RefreshSession) | **Post** /api/v1/authors/current/refresh-token | 
@@ -34,30 +33,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json; charset=utf-8
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **ChangeAuthorsPassword**
-> []Author ChangeAuthorsPassword(ctx, )
-
-
-(TODO:) Change author's password
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[]Author**](Author.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json; charset=utf-8
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -94,7 +69,7 @@ No authorization required
 > DestroySession(ctx, body)
 
 
-(TODO:) Logout author completely
+Logout author completely
 
 ### Required Parameters
 
@@ -122,7 +97,7 @@ No authorization required
 > Session RefreshSession(ctx, body)
 
 
-(TODO:) Refresh access token
+Refresh access token
 
 ### Required Parameters
 

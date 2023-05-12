@@ -57,11 +57,6 @@ type AuthorSignUpInput struct {
 	Password types.Password `json:"password"`
 }
 
-type AuthorSignInInput struct {
-	Email    types.Email    `json:"email"`
-	Password types.Password `json:"password"`
-}
-
 type RefreshTokenInput struct {
 	RefreshToken string `json:"refresh_token"`
 }
@@ -75,4 +70,10 @@ type RefreshSessionResponse struct {
 	AccessTokenExpiresAt  time.Time `json:"accessTokenExpiresAt"`
 	RefreshToken          string    `json:"refreshToken"`
 	RefreshTokenExpiresAt time.Time `json:"refreshTokenExpiresAt"`
+}
+
+// ChangeUserPasswordInput represents JSON body needed for changing the user password.
+type ChangeAuthorPasswordInput struct {
+	OldPassword types.Password `json:"oldPassword"`
+	NewPassword types.Password `json:"newPassword"`
 }

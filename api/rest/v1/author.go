@@ -33,16 +33,6 @@ func (h *Handler) AuthorSignUp(_ http.ResponseWriter, r *http.Request, input mod
 	return &createAuthorResp, nil
 }
 
-func (h *Handler) AuthorSignIn(_ http.ResponseWriter, r *http.Request, input model.AuthorSignInInput) (*model.FullAuthor, error) {
-	// TODO
-	return nil, nil
-}
-
-func (h *Handler) RefreshToken(_ http.ResponseWriter, r *http.Request, input model.RefreshTokenInput) (*model.FullAuthor, error) {
-	// TODO
-	return nil, nil
-}
-
 func (h *Handler) ListAuthors(_ http.ResponseWriter, r *http.Request) ([]model.Author, error) {
 	// TODO
 	// return model.FromAuthors(authors), nil
@@ -74,4 +64,13 @@ func (h *Handler) ReadLoggedAuthor(_ http.ResponseWriter, r *http.Request) (*mod
 
 	authorResp := model.FromDomainAuthor(author)
 	return &authorResp, nil
+}
+
+// ChangeAuthorPassword changes author password.
+func (h *Handler) ChangeAuthorPassword(_ http.ResponseWriter, r *http.Request, input model.ChangeAuthorPasswordInput) error {
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+	if err := h.authorService.ChangePassword(r.Context(), authorID, input.OldPassword, input.NewPassword); err != nil {
+		return fmt.Errorf("changing author password: %w", err)
+	}
+	return nil
 }

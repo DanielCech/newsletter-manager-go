@@ -93,7 +93,7 @@ paths:
     post:
       tags:
       - session
-      description: (TODO:) Refresh access token
+      description: Refresh access token
       operationId: refreshSession
       requestBody:
         content:
@@ -136,7 +136,7 @@ paths:
     post:
       tags:
       - session
-      description: (TODO:) Logout author completely
+      description: Logout author completely
       operationId: destroySession
       requestBody:
         content:
@@ -172,21 +172,59 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
   /api/v1/authors/current/change-password:
-    post:
+    patch:
       tags:
-      - session
-      description: (TODO:) Change author's password
-      operationId: changeAuthorsPassword
+      - v1/authors
+      description: Change author password. All author's sessions are destroyed.
+      operationId: changeAuthorPassword
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/ChangeAuthorPasswordInput'
+        required: true
+      responses:
+        "204":
+          description: Author password has been changed
+        "400":
+          description: Input body is not valid JSON
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "404":
+          description: Author not found
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "422":
+          description: Values in input body are not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
+  /api/v1/authors/current:
+    get:
+      tags:
+      - author
+      description: Get the current author
+      operationId: getCurrentAuthor
       responses:
         "200":
           description: Author
           content:
             application/json; charset=utf-8:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-                x-content-type: application/json; charset=utf-8
+                $ref: '#/components/schemas/Author'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -255,10 +293,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
-                x-content-type: application/json; charset=utf-8
+                $ref: '#/components/schemas/Author'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -979,6 +1014,17 @@ components:
         refreshToken:
           $ref: '#/components/schemas/RefreshToken'
       description: Object for destroying session
+    ChangeAuthorPasswordInput:
+      required:
+      - newPassword
+      - oldPassword
+      type: object
+      properties:
+        oldPassword:
+          $ref: '#/components/schemas/Password'
+        newPassword:
+          $ref: '#/components/schemas/Password'
+      description: Old and new password
     Author:
       required:
       - email

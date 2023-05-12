@@ -30,6 +30,8 @@ paths:
     $ref: './v1/paths/session.yaml#/DestroySessions'
   /api/v1/authors/current/change-password:
     $ref: './v1/paths/author.yaml#/ChangeAuthorPassword'
+  /api/v1/authors/current:
+    $ref: './v1/paths/author.yaml#/ReadCurrentAuthor'
 
   /api/v1/authors:
     $ref: './v1/paths/author.yaml#/Authors'
