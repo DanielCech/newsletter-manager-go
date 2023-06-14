@@ -42,7 +42,7 @@ func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context, authorId 
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/{authorId}/newsletters"
+	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/current/newsletters"
 	localVarPath = strings.Replace(localVarPath, "{"+"authorId"+"}", fmt.Sprintf("%v", authorId), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -147,7 +147,7 @@ func (a *NewsletterApiService) CreateNewsletter(ctx context.Context, authorId st
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/{authorId}/newsletters"
+	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/current/newsletters"
 	localVarPath = strings.Replace(localVarPath, "{"+"authorId"+"}", fmt.Sprintf("%v", authorId), -1)
 
 	localVarHeaderParams := make(map[string]string)

@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**AuthorSignUp**](SessionApi.md#AuthorSignUp) | **Post** /api/v1/authors/sign-up | 
 [**CreateSession**](SessionApi.md#CreateSession) | **Post** /api/v1/authors/sign-in | 
 [**DestroySession**](SessionApi.md#DestroySession) | **Post** /api/v1/authors/current/logout | 
+[**GetCurrentAuthor**](SessionApi.md#GetCurrentAuthor) | **Get** /api/v1/authors/current | 
 [**RefreshSession**](SessionApi.md#RefreshSession) | **Post** /api/v1/authors/current/refresh-token | 
 
 # **AuthorSignUp**
@@ -89,6 +90,30 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json; charset=utf-8
+ - **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **GetCurrentAuthor**
+> Author GetCurrentAuthor(ctx, )
+
+
+Get the current author
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Author**](Author.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json; charset=utf-8
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -64,39 +64,30 @@ func (h *Handler) initRouter() {
 		})
 
 		r.Route("/current", func(r chi.Router) {
+			r.Use(authenticate)
+
+			r.Get("/", signature.WrapHandlerResponse(w, h.ReadCurrentAuthor))
+			r.Patch("/", signature.WrapHandler(wCreated, h.UpdateCurrentAuthor))
+			r.Delete("/", signature.WrapHandlerInput(wCreated, h.DeleteCurrentAuthor))
+
+			r.Post("/change-password", signature.WrapHandlerInput(wCreated, h.ChangeAuthorPassword))
+
 			r.Route("/refresh-token", func(r chi.Router) {
 				r.Post("/", signature.WrapHandler(wCreated, h.RefreshSession))
 			})
+
 			r.Route("/logout", func(r chi.Router) {
-				r.Use(authenticate)
 				r.Post("/", signature.WrapHandlerInput(w, h.DestroySession))
 			})
 
-			r.Get("/", signature.WrapHandlerResponse(w, h.ReadLoggedAuthor))
-		})
-
-		r.Group(func(r chi.Router) {
-			r.Use(authenticate)
-			r.Group(func(r chi.Router) {
-				r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
+			r.Route("/newsletters", func(r chi.Router) {
+				r.Get("/", signature.WrapHandler(wCreated, h.GetAuthorNewsletters))
+				r.Post("/", signature.WrapHandler(wCreated, h.CreateNewsletter))
 			})
 		})
-
-		r.Get("/", signature.WrapHandlerResponse(w, h.ListAuthors))
-
-		r.Route("/{authorId}", func(r chi.Router) {
-			// r.Use(authenticate)
-			r.Get("/", signature.WrapHandler(wCreated, h.GetAuthor))
-			r.Patch("/", signature.WrapHandler(wCreated, h.UpdateAuthor))
-			r.Delete("/", signature.WrapHandlerInput(wCreated, h.DeleteAuthor))
-			r.Get("/newsletters", signature.WrapHandler(wCreated, h.GetAuthorNewsletters))
-			r.Post("/newsletters", signature.WrapHandler(wCreated, h.CreateNewsletter))
-		})
-
-		r.Get("/subscriptions", signature.WrapHandler(wCreated, h.AuthorSubscriptions))
-
-		r.Post("/change-password", signature.WrapHandlerInput(wCreated, h.ChangeAuthorPassword))
 	})
+
+	r.Get("/subscriptions", signature.WrapHandler(wCreated, h.AuthorSubscriptions))
 
 	r.Route("/newsletters", func(r chi.Router) {
 		// TODO: add to OpenAPI

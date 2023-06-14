@@ -25,4 +25,5 @@ type Repository interface {
 	ReadByEmail(ctx context.Context, email types.Email) (*Author, error)
 	List(ctx context.Context) ([]Author, error)
 	Update(ctx context.Context, authorID id.Author, fn UpdateFunc) error
+	Delete(ctx context.Context, authorID id.Author) error
 }

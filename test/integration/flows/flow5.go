@@ -6,9 +6,9 @@ import (
 	"newsletter-manager-go/test/integration/testlog"
 )
 
-func Flow4(client *swagger.APIClient) {
-	var name = "flow4"
-	var description = "Read user"
+func Flow5(client *swagger.APIClient) {
+	var name = "flow5"
+	var description = "Delete author"
 
 	testlog.StartFlow(name, description)
 
@@ -27,11 +27,11 @@ func Flow4(client *swagger.APIClient) {
 	common.AssertNoError(err)
 	user1.UpdateWithResponse(signUpResp1.Author.Id, signUpResp1.Session)
 
-	// Read logged user
-	author, _, err := client.SessionApi.GetCurrentAuthor(user1.Context)
-	common.AssertNoError(err)
+	// client.SessionApi.DeleteAuthor(user1.Context, signUpResp1.Author.Id)
 
-	common.Assert(author.Id == user1.AuthorID, "Author id should be the same as the logged user id")
+	// Read logged user
+	_, _, err = client.SessionApi.GetCurrentAuthor(user1.Context)
+	common.Assert(err != nil, "Author should be deleted")
 
 	testlog.EndFlow(name)
 }

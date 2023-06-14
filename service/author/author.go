@@ -137,6 +137,18 @@ func (s *Service) List(ctx context.Context) ([]domauthor.Author, error) {
 	return authors, nil
 }
 
+func (s *Service) Delete(ctx context.Context, authorID id.Author) error {
+	err := s.authorRepository.Delete(ctx, authorID)
+	if err != nil {
+		if errors.Is(err, domauthor.ErrAuthorNotFound) {
+			return apierrors.NewNotFoundError(err, "deleting user")
+		}
+		return fmt.Errorf("deleting user: %w", err)
+	}
+
+	return nil
+}
+
 func (s *Service) Collect(chan<- prometheus.Metric) {}
 
 func (s *Service) Describe(chan<- *prometheus.Desc) {}

@@ -129,3 +129,18 @@ func (r *Repository) Update(ctx context.Context, authorID id.Author, updateFn do
 		})
 	})
 }
+
+func (r *Repository) Delete(ctx context.Context, authorID id.Author) error {
+	return sql.WithTransaction(ctx, r.dataSource, func(dctx sql.DataContext) error {
+		err := sql.ExecOne(dctx, query.Delete, pgx.NamedArgs{
+			"author_id": authorID,
+		})
+		if err != nil {
+			if sql.IsNotFound(err) {
+				return domauthor.ErrAuthorNotFound
+			}
+			return err
+		}
+		return nil
+	})
+}

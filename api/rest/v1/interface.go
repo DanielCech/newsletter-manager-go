@@ -14,6 +14,7 @@ type AuthorService interface {
 	ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domauthor.Author, error)
 	ChangePassword(ctx context.Context, authorID id.Author, oldPassword, newPassword types.Password) error
 	List(ctx context.Context) ([]domauthor.Author, error)
+	Delete(ctx context.Context, authorID id.Author) error
 }
 
 type NewsletterService interface {

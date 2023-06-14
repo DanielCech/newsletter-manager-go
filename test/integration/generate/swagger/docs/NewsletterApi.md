@@ -4,8 +4,8 @@ All URIs are relative to *https://localhost:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AuthorsNewsletters**](NewsletterApi.md#AuthorsNewsletters) | **Get** /api/v1/authors/{authorId}/newsletters | 
-[**CreateNewsletter**](NewsletterApi.md#CreateNewsletter) | **Post** /api/v1/authors/{authorId}/newsletters | 
+[**AuthorsNewsletters**](NewsletterApi.md#AuthorsNewsletters) | **Get** /api/v1/authors/current/newsletters | 
+[**CreateNewsletter**](NewsletterApi.md#CreateNewsletter) | **Post** /api/v1/authors/current/newsletters | 
 [**DeleteNewsletter**](NewsletterApi.md#DeleteNewsletter) | **Delete** /api/v1/newsletters/{newsletterId} | 
 [**GetNewsletter**](NewsletterApi.md#GetNewsletter) | **Get** /api/v1/newsletters/{newsletterId} | 
 [**UpdateNewsletter**](NewsletterApi.md#UpdateNewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 

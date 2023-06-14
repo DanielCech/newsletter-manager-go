@@ -33,29 +33,24 @@ func (h *Handler) AuthorSignUp(_ http.ResponseWriter, r *http.Request, input mod
 	return &createAuthorResp, nil
 }
 
-func (h *Handler) ListAuthors(_ http.ResponseWriter, r *http.Request) ([]model.Author, error) {
-	// TODO
-	// return model.FromAuthors(authors), nil
-	return nil, nil
-}
-
-func (h *Handler) GetAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) (*model.Author, error) {
+func (h *Handler) UpdateCurrentAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) (*model.Author, error) {
 	// TODO
 	return nil, nil
 }
 
-func (h *Handler) UpdateAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) (*model.Author, error) {
-	// TODO
-	return nil, nil
-}
+func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) error {
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
 
-func (h *Handler) DeleteAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) error {
-	// TODO
+	err := h.authorService.Delete(r.Context(), authorID)
+	if err != nil {
+		return fmt.Errorf("deleting user: %w", err)
+	}
+
 	return nil
 }
 
 // ReadLoggedAuthor returns existing author.
-func (h *Handler) ReadLoggedAuthor(_ http.ResponseWriter, r *http.Request) (*model.Author, error) {
+func (h *Handler) ReadCurrentAuthor(_ http.ResponseWriter, r *http.Request) (*model.Author, error) {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
 	author, err := h.authorService.Read(r.Context(), authorID)
 	if err != nil {
