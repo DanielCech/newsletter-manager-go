@@ -32,7 +32,7 @@ func runFlows(flow string, client *swagger.APIClient) {
 	runFlow(flow, client, "flow2", flows.Flow2)
 	runFlow(flow, client, "flow3", flows.Flow3)
 	runFlow(flow, client, "flow4", flows.Flow4)
-	// runFlow(flow, client, "flow5", flows.Flow5)
+	runFlow(flow, client, "flow5", flows.Flow5)
 }
 
 func runFlow(currentFlow string, client *swagger.APIClient, flowName string, run func(client *swagger.APIClient)) {

@@ -68,7 +68,7 @@ func (h *Handler) initRouter() {
 
 			r.Get("/", signature.WrapHandlerResponse(w, h.ReadCurrentAuthor))
 			r.Patch("/", signature.WrapHandler(wCreated, h.UpdateCurrentAuthor))
-			r.Delete("/", signature.WrapHandlerInput(wCreated, h.DeleteCurrentAuthor))
+			r.Delete("/", signature.WrapHandlerError(w, h.DeleteCurrentAuthor))
 
 			r.Post("/change-password", signature.WrapHandlerInput(wCreated, h.ChangeAuthorPassword))
 

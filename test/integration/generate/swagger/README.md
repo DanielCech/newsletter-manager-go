@@ -21,6 +21,7 @@ All URIs are relative to *https://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthorApi* | [**UpdateAuthor**](docs/AuthorApi.md#updateauthor) | **Patch** /api/v1/authors/current | 
 *EmailApi* | [**CreateEmail**](docs/EmailApi.md#createemail) | **Post** /api/v1/newsletters/{newsletterId}/emails | 
 *EmailApi* | [**GetAuthors**](docs/EmailApi.md#getauthors) | **Get** /api/v1/emails/{emailId} | 
 *EmailApi* | [**GetNewsletterEmails**](docs/EmailApi.md#getnewsletteremails) | **Get** /api/v1/newsletters/{newsletterId}/emails | 
@@ -30,7 +31,9 @@ Class | Method | HTTP request | Description
 *NewsletterApi* | [**GetNewsletter**](docs/NewsletterApi.md#getnewsletter) | **Get** /api/v1/newsletters/{newsletterId} | 
 *NewsletterApi* | [**UpdateNewsletter**](docs/NewsletterApi.md#updatenewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
 *SessionApi* | [**AuthorSignUp**](docs/SessionApi.md#authorsignup) | **Post** /api/v1/authors/sign-up | 
+*SessionApi* | [**ChangeAuthorPassword**](docs/SessionApi.md#changeauthorpassword) | **Post** /api/v1/authors/current/change-password | 
 *SessionApi* | [**CreateSession**](docs/SessionApi.md#createsession) | **Post** /api/v1/authors/sign-in | 
+*SessionApi* | [**DeleteAuthor**](docs/SessionApi.md#deleteauthor) | **Delete** /api/v1/authors/current | 
 *SessionApi* | [**DestroySession**](docs/SessionApi.md#destroysession) | **Post** /api/v1/authors/current/logout | 
 *SessionApi* | [**GetCurrentAuthor**](docs/SessionApi.md#getcurrentauthor) | **Get** /api/v1/authors/current | 
 *SessionApi* | [**RefreshSession**](docs/SessionApi.md#refreshsession) | **Post** /api/v1/authors/current/refresh-token | 
@@ -38,7 +41,6 @@ Class | Method | HTTP request | Description
 *SubscriptionApi* | [**SubscribeToNewsletter**](docs/SubscriptionApi.md#subscribetonewsletter) | **Post** /api/v1/newsletters/{newsletterId}/subscribe | 
 *SubscriptionApi* | [**SubscriptionsByEmail**](docs/SubscriptionApi.md#subscriptionsbyemail) | **Get** /api/v1/subscriptions | 
 *SubscriptionApi* | [**UnsubscribeFromNewsletter**](docs/SubscriptionApi.md#unsubscribefromnewsletter) | **Post** /api/v1/newsletters/{newsletterId}/unsubscribe | 
-*V1authorsApi* | [**ChangeAuthorPassword**](docs/V1authorsApi.md#changeauthorpassword) | **Patch** /api/v1/authors/current/change-password | 
 
 ## Documentation For Models
 

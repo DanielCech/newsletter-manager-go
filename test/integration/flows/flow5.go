@@ -8,7 +8,7 @@ import (
 
 func Flow5(client *swagger.APIClient) {
 	var name = "flow5"
-	var description = "Delete author"
+	var description = "Change password and delete author"
 
 	testlog.StartFlow(name, description)
 
@@ -27,7 +27,14 @@ func Flow5(client *swagger.APIClient) {
 	common.AssertNoError(err)
 	user1.UpdateWithResponse(signUpResp1.Author.Id, signUpResp1.Session)
 
-	// client.SessionApi.DeleteAuthor(user1.Context, signUpResp1.Author.Id)
+	changePasswordInput := swagger.ChangeAuthorPasswordInput{
+		OldPassword: "TheSecretPassword5",
+		NewPassword: "TheSecretPassword6",
+	}
+	_, err = client.SessionApi.ChangeAuthorPassword(user1.Context, changePasswordInput)
+	common.AssertNoError(err)
+
+	client.SessionApi.DeleteAuthor(user1.Context)
 
 	// Read logged user
 	_, _, err = client.SessionApi.GetCurrentAuthor(user1.Context)

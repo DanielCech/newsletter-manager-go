@@ -29,10 +29,9 @@ type NewsletterApiService service
 NewsletterApiService
 (TODO:) The list of author&#x27;s newsletters
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param authorId ID of the author
 @return []Author
 */
-func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context, authorId string) ([]Author, *http.Response, error) {
+func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context) ([]Author, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
@@ -43,7 +42,6 @@ func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context, authorId 
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/current/newsletters"
-	localVarPath = strings.Replace(localVarPath, "{"+"authorId"+"}", fmt.Sprintf("%v", authorId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -134,10 +132,9 @@ func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context, authorId 
 NewsletterApiService
 (TODO:) Creates a new newsletter.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param authorId ID of the author
 @return []Author
 */
-func (a *NewsletterApiService) CreateNewsletter(ctx context.Context, authorId string) ([]Author, *http.Response, error) {
+func (a *NewsletterApiService) CreateNewsletter(ctx context.Context) ([]Author, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -148,7 +145,6 @@ func (a *NewsletterApiService) CreateNewsletter(ctx context.Context, authorId st
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/api/v1/authors/current/newsletters"
-	localVarPath = strings.Replace(localVarPath, "{"+"authorId"+"}", fmt.Sprintf("%v", authorId), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

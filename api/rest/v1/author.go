@@ -38,7 +38,7 @@ func (h *Handler) UpdateCurrentAuthor(_ http.ResponseWriter, r *http.Request, in
 	return nil, nil
 }
 
-func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) error {
+func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request) error {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
 
 	err := h.authorService.Delete(r.Context(), authorID)

@@ -45,7 +45,7 @@ AuthorSignUp:
       "403":
         $ref: '../schemas/common.yaml#/ForbiddenError'
 ChangeAuthorPassword:
-  patch:
+  post:
     description: Change author password. All author's sessions are destroyed.
     tags:
       - session

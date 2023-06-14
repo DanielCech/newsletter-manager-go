@@ -170,7 +170,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
   /api/v1/authors/current/change-password:
-    patch:
+    post:
       tags:
       - session
       description: Change author password. All author's sessions are destroyed.

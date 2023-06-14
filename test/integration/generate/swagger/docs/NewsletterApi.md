@@ -11,17 +11,13 @@ Method | HTTP request | Description
 [**UpdateNewsletter**](NewsletterApi.md#UpdateNewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
 
 # **AuthorsNewsletters**
-> []Author AuthorsNewsletters(ctx, authorId)
+> []Author AuthorsNewsletters(ctx, )
 
 
 (TODO:) The list of author's newsletters
 
 ### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **authorId** | [**string**](.md)| ID of the author | 
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -39,17 +35,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateNewsletter**
-> []Author CreateNewsletter(ctx, authorId)
+> []Author CreateNewsletter(ctx, )
 
 
 (TODO:) Creates a new newsletter.
 
 ### Required Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **authorId** | [**string**](.md)| ID of the author | 
+This endpoint does not need any parameter.
 
 ### Return type
 
