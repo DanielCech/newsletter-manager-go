@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"newsletter-manager-go/types/id"
+	"newsletter-manager-go/util/timesource"
 )
 
 var (
@@ -16,7 +17,7 @@ var (
 
 // Newsletter consists of fields which describe a newsletter.
 type Newsletter struct {
-	// timeSource timesource.TimeSource
+	timeSource timesource.TimeSource
 
 	ID          id.Newsletter
 	AuthorID    id.Author
@@ -24,6 +25,13 @@ type Newsletter struct {
 	Description string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
+}
+
+// CreateAuthorInput consists of fields required for creation of a new author.
+type CreateNewsletterInput struct {
+	AuthorID    id.Author
+	Name        string
+	Description string
 }
 
 func (u *Newsletter) Valid() error {

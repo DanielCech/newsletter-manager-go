@@ -14,10 +14,9 @@ type Newsletter struct {
 }
 
 // Newsletter consists of fields which describe an newsletter.
-type CreateNewsletterInput struct {
-	AuthorID    id.Author `json:"authorId"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
+type CreateNewsletterReq struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 type GetNewsletterInput struct {

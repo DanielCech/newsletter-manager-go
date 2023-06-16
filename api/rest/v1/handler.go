@@ -81,7 +81,7 @@ func (h *Handler) initRouter() {
 			})
 
 			r.Route("/newsletters", func(r chi.Router) {
-				r.Get("/", signature.WrapHandler(wCreated, h.GetAuthorNewsletters))
+				r.Get("/", signature.WrapHandler(wCreated, h.GetCurrentAuthorNewsletters))
 				r.Post("/", signature.WrapHandler(wCreated, h.CreateNewsletter))
 			})
 		})

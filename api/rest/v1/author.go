@@ -40,7 +40,7 @@ func (h *Handler) UpdateCurrentAuthor(_ http.ResponseWriter, r *http.Request, in
 
 func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request) error {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
-
+	
 	err := h.authorService.Delete(r.Context(), authorID)
 	if err != nil {
 		return fmt.Errorf("deleting user: %w", err)
@@ -52,6 +52,7 @@ func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request) er
 // ReadLoggedAuthor returns existing author.
 func (h *Handler) ReadCurrentAuthor(_ http.ResponseWriter, r *http.Request) (*model.Author, error) {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+
 	author, err := h.authorService.Read(r.Context(), authorID)
 	if err != nil {
 		return nil, fmt.Errorf("reading logged author: %w", err)

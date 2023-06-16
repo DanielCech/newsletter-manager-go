@@ -99,6 +99,23 @@ func (r *Repository) List(ctx context.Context) ([]domnewsletter.Newsletter, erro
 	})
 }
 
+// List lists newsletters from the repository.
+func (r *Repository) ListByAuthor(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error) {
+	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) ([]domnewsletter.Newsletter, error) {
+		dbNewsletters, err := sql.List[newsletter](dctx, query.ListByAuthor, pgx.NamedArgs{
+			"author_id": authorID,
+		})
+		if err != nil {
+			return nil, err
+		}
+		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
+		for _, u := range dbNewsletters {
+			newsletters = append(newsletters, *u.ToDomainNewsletter(r.newsletterFactory))
+		}
+		return newsletters, nil
+	})
+}
+
 // Update reads the newsletter, calls external update function and updates the newsletter in the repository.
 func (r *Repository) Update(ctx context.Context, newsletterID id.Newsletter, updateFn domnewsletter.UpdateFunc) error {
 	return sql.WithTransaction(ctx, r.dataSource, func(dctx sql.DataContext) error {

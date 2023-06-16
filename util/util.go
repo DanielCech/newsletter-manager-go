@@ -10,3 +10,14 @@ func MapFunc[T any, S any](data []T, f func(T) S) []S {
 
 	return mapped
 }
+
+func MapFuncRef[T any, S any](data []T, f func(*T) S) []S {
+	mapped := make([]S, len(data))
+
+	for i, e := range data {
+		//nolint:gosec // pointer does not outlive loop
+		mapped[i] = f(&e)
+	}
+
+	return mapped
+}

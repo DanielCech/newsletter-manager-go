@@ -1,13 +1,27 @@
 package v1
 
 import (
+	"fmt"
 	"net/http"
 	"newsletter-manager-go/api/rest/v1/model"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
+	util "newsletter-manager-go/util"
+	utilctx "newsletter-manager-go/util/context"
 )
 
-func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input model.CreateNewsletterInput) (*model.Newsletter, error) {
-	// TODO
-	return nil, nil
+func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input model.CreateNewsletterReq) (*model.Newsletter, error) {
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+
+	createNewsletterInput := domnewsletter.CreateNewsletterInput{}
+
+	event, err := h.newsletterService.Create(r.Context(), createNewsletterInput)
+	if err != nil {
+		return nil, fmt.Errorf("creating newsletter: %w", err)
+	}
+
+	modelNewsletter := model.FromDomainNewsletter(event)
+
+	return &modelNewsletter, nil
 }
 
 func (h *Handler) ListNewsletters(_ http.ResponseWriter, r *http.Request) ([]model.Newsletter, error) {
@@ -15,9 +29,17 @@ func (h *Handler) ListNewsletters(_ http.ResponseWriter, r *http.Request) ([]mod
 	return nil, nil
 }
 
-func (h *Handler) GetAuthorNewsletters(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) ([]model.Newsletter, error) {
-	// TODO
-	return nil, nil
+func (h *Handler) GetCurrentAuthorNewsletters(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) ([]model.Newsletter, error) {
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+
+	newsletters, err := h.newsletterService.ListCurrentAuthorNewsletters(r.Context(), authorID)
+	if err != nil {
+		return nil, err
+	}
+
+	modelNewsletters := util.MapFuncRef(newsletters, model.FromDomainNewsletter)
+
+	return modelNewsletters, nil
 }
 
 func (h *Handler) GetNewsletter(_ http.ResponseWriter, r *http.Request, input model.GetNewsletterInput) (*model.Newsletter, error) {

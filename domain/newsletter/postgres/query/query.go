@@ -13,4 +13,6 @@ var (
 	ReadByEmail string
 	//go:embed scripts/Update.sql
 	Update string
+	//go:embed scripts/ListByAuthor.sql
+	ListByAuthor string
 )

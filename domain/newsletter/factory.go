@@ -2,14 +2,9 @@ package newsletter
 
 import (
 	"errors"
+	"newsletter-manager-go/types/id"
 	"newsletter-manager-go/util/timesource"
 )
-
-// Hasher describes object which is capable of password hashing and comparing.
-type Hasher interface {
-	HashPassword(password []byte) ([]byte, error)
-	CompareHashAndPassword(hash, password []byte) bool
-}
 
 // Factory contains dependencies that are needed for newsletters creation.
 type Factory struct {
@@ -26,35 +21,21 @@ func NewFactory(timesource timesource.TimeSource) (Factory, error) {
 	}, nil
 }
 
-//// NewNewsletter returns new instance of Newsletter.
-// func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput, role Role) (*Newsletter, error) {
-//	//passwordHash, err := f.hasher.HashPassword([]byte(createNewsletterInput.Password))
-//	//if err != nil {
-//	//	return nil, err
-//	//}
-//	//
-//	//now := f.timeSource.Now()
-//	//newsletter := &Newsletter{
-//	//	hasher:       f.hasher,
-//	//	timeSource:   f.timeSource,
-//	//	ID:           id.NewNewsletter(),
-//	//	ReferrerID:   createNewsletterInput.ReferrerID,
-//	//	Name:         createNewsletterInput.Name,
-//	//	Email:        createNewsletterInput.Email,
-//	//	PasswordHash: passwordHash,
-//	//	Role:         role,
-//	//	CreatedAt:    now,
-//	//	UpdatedAt:    now,
-//	//}
-//	//if err = newsletter.Valid(); err != nil {
-//	//	return nil, err
-//	//}
-//	//
-//	//return newsletter, nil
-//
-//	// TODO
-//	return nil, nil
-//}
+// NewNewsletter returns new instance of Newsletter.
+func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput) (*Newsletter, error) {
+	now := f.timeSource.Now()
+	newsletter := &Newsletter{
+		timeSource:  f.timeSource,
+		ID:          id.NewNewsletter(),
+		AuthorID:    createNewsletterInput.AuthorID,
+		Name:        createNewsletterInput.Name,
+		Description: createNewsletterInput.Description,
+		CreatedAt:   now,
+		UpdatedAt:   now,
+	}
+
+	return newsletter, nil
+}
 
 // NewNewsletterFromFields returns new instance of Newsletter based on existing fields.
 // This can be useful for repositories when converting results from repository to domain models based on consistent data.

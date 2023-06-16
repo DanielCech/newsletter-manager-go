@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	domauthor "newsletter-manager-go/domain/author"
+	domnewsletter "newsletter-manager-go/domain/newsletter"
 	domsession "newsletter-manager-go/domain/session"
 	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
@@ -18,9 +19,9 @@ type AuthorService interface {
 }
 
 type NewsletterService interface {
-	// Create(ctx context.Context, createNewsletterInput domnewsletter.Newsletter) (*domnewsletter.Newsletter, error)
+	Create(ctx context.Context, createNewsletterInput domnewsletter.CreateNewsletterInput) (*domnewsletter.Newsletter, error)
 	// Read(ctx context.Context, NewsletterID id.Newsletter) (*domnewsletter.Newsletter, error)
-	// List(ctx context.Context) ([]domnewsletter.Newsletter, error)
+	ListCurrentAuthorNewsletters(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error)
 }
 
 // SessionService is an interface for v1 session endpoints.
