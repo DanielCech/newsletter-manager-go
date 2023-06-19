@@ -29,15 +29,15 @@ type NewsletterApiService service
 NewsletterApiService
 (TODO:) The list of author&#x27;s newsletters
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return []Author
+@return []Newsletter
 */
-func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context) ([]Author, *http.Response, error) {
+func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context) ([]Newsletter, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Get")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		localVarReturnValue []Author
+		localVarReturnValue []Newsletter
 	)
 
 	// create path and map variables
@@ -94,7 +94,7 @@ func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context) ([]Author
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []Author
+			var v []Newsletter
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
 				if err != nil {
 					newErr.error = err.Error()
@@ -130,17 +130,18 @@ func (a *NewsletterApiService) AuthorsNewsletters(ctx context.Context) ([]Author
 }
 /*
 NewsletterApiService
-(TODO:) Creates a new newsletter.
+Creates a new newsletter.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return []Author
+ * @param body
+@return CreateAuthorResp
 */
-func (a *NewsletterApiService) CreateNewsletter(ctx context.Context) ([]Author, *http.Response, error) {
+func (a *NewsletterApiService) CreateNewsletter(ctx context.Context, body CreateNewsletterReq) (CreateAuthorResp, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
 		localVarFileName   string
 		localVarFileBytes  []byte
-		localVarReturnValue []Author
+		localVarReturnValue CreateAuthorResp
 	)
 
 	// create path and map variables
@@ -151,7 +152,7 @@ func (a *NewsletterApiService) CreateNewsletter(ctx context.Context) ([]Author, 
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	localVarHttpContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -167,6 +168,8 @@ func (a *NewsletterApiService) CreateNewsletter(ctx context.Context) ([]Author, 
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	// body params
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -197,7 +200,7 @@ func (a *NewsletterApiService) CreateNewsletter(ctx context.Context) ([]Author, 
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []Author
+			var v CreateAuthorResp
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
 				if err != nil {
 					newErr.error = err.Error()

@@ -24,6 +24,7 @@ type GetNewsletterInput struct {
 	Newsletter id.Newsletter
 }
 
+// TODO: delete
 type NewsletterIDInput struct {
 	NewsletterID id.Newsletter `json:"newsletterId"`
 }

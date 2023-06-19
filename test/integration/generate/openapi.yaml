@@ -304,13 +304,13 @@ paths:
       operationId: authorsNewsletters
       responses:
         "200":
-          description: List of authors
+          description: List of author's newsletters
           content:
             application/json; charset=utf-8:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Author'
+                  $ref: '#/components/schemas/Newsletter'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -329,17 +329,21 @@ paths:
     post:
       tags:
       - newsletter
-      description: (TODO:) Creates a new newsletter.
+      description: Creates a new newsletter.
       operationId: createNewsletter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNewsletterReq'
+        required: true
       responses:
         "200":
-          description: List of authors
+          description: A new newsletter
           content:
             application/json; charset=utf-8:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+                $ref: '#/components/schemas/CreateAuthorResp'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -877,6 +881,34 @@ components:
         email:
           $ref: '#/components/schemas/Email'
       description: Author object
+    Newsletter:
+      required:
+      - authorId
+      - description
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/ID'
+        authorId:
+          $ref: '#/components/schemas/ID'
+        name:
+          $ref: '#/components/schemas/Name_1'
+        description:
+          $ref: '#/components/schemas/Description'
+      description: Newsletter object
+    CreateNewsletterReq:
+      required:
+      - description
+      - name
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/Name_1'
+        description:
+          $ref: '#/components/schemas/Description'
+      description: Newsletter object for creating a newsletter
     Email:
       type: string
       description: Author email
@@ -912,6 +944,14 @@ components:
       description: Universal unique identifier
       format: uuid
       example: 13d4c91c-d627-498d-8d63-6d3beba6a40f
+    Name_1:
+      type: string
+      description: Newsletter name
+      example: Python Users' Newsletter
+    Description:
+      type: string
+      description: Daily info about Python community
+      example: Python info
   responses:
     BadRequestError:
       description: Input body is not valid JSON

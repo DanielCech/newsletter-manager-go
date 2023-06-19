@@ -49,9 +49,11 @@ Class | Method | HTTP request | Description
  - [ChangeAuthorPasswordInput](docs/ChangeAuthorPasswordInput.md)
  - [CreateAuthorInput](docs/CreateAuthorInput.md)
  - [CreateAuthorResp](docs/CreateAuthorResp.md)
+ - [CreateNewsletterReq](docs/CreateNewsletterReq.md)
  - [CreateSessionInput](docs/CreateSessionInput.md)
  - [CreateSessionResp](docs/CreateSessionResp.md)
  - [DestroySessionInput](docs/DestroySessionInput.md)
+ - [Newsletter](docs/Newsletter.md)
  - [RefreshSessionInput](docs/RefreshSessionInput.md)
  - [Session](docs/Session.md)
 

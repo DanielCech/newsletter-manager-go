@@ -100,14 +100,8 @@ CurrentAuthor:
     security:
       - bearerAuth: [ ]
     responses:
-      200:
-        description: Author
-        content:
-          application/json; charset=utf-8:
-            schema:
-              type: array
-              items:
-                $ref: '../schemas/author.yaml#/Author'
+      "204":
+        description: Author deleted
       "401":
         $ref: '../schemas/common.yaml#/UnauthenticatedError'
       "403":

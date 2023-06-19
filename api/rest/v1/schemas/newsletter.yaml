@@ -1,57 +1,30 @@
-Email:
-  type: string
-  description: Author email
-  format: email
-  example: example@email.com
 Name:
   type: string
-  description: Author name
-  example: John Snow
-Password:
+  description: Newsletter name
+  example: Python Users' Newsletter
+Description:
   type: string
-  description: Author password with at least 8 characters, one upper case letter, one lower case letter and one number
-  minLength: 8
-  format: password
-  example: Topsecret1
-Author:
+  description: Daily info about Python community
+  example: Python info
+Newsletter:
   type: object
-  description: Author object
+  description: Newsletter object
   properties:
     id:
       $ref: './common.yaml#/ID'
-    referrerId:
+    authorId:
       $ref: './common.yaml#/ID'
     name:
-      $ref: './author.yaml#/Name'
-    email:
-      $ref: './author.yaml#/Email'
-  required: [id, name, email, role]
-CreateAuthorInput:
+      $ref: './newsletter.yaml#/Name'
+    description:
+      $ref: './newsletter.yaml#/Description'
+  required: [id, authorId, name, description]
+CreateNewsletterReq:
   type: object
-  description: Author object for creating a author
+  description: Newsletter object for creating a newsletter
   properties:
     name:
-      $ref: './author.yaml#/Name'
-    email:
-      $ref: './author.yaml#/Email'
-    password:
-      $ref: './author.yaml#/Password'
-    referrerId:
-      $ref: './common.yaml#/ID'
-  required: [name, email, password]
-CreateAuthorResp:
-  type: object
-  description: Session object
-  properties:
-    author:
-      $ref: './author.yaml#/Author'
-  required: [author, session]
-ChangeAuthorPasswordInput:
-  type: object
-  description: Old and new password
-  properties:
-    oldPassword:
-      $ref: './author.yaml#/Password'
-    newPassword:
-      $ref: './author.yaml#/Password'
-  required: [oldPassword, newPassword]
+      $ref: './newsletter.yaml#/Name'
+    description:
+      $ref: './newsletter.yaml#/Description'
+  required: [name, description]

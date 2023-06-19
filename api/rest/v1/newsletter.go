@@ -12,7 +12,11 @@ import (
 func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input model.CreateNewsletterReq) (*model.Newsletter, error) {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
 
-	createNewsletterInput := domnewsletter.CreateNewsletterInput{}
+	createNewsletterInput := domnewsletter.CreateNewsletterInput{
+		AuthorID:    authorID,
+		Name:        input.Name,
+		Description: input.Description,
+	}
 
 	event, err := h.newsletterService.Create(r.Context(), createNewsletterInput)
 	if err != nil {

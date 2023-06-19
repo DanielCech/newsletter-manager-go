@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**UpdateNewsletter**](NewsletterApi.md#UpdateNewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
 
 # **AuthorsNewsletters**
-> []Author AuthorsNewsletters(ctx, )
+> []Newsletter AuthorsNewsletters(ctx, )
 
 
 (TODO:) The list of author's newsletters
@@ -21,7 +21,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**[]Author**](Author.md)
+[**[]Newsletter**](Newsletter.md)
 
 ### Authorization
 
@@ -35,17 +35,21 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateNewsletter**
-> []Author CreateNewsletter(ctx, )
+> CreateAuthorResp CreateNewsletter(ctx, body)
 
 
-(TODO:) Creates a new newsletter.
+Creates a new newsletter.
 
 ### Required Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**CreateNewsletterReq**](CreateNewsletterReq.md)|  | 
 
 ### Return type
 
-[**[]Author**](Author.md)
+[**CreateAuthorResp**](CreateAuthorResp.md)
 
 ### Authorization
 
@@ -53,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json; charset=utf-8
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
