@@ -97,7 +97,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteAuthor**
-> []Author DeleteAuthor(ctx, )
+> DeleteAuthor(ctx, )
 
 
 Delete the author
@@ -107,7 +107,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**[]Author**](Author.md)
+ (empty response body)
 
 ### Authorization
 

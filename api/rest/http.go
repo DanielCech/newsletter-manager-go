@@ -46,10 +46,11 @@ func NewController(
 		return nil, err
 	}
 	controller := &Controller{
-		authorService:  authorService,
-		sessionService: sessionService,
-		tokenParser:    tokenParser,
-		logger:         logger,
+		authorService:     authorService,
+		sessionService:    sessionService,
+		newsletterService: newsletterService,
+		tokenParser:       tokenParser,
+		logger:            logger,
 	}
 	controller.initRouter()
 	return controller, nil

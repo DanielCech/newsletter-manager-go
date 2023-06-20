@@ -65,7 +65,7 @@ Newsletter:
       "400":
         $ref: '../schemas/common.yaml#/BadRequestError'
       "409":
-        description: A author with the same email already exists
+        description: A newsletter with the same id already exists
         content:
           application/json; charset=utf-8:
             schema:

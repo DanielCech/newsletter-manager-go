@@ -244,14 +244,8 @@ paths:
       description: Delete the author
       operationId: deleteAuthor
       responses:
-        "200":
-          description: Author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Author'
+        "204":
+          description: Author deleted
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -300,7 +294,7 @@ paths:
     get:
       tags:
       - newsletter
-      description: (TODO:) The list of author's newsletters
+      description: The list of author's newsletters
       operationId: authorsNewsletters
       responses:
         "200":
@@ -343,7 +337,7 @@ paths:
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/CreateAuthorResp'
+                $ref: '#/components/schemas/Newsletter'
         "401":
           description: Authentication token is not present or not valid
           content:
@@ -363,31 +357,25 @@ paths:
     get:
       tags:
       - newsletter
-      description: (TODO:) Get newsletter by ID
+      description: Get newsletter by ID
       operationId: getNewsletter
       parameters:
       - name: newsletterId
         in: path
-        description: ID of the author
+        description: ID of the newsletter
         required: true
         schema:
           type: string
           format: uuid
       responses:
         "201":
-          description: Successfully created author
+          description: Newsletter with current ID
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/CreateAuthorResp'
+                $ref: '#/components/schemas/Newsletter'
         "400":
           description: Input body is not valid JSON
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/APIError'
-        "409":
-          description: A author with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -401,23 +389,19 @@ paths:
     delete:
       tags:
       - newsletter
-      description: (TODO:) Delete the newsletter
+      description: Delete the newsletter
       operationId: deleteNewsletter
       parameters:
       - name: newsletterId
         in: path
-        description: ID of the author
+        description: ID of the newsletter
         required: true
         schema:
           type: string
           format: uuid
       responses:
-        "201":
-          description: Successfully created author
-          content:
-            application/json; charset=utf-8:
-              schema:
-                $ref: '#/components/schemas/CreateAuthorResp'
+        "204":
+          description: Newsletter deleted
         "400":
           description: Input body is not valid JSON
           content:
@@ -425,7 +409,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A author with the same email already exists
+          description: A newsletter with the same id already exists
           content:
             application/json; charset=utf-8:
               schema:
@@ -441,12 +425,12 @@ paths:
     patch:
       tags:
       - newsletter
-      description: (TODO:) Update newsletter
+      description: Update newsletter
       operationId: updateNewsletter
       parameters:
       - name: newsletterId
         in: path
-        description: ID of the author
+        description: ID of the newsletter
         required: true
         schema:
           type: string
@@ -455,14 +439,14 @@ paths:
         content:
           application/json; charset=utf-8:
             schema:
-              $ref: '#/components/schemas/CreateAuthorInput'
+              $ref: '#/components/schemas/CreateNewsletterReq'
       responses:
         "201":
-          description: Successfully created author
+          description: Successfully created newsletter
           content:
             application/json; charset=utf-8:
               schema:
-                $ref: '#/components/schemas/CreateAuthorResp'
+                $ref: '#/components/schemas/Newsletter'
         "400":
           description: Input body is not valid JSON
           content:
@@ -470,7 +454,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/APIError'
         "409":
-          description: A author with the same email already exists
+          description: A newsletter with the same email already exists
           content:
             application/json; charset=utf-8:
               schema:

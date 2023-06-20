@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 
-	"newsletter-manager-go/types"
 	"newsletter-manager-go/types/id"
 )
 
@@ -22,8 +21,8 @@ type UpdateFunc func(*Newsletter) (*Newsletter, error)
 type Repository interface {
 	Create(ctx context.Context, newsletter *Newsletter) error
 	Read(ctx context.Context, newsletterID id.Newsletter) (*Newsletter, error)
-	ReadByEmail(ctx context.Context, email types.Email) (*Newsletter, error)
-	List(ctx context.Context) ([]Newsletter, error)
-	ListByAuthor(ctx context.Context, authorID id.Author) ([]Newsletter, error)
+	// ReadByEmail(ctx context.Context, email types.Email) (*Newsletter, error)
+	// List(ctx context.Context) ([]Newsletter, error)
+	// ListByAuthor(ctx context.Context, authorID id.Author) ([]Newsletter, error)
 	Update(ctx context.Context, newsletterID id.Newsletter, fn UpdateFunc) error
 }

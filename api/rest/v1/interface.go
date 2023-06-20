@@ -20,7 +20,7 @@ type AuthorService interface {
 
 type NewsletterService interface {
 	Create(ctx context.Context, createNewsletterInput domnewsletter.CreateNewsletterInput) (*domnewsletter.Newsletter, error)
-	// Read(ctx context.Context, NewsletterID id.Newsletter) (*domnewsletter.Newsletter, error)
+	Read(ctx context.Context, NewsletterID id.Newsletter) (*domnewsletter.Newsletter, error)
 	ListCurrentAuthorNewsletters(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error)
 }
 

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	domnewsletter "newsletter-manager-go/domain/newsletter"
+	apierrors "newsletter-manager-go/types/errors"
 	"newsletter-manager-go/types/id"
 )
 
@@ -41,11 +42,23 @@ func (s *Service) Create(ctx context.Context, createNewsletterInput domnewslette
 	return newsletter, nil
 }
 
+func (s *Service) Read(ctx context.Context, newsletterID id.Newsletter) (*domnewsletter.Newsletter, error) {
+	newsletter, err := s.newsletterRepository.Read(ctx, newsletterID)
+	if err != nil {
+		if errors.Is(err, domnewsletter.ErrNewsletterNotFound) {
+			return nil, apierrors.NewNotFoundError(err, "reading newsletter")
+		}
+		return nil, fmt.Errorf("reading event: %w", err)
+	}
+	return newsletter, nil
+}
+
 // // List lists authors from repository.
 func (s *Service) ListCurrentAuthorNewsletters(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error) {
-	authors, err := s.newsletterRepository.ListByAuthor(ctx, authorID)
-	if err != nil {
-		return nil, fmt.Errorf("listing author's newsletters: %w", err)
-	}
-	return authors, nil
+	return nil, nil
+	// authors, err := s.newsletterRepository.ListByAuthor(ctx, authorID)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("listing author's newsletters: %w", err)
+	// }
+	// return authors, nil
 }

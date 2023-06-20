@@ -14,7 +14,7 @@ Method | HTTP request | Description
 > []Newsletter AuthorsNewsletters(ctx, )
 
 
-(TODO:) The list of author's newsletters
+The list of author's newsletters
 
 ### Required Parameters
 This endpoint does not need any parameter.
@@ -35,7 +35,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateNewsletter**
-> CreateAuthorResp CreateNewsletter(ctx, body)
+> Newsletter CreateNewsletter(ctx, body)
 
 
 Creates a new newsletter.
@@ -49,7 +49,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CreateAuthorResp**](CreateAuthorResp.md)
+[**Newsletter**](Newsletter.md)
 
 ### Authorization
 
@@ -63,21 +63,21 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **DeleteNewsletter**
-> CreateAuthorResp DeleteNewsletter(ctx, newsletterId)
+> DeleteNewsletter(ctx, newsletterId)
 
 
-(TODO:) Delete the newsletter
+Delete the newsletter
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **newsletterId** | [**string**](.md)| ID of the author | 
+  **newsletterId** | [**string**](.md)| ID of the newsletter | 
 
 ### Return type
 
-[**CreateAuthorResp**](CreateAuthorResp.md)
+ (empty response body)
 
 ### Authorization
 
@@ -91,21 +91,21 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **GetNewsletter**
-> CreateAuthorResp GetNewsletter(ctx, newsletterId)
+> Newsletter GetNewsletter(ctx, newsletterId)
 
 
-(TODO:) Get newsletter by ID
+Get newsletter by ID
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **newsletterId** | [**string**](.md)| ID of the author | 
+  **newsletterId** | [**string**](.md)| ID of the newsletter | 
 
 ### Return type
 
-[**CreateAuthorResp**](CreateAuthorResp.md)
+[**Newsletter**](Newsletter.md)
 
 ### Authorization
 
@@ -119,17 +119,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateNewsletter**
-> CreateAuthorResp UpdateNewsletter(ctx, newsletterId, optional)
+> Newsletter UpdateNewsletter(ctx, newsletterId, optional)
 
 
-(TODO:) Update newsletter
+Update newsletter
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **newsletterId** | [**string**](.md)| ID of the author | 
+  **newsletterId** | [**string**](.md)| ID of the newsletter | 
  **optional** | ***NewsletterApiUpdateNewsletterOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -137,11 +137,11 @@ Optional parameters are passed through a pointer to a NewsletterApiUpdateNewslet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**optional.Interface of CreateAuthorInput**](CreateAuthorInput.md)|  | 
+ **body** | [**optional.Interface of CreateNewsletterReq**](CreateNewsletterReq.md)|  | 
 
 ### Return type
 
-[**CreateAuthorResp**](CreateAuthorResp.md)
+[**Newsletter**](Newsletter.md)
 
 ### Authorization
 

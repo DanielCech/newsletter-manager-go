@@ -32,12 +32,16 @@ func Flow6(client *swagger.APIClient) {
 		Description: "Newsletter' description",
 	}
 
-	_, _, err = client.NewsletterApi.CreateNewsletter(user1.Context, createNewsletterReq)
+	createdNewsletter, _, err := client.NewsletterApi.CreateNewsletter(user1.Context, createNewsletterReq)
 	common.AssertNoError(err)
 
 	// Read logged user
-	_, _, err = client.SessionApi.GetCurrentAuthor(user1.Context)
-	common.Assert(err != nil, "Author should be deleted")
+	readNewsletter, _, err := client.NewsletterApi.GetNewsletter(user1.Context, createdNewsletter.Id)
+	common.AssertNoError(err)
+
+	common.Assert(createdNewsletter.Id == readNewsletter.Id, "Newsletter ids must be the same")
+	common.Assert(createdNewsletter.Name == readNewsletter.Name, "Newsletter names must be the same")
+	common.Assert(createdNewsletter.Description == readNewsletter.Description, "Newsletter descriptions must be the same")
 
 	testlog.EndFlow(name)
 }

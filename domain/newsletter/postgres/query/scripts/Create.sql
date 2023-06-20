@@ -1,11 +1,10 @@
-INSERT INTO "author" (
+INSERT INTO "newsletter" (
     id,
+    author_id,
     name,
-    email,
-    password_hash,
-    role,
+    description,
     created_at,
     updated_at
 )
 VALUES
-    (@id, @name, @email, @password_hash, @role, @created_at, @updated_at)
+    (@id, @author_id, @name, @description, @created_at, @updated_at)
