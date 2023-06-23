@@ -33,14 +33,9 @@ func (h *Handler) AuthorSignUp(_ http.ResponseWriter, r *http.Request, input mod
 	return &createAuthorResp, nil
 }
 
-func (h *Handler) UpdateCurrentAuthor(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) (*model.Author, error) {
-	// TODO
-	return nil, nil
-}
-
 func (h *Handler) DeleteCurrentAuthor(_ http.ResponseWriter, r *http.Request) error {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
-	
+
 	err := h.authorService.Delete(r.Context(), authorID)
 	if err != nil {
 		return fmt.Errorf("deleting user: %w", err)

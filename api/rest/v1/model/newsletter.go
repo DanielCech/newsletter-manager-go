@@ -24,9 +24,8 @@ type GetNewsletterInput struct {
 	Newsletter id.Newsletter
 }
 
-// TODO: delete
-type NewsletterIDInput struct {
-	NewsletterID id.Newsletter `json:"newsletterId"`
+type PathNewsletterInput struct {
+	NewsletterID id.Newsletter `param:"path=newsletterId"`
 }
 
 // FromNewsletter converts domain object to api object.

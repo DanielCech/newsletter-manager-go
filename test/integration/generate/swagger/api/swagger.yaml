@@ -390,6 +390,8 @@ paths:
             application/json; charset=utf-8:
               schema:
                 $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
     delete:
       tags:
       - newsletter

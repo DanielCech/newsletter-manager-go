@@ -23,6 +23,7 @@ type Repository interface {
 	Read(ctx context.Context, newsletterID id.Newsletter) (*Newsletter, error)
 	// ReadByEmail(ctx context.Context, email types.Email) (*Newsletter, error)
 	// List(ctx context.Context) ([]Newsletter, error)
-	// ListByAuthor(ctx context.Context, authorID id.Author) ([]Newsletter, error)
+	ListByAuthor(ctx context.Context, authorID id.Author) ([]Newsletter, error)
+	List(ctx context.Context) ([]Newsletter, error)
 	Update(ctx context.Context, newsletterID id.Newsletter, fn UpdateFunc) error
 }

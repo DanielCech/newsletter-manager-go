@@ -33,7 +33,7 @@ func FromDomainAuthor(author *domauthor.Author) Author {
 	}
 }
 
-// // FromAuthors converts domain object to api object.
+// FromAuthors converts domain object to api object.
 //
 //	func FromAuthors(dauthors []domauthor.Author) []Author {
 //		authors := make([]Author, 0, len(dauthors))

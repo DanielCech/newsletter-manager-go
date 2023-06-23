@@ -48,7 +48,7 @@ func (h *Handler) initRouter() {
 	authenticate := middleware.Authenticate(h.logger, h.tokenParser)
 
 	w := signature.DefaultWrapper().
-		WithInputGetter(httputil.ParseRequestBody).
+		WithInputGetter(httputil.ParseRequestInput).
 		WithErrorHandler(func(w http.ResponseWriter, r *http.Request, err error) {
 			httputil.WriteErrorResponse(r.Context(), h.logger, w, err)
 		})
@@ -67,7 +67,6 @@ func (h *Handler) initRouter() {
 			r.Use(authenticate)
 
 			r.Get("/", signature.WrapHandlerResponse(w, h.ReadCurrentAuthor))
-			r.Patch("/", signature.WrapHandler(wCreated, h.UpdateCurrentAuthor))
 			r.Delete("/", signature.WrapHandlerError(w, h.DeleteCurrentAuthor))
 
 			r.Post("/change-password", signature.WrapHandlerInput(wCreated, h.ChangeAuthorPassword))
@@ -81,7 +80,7 @@ func (h *Handler) initRouter() {
 			})
 
 			r.Route("/newsletters", func(r chi.Router) {
-				r.Get("/", signature.WrapHandler(wCreated, h.GetCurrentAuthorNewsletters))
+				r.Get("/", signature.WrapHandlerResponse(wCreated, h.GetCurrentAuthorNewsletters))
 				r.Post("/", signature.WrapHandler(wCreated, h.CreateNewsletter))
 			})
 		})
@@ -90,7 +89,7 @@ func (h *Handler) initRouter() {
 	r.Get("/subscriptions", signature.WrapHandler(wCreated, h.AuthorSubscriptions))
 
 	r.Route("/newsletters", func(r chi.Router) {
-		// TODO: add to OpenAPI
+		r.Use(authenticate)
 		r.Get("/", signature.WrapHandlerResponse(w, h.ListNewsletters))
 
 		r.Route("/{newsletterId}", func(r chi.Router) {

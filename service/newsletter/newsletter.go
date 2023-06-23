@@ -48,17 +48,31 @@ func (s *Service) Read(ctx context.Context, newsletterID id.Newsletter) (*domnew
 		if errors.Is(err, domnewsletter.ErrNewsletterNotFound) {
 			return nil, apierrors.NewNotFoundError(err, "reading newsletter")
 		}
-		return nil, fmt.Errorf("reading event: %w", err)
+		return nil, fmt.Errorf("reading newsletter: %w", err)
 	}
 	return newsletter, nil
 }
 
-// // List lists authors from repository.
 func (s *Service) ListCurrentAuthorNewsletters(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error) {
-	return nil, nil
-	// authors, err := s.newsletterRepository.ListByAuthor(ctx, authorID)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("listing author's newsletters: %w", err)
-	// }
-	// return authors, nil
+	newsletters, err := s.newsletterRepository.ListByAuthor(ctx, authorID)
+	if err != nil {
+		if errors.Is(err, domnewsletter.ErrNewsletterNotFound) {
+			return nil, apierrors.NewNotFoundError(err, "reading newsletter")
+		}
+		return nil, fmt.Errorf("reading newsletter: %w", err)
+	}
+
+	return newsletters, nil
+}
+
+func (s *Service) List(ctx context.Context) ([]domnewsletter.Newsletter, error) {
+	newsletters, err := s.newsletterRepository.List(ctx)
+	if err != nil {
+		if errors.Is(err, domnewsletter.ErrNewsletterNotFound) {
+			return nil, apierrors.NewNotFoundError(err, "reading newsletter")
+		}
+		return nil, fmt.Errorf("reading newsletter: %w", err)
+	}
+
+	return newsletters, nil
 }

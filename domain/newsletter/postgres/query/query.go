@@ -9,4 +9,8 @@ var (
 	Update string
 	//go:embed scripts/Read.sql
 	Read string
+	//go:embed scripts/ListByAuthor.sql
+	ListByAuthor string
+	//go:embed scripts/List.sql
+	List string
 )

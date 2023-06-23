@@ -62,7 +62,7 @@ func (s *Service) Create(ctx context.Context, createAuthorInput domauthor.Create
 	return author, session, nil
 }
 
-// // Read reads an existing author from the repository.
+// Read reads an existing author from the repository.
 func (s *Service) Read(ctx context.Context, authorID id.Author) (*domauthor.Author, error) {
 	author, err := s.authorRepository.Read(ctx, authorID)
 	if err != nil {
@@ -74,7 +74,7 @@ func (s *Service) Read(ctx context.Context, authorID id.Author) (*domauthor.Auth
 	return author, nil
 }
 
-// // ReadByEmail reads an existing author from the repository by email.
+// ReadByEmail reads an existing author from the repository by email.
 func (s *Service) ReadByEmail(ctx context.Context, email types.Email) (*domauthor.Author, error) {
 	author, err := s.authorRepository.ReadByEmail(ctx, email)
 	if err != nil {
@@ -86,7 +86,7 @@ func (s *Service) ReadByEmail(ctx context.Context, email types.Email) (*domautho
 	return author, nil
 }
 
-// // ReadByCredentials reads an existing author from the repository by credentials.
+// ReadByCredentials reads an existing author from the repository by credentials.
 func (s *Service) ReadByCredentials(ctx context.Context, email types.Email, password types.Password) (*domauthor.Author, error) {
 	const publicErrMsg = "email or password is incorrect"
 	author, err := s.authorRepository.ReadByEmail(ctx, email)
@@ -105,7 +105,7 @@ func (s *Service) ReadByCredentials(ctx context.Context, email types.Email, pass
 	return author, nil
 }
 
-// // ChangePassword changes author password and updates author in the repository.
+// ChangePassword changes author password and updates author in the repository.
 func (s *Service) ChangePassword(ctx context.Context, authorID id.Author, oldPassword, newPassword types.Password) error {
 	err := s.authorRepository.Update(ctx, authorID, func(u *domauthor.Author) (*domauthor.Author, error) {
 		if err := u.ChangePassword(oldPassword, newPassword); err != nil {
@@ -128,7 +128,7 @@ func (s *Service) ChangePassword(ctx context.Context, authorID id.Author, oldPas
 	return nil
 }
 
-// // List lists authors from repository.
+// List lists authors from repository.
 func (s *Service) List(ctx context.Context) ([]domauthor.Author, error) {
 	authors, err := s.authorRepository.List(ctx)
 	if err != nil {

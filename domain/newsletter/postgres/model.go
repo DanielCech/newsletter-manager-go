@@ -9,16 +9,22 @@ import (
 
 // newsletter represents table newsletter.
 type newsletter struct {
-	ID           id.Newsletter `db:"id"`
-	Name         string        `db:"name"`
-	Email        string        `db:"email"`
-	PasswordHash []byte        `db:"password_hash"`
-	CreatedAt    time.Time     `db:"created_at"`
-	UpdatedAt    time.Time     `db:"updated_at"`
+	ID          id.Newsletter `db:"id"`
+	AuthorID    id.Author     `db:"author_id"`
+	Name        string        `db:"name"`
+	Description string        `db:"description"`
+	CreatedAt   time.Time     `db:"created_at"`
+	UpdatedAt   time.Time     `db:"updated_at"`
 }
 
 // ToNewsletter converts newsletter to domain model.
-func (u newsletter) ToDomainNewsletter(factory domnewsletter.Factory) *domnewsletter.Newsletter {
-	// TODO
-	return nil
+func (n newsletter) ToDomainNewsletter(factory domnewsletter.Factory) *domnewsletter.Newsletter {
+	return factory.NewNewsletterFromFields(
+		n.ID,
+		n.AuthorID,
+		n.Name,
+		n.Description,
+		n.CreatedAt,
+		n.UpdatedAt,
+	)
 }

@@ -77,6 +77,8 @@ Newsletter:
     tags:
       - newsletter
     operationId: getNewsletter
+    security:
+      - bearerAuth: [ ]
     parameters:
       - name: newsletterId
         in: path
@@ -133,3 +135,24 @@ Newsletter:
               $ref: '../schemas/common.yaml#/APIError'
       "422":
         $ref: '../schemas/common.yaml#/InvalidBodyError'
+ListNewsletters:
+  get:
+    description: The list of all newsletters
+    tags:
+      - newsletter
+    operationId: ListNewsletters
+    security:
+      - bearerAuth: []
+    responses:
+      200:
+        description: List of author's newsletters
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: array
+              items:
+                $ref: '../schemas/newsletter.yaml#/Newsletter'
+      "401":
+        $ref: '../schemas/common.yaml#/UnauthenticatedError'
+      "403":
+        $ref: '../schemas/common.yaml#/ForbiddenError'

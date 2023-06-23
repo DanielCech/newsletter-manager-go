@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"newsletter-manager-go/api/rest/v1/model"
 	domnewsletter "newsletter-manager-go/domain/newsletter"
-	"newsletter-manager-go/types/id"
 	util "newsletter-manager-go/util"
 	utilctx "newsletter-manager-go/util/context"
 )
@@ -30,11 +29,19 @@ func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input
 }
 
 func (h *Handler) ListNewsletters(_ http.ResponseWriter, r *http.Request) ([]model.Newsletter, error) {
-	// TODO
-	return nil, nil
+	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+
+	newsletters, err := h.newsletterService.List(r.Context())
+	if err != nil {
+		return nil, err
+	}
+
+	modelNewsletters := util.MapFuncRef(newsletters, model.FromDomainNewsletter)
+
+	return modelNewsletters, nil
 }
 
-func (h *Handler) GetCurrentAuthorNewsletters(_ http.ResponseWriter, r *http.Request, input model.AuthorIDInput) ([]model.Newsletter, error) {
+func (h *Handler) GetCurrentAuthorNewsletters(_ http.ResponseWriter, r *http.Request) ([]model.Newsletter, error) {
 	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
 
 	newsletters, err := h.newsletterService.ListCurrentAuthorNewsletters(r.Context(), authorID)
@@ -47,8 +54,8 @@ func (h *Handler) GetCurrentAuthorNewsletters(_ http.ResponseWriter, r *http.Req
 	return modelNewsletters, nil
 }
 
-func (h *Handler) GetNewsletter(_ http.ResponseWriter, r *http.Request, newsletterId id.Newsletter) (*model.Newsletter, error) {
-	newsletter, err := h.newsletterService.Read(r.Context(), newsletterId)
+func (h *Handler) GetNewsletter(_ http.ResponseWriter, r *http.Request, input model.PathNewsletterInput) (*model.Newsletter, error) {
+	newsletter, err := h.newsletterService.Read(r.Context(), input.NewsletterID)
 	if err != nil {
 		return nil, err
 	}
@@ -58,12 +65,12 @@ func (h *Handler) GetNewsletter(_ http.ResponseWriter, r *http.Request, newslett
 	return &modelNewsletter, nil
 }
 
-func (h *Handler) UpdateNewsletter(_ http.ResponseWriter, r *http.Request, input model.NewsletterIDInput) (*model.Newsletter, error) {
+func (h *Handler) UpdateNewsletter(_ http.ResponseWriter, r *http.Request, input model.PathNewsletterInput) (*model.Newsletter, error) {
 	// TODO
 	return nil, nil
 }
 
-func (h *Handler) DeleteNewsletter(_ http.ResponseWriter, r *http.Request, input model.NewsletterIDInput) error {
+func (h *Handler) DeleteNewsletter(_ http.ResponseWriter, r *http.Request, input model.PathNewsletterInput) error {
 	// TODO
 	return nil
 }

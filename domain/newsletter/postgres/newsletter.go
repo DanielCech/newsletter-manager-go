@@ -49,27 +49,26 @@ func (r *Repository) Create(ctx context.Context, newsletter *domnewsletter.Newsl
 	})
 }
 
-// Read reads the newsletter from the repository.
 func (r *Repository) Read(ctx context.Context, newsletterID id.Newsletter) (*domnewsletter.Newsletter, error) {
-	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) (*domnewsletter.Newsletter, error) {
-		return r.read(dctx, newsletterID)
-	})
+	return sql.WithConnectionResult(
+		ctx,
+		r.dataSource,
+		func(dctx sql.DataContext) (*domnewsletter.Newsletter, error) {
+			newsletter, err := sql.ReadValue[newsletter](dctx, query.Read, pgx.NamedArgs{
+				"id": newsletterID,
+			})
+			if err != nil {
+				if sql.IsNotFound(err) {
+					return nil, domnewsletter.ErrNewsletterNotFound
+				}
+				return nil, err
+			}
+			return newsletter.ToDomainNewsletter(r.newsletterFactory), nil
+		},
+	)
 }
 
-func (r *Repository) read(dctx sql.DataContext, newsletterID id.Newsletter) (*domnewsletter.Newsletter, error) {
-	newsletter, err := sql.ReadValue[newsletter](dctx, query.Read, pgx.NamedArgs{
-		"id": newsletterID,
-	})
-	if err != nil {
-		if sql.IsNotFound(err) {
-			return nil, domnewsletter.ErrNewsletterNotFound
-		}
-		return nil, err
-	}
-	return newsletter.ToDomainNewsletter(r.newsletterFactory), nil
-}
-
-// // ReadByEmail reads the newsletter by email from the repository.
+// ReadByEmail reads the newsletter by email from the repository.
 // func (r *Repository) ReadByEmail(ctx context.Context, email types.Email) (*domnewsletter.Newsletter, error) {
 // 	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) (*domnewsletter.Newsletter, error) {
 // 		newsletter, err := sql.ReadValue[newsletter](dctx, query.Read, pgx.NamedArgs{
@@ -85,56 +84,58 @@ func (r *Repository) read(dctx sql.DataContext, newsletterID id.Newsletter) (*do
 // 	})
 // }
 
-// // List lists newsletters from the repository.
-// func (r *Repository) List(ctx context.Context) ([]domnewsletter.Newsletter, error) {
-// 	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) ([]domnewsletter.Newsletter, error) {
-// 		dbNewsletters, err := sql.List[newsletter](dctx, query.List)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
-// 		for _, u := range dbNewsletters {
-// 			newsletters = append(newsletters, *u.ToDomainNewsletter(r.newsletterFactory))
-// 		}
-// 		return newsletters, nil
-// 	})
-// }
+// List lists newsletters from the repository.
+func (r *Repository) List(ctx context.Context) ([]domnewsletter.Newsletter, error) {
+	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) ([]domnewsletter.Newsletter, error) {
+		dbNewsletters, err := sql.List[newsletter](dctx, query.List, pgx.NamedArgs{})
+		if err != nil {
+			return nil, err
+		}
 
-// // List lists newsletters from the repository.
-// func (r *Repository) ListByAuthor(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error) {
-// 	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) ([]domnewsletter.Newsletter, error) {
-// 		dbNewsletters, err := sql.List[newsletter](dctx, query.ListByAuthor, pgx.NamedArgs{
-// 			"author_id": authorID,
-// 		})
-// 		if err != nil {
-// 			return nil, err
-// 		}
-// 		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
-// 		for _, u := range dbNewsletters {
-// 			newsletters = append(newsletters, *u.ToDomainNewsletter(r.newsletterFactory))
-// 		}
-// 		return newsletters, nil
-// 	})
-// }
+		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
+		for _, n := range dbNewsletters {
+			newsletters = append(newsletters, *n.ToDomainNewsletter(r.newsletterFactory))
+		}
+		return newsletters, nil
+	})
+}
+
+func (r *Repository) ListByAuthor(ctx context.Context, authorID id.Author) ([]domnewsletter.Newsletter, error) {
+	return sql.WithConnectionResult(ctx, r.dataSource, func(dctx sql.DataContext) ([]domnewsletter.Newsletter, error) {
+		dbNewsletters, err := sql.List[newsletter](dctx, query.ListByAuthor, pgx.NamedArgs{
+			"author_id": authorID,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		newsletters := make([]domnewsletter.Newsletter, 0, len(dbNewsletters))
+		for _, n := range dbNewsletters {
+			newsletters = append(newsletters, *n.ToDomainNewsletter(r.newsletterFactory))
+		}
+		return newsletters, nil
+	})
+}
 
 // Update reads the newsletter, calls external update function and updates the newsletter in the repository.
 func (r *Repository) Update(ctx context.Context, newsletterID id.Newsletter, updateFn domnewsletter.UpdateFunc) error {
-	return sql.WithTransaction(ctx, r.dataSource, func(dctx sql.DataContext) error {
-		originalNewsletter, err := r.read(dctx, newsletterID)
-		if err != nil {
-			return err
-		}
+	// return sql.WithTransaction(ctx, r.dataSource, func(dctx sql.DataContext) error {
+	// 	originalNewsletter, err := r.Read(dctx, newsletterID)
+	// 	if err != nil {
+	// 		return err
+	// 	}
 
-		newNewsletter, err := updateFn(originalNewsletter)
-		if err != nil {
-			return err
-		}
+	// 	newNewsletter, err := updateFn(originalNewsletter)
+	// 	if err != nil {
+	// 		return err
+	// 	}
 
-		return sql.ExecOne(dctx, query.Update, pgx.NamedArgs{
-			"id":         newNewsletter.ID,
-			"name":       newNewsletter.Name,
-			"created_at": newNewsletter.CreatedAt,
-			"updated_at": newNewsletter.UpdatedAt,
-		})
-	})
+	// 	return sql.ExecOne(dctx, query.Update, pgx.NamedArgs{
+	// 		"id":         newNewsletter.ID,
+	// 		"name":       newNewsletter.Name,
+	// 		"created_at": newNewsletter.CreatedAt,
+	// 		"updated_at": newNewsletter.UpdatedAt,
+	// 	})
+	return nil
+
 }

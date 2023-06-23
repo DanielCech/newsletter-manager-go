@@ -40,6 +40,8 @@ paths:
   /api/v1/newsletters/{newsletterId}/emails:
     $ref: './v1/paths/email.yaml#/Emails'
 
+  /api/v1/newsletters:
+    $ref: './v1/paths/newsletter.yaml#/ListNewsletters'
   /api/v1/newsletters/{newsletterId}/subscribe:
     $ref: './v1/paths/subscription.yaml#/Subscribe'
   /api/v1/newsletters/{newsletterId}/unsubscribe:

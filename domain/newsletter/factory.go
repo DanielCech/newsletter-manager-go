@@ -4,6 +4,7 @@ import (
 	"errors"
 	"newsletter-manager-go/types/id"
 	"newsletter-manager-go/util/timesource"
+	"time"
 )
 
 // Factory contains dependencies that are needed for newsletters creation.
@@ -37,32 +38,24 @@ func (f Factory) NewNewsletter(createNewsletterInput CreateNewsletterInput) (*Ne
 	return newsletter, nil
 }
 
-// NewNewsletterFromFields returns new instance of Newsletter based on existing fields.
-// This can be useful for repositories when converting results from repository to domain models based on consistent data.
-// There is no validity check, it is responsibility of caller to ensure all fields are correct.
-// func (f Factory) NewNewsletterFromFields(
-//	id id.Newsletter,
-//	referrerID *id.Newsletter,
-//	name string,
-//	email string,
-//	passwordHash []byte,
-//	role string,
-//	createdAt time.Time,
-//	updatedAt time.Time,
-// ) *Newsletter {
-//	return &Newsletter{
-//		hasher:       f.hasher,
-//		timeSource:   f.timeSource,
-//		ID:           id,
-//		ReferrerID:   referrerID,
-//		Name:         name,
-//		Email:        types.Email(email),
-//		PasswordHash: passwordHash,
-//		Role:         Role(role),
-//		CreatedAt:    createdAt,
-//		UpdatedAt:    updatedAt,
-//	}
-// }
+func (f Factory) NewNewsletterFromFields(
+	id id.Newsletter,
+	authorId id.Author,
+	name string,
+	description string,
+	createdAt time.Time,
+	updatedAt time.Time,
+) *Newsletter {
+	return &Newsletter{
+		timeSource:  f.timeSource,
+		ID:          id,
+		AuthorID:    authorId,
+		Name:        name,
+		Description: description,
+		CreatedAt:   createdAt,
+		UpdatedAt:   updatedAt,
+	}
+}
 
 func newFactoryValidate(timesource timesource.TimeSource) error {
 	if timesource == nil {
