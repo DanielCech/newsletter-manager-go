@@ -582,6 +582,36 @@ paths:
                 $ref: '#/components/schemas/APIError'
       security:
       - bearerAuth: []
+  /api/v1/newsletters:
+    get:
+      tags:
+      - newsletter
+      description: The list of all newsletters
+      operationId: ListNewsletters
+      responses:
+        "200":
+          description: List of author's newsletters
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Newsletter'
+        "401":
+          description: Authentication token is not present or not valid
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        "403":
+          description: "Authentication token is present, but the author is not authorized\
+            \ to perform this operation"
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/APIError'
+      security:
+      - bearerAuth: []
   /api/v1/newsletters/{newsletterId}/subscribe:
     post:
       tags:

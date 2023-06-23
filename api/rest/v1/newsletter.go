@@ -29,7 +29,10 @@ func (h *Handler) CreateNewsletter(_ http.ResponseWriter, r *http.Request, input
 }
 
 func (h *Handler) ListNewsletters(_ http.ResponseWriter, r *http.Request) ([]model.Newsletter, error) {
-	authorID, _ := utilctx.AuthorIDFromCtx(r.Context())
+	_, ok := utilctx.AuthorIDFromCtx(r.Context())
+	if !ok {
+		return nil, fmt.Errorf("author id not found")
+	}
 
 	newsletters, err := h.newsletterService.List(r.Context())
 	if err != nil {

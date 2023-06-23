@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**CreateNewsletter**](NewsletterApi.md#CreateNewsletter) | **Post** /api/v1/authors/current/newsletters | 
 [**DeleteNewsletter**](NewsletterApi.md#DeleteNewsletter) | **Delete** /api/v1/newsletters/{newsletterId} | 
 [**GetNewsletter**](NewsletterApi.md#GetNewsletter) | **Get** /api/v1/newsletters/{newsletterId} | 
+[**ListNewsletters**](NewsletterApi.md#ListNewsletters) | **Get** /api/v1/newsletters | 
 [**UpdateNewsletter**](NewsletterApi.md#UpdateNewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
 
 # **AuthorsNewsletters**
@@ -106,6 +107,30 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Newsletter**](Newsletter.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json; charset=utf-8
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ListNewsletters**
+> []Newsletter ListNewsletters(ctx, )
+
+
+The list of all newsletters
+
+### Required Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**[]Newsletter**](Newsletter.md)
 
 ### Authorization
 

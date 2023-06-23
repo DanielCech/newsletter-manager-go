@@ -29,6 +29,7 @@ Class | Method | HTTP request | Description
 *NewsletterApi* | [**CreateNewsletter**](docs/NewsletterApi.md#createnewsletter) | **Post** /api/v1/authors/current/newsletters | 
 *NewsletterApi* | [**DeleteNewsletter**](docs/NewsletterApi.md#deletenewsletter) | **Delete** /api/v1/newsletters/{newsletterId} | 
 *NewsletterApi* | [**GetNewsletter**](docs/NewsletterApi.md#getnewsletter) | **Get** /api/v1/newsletters/{newsletterId} | 
+*NewsletterApi* | [**ListNewsletters**](docs/NewsletterApi.md#listnewsletters) | **Get** /api/v1/newsletters | 
 *NewsletterApi* | [**UpdateNewsletter**](docs/NewsletterApi.md#updatenewsletter) | **Patch** /api/v1/newsletters/{newsletterId} | 
 *SessionApi* | [**AuthorSignUp**](docs/SessionApi.md#authorsignup) | **Post** /api/v1/authors/sign-up | 
 *SessionApi* | [**ChangeAuthorPassword**](docs/SessionApi.md#changeauthorpassword) | **Post** /api/v1/authors/current/change-password | 

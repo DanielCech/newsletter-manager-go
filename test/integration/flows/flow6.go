@@ -46,12 +46,16 @@ func Flow6(client *swagger.APIClient) {
 	common.AssertNoError(err)
 	common.Assert(len(newsletters) == 1, "There should be exactly one newsletter")
 
-	updateNewsletterReq := swagger.UpdateNewsletterReq{
-		Name:        "Newsletter's name",
-		Description: "Newsletter' description",
-	}
+	// updateNewsletterReq := swagger.UpdateNewsletterReq{
+	// 	Name:        "Newsletter's name",
+	// 	Description: "Newsletter' description",
+	// }
 
-	client.NewsletterApi.UpdateNewsletter(user1.Context, createdNewsletter.Id, updateNewsletterReq)
+	// // client.NewsletterApi.UpdateNewsletter(user1.Context, createdNewsletter.Id, updateNewsletterReq)
+
+	list, _, err := client.NewsletterApi.ListNewsletters(user1.Context)
+	common.AssertNoError(err)
+	common.Assert(len(list) == 1, "There should be exactly one newsletter")
 
 	testlog.EndFlow(name)
 }
